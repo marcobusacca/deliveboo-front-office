@@ -22,10 +22,10 @@ export default {
                                 <img src="../assets/deliveboo-2.png" alt="logo" class="d-inline-block align-text-top">
                             </router-link>
                             <div class="d-flex">
-                                <a class="link-underline text-white link-underline-opacity-0 px-5" href="#">
+                                <a class="link-underline text-white link-underline-opacity-0 px-3" href="#">
                                     Accedi
                                 </a>
-                                <a class="link-underline text-white link-underline-opacity-0 px-5" href="#">
+                                <a class="link-underline text-white link-underline-opacity-0 px-3" href="#">
                                     Aiuto
                                 </a>
                             </div>

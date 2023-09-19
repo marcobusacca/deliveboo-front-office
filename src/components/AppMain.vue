@@ -27,7 +27,7 @@ export default {
     <main>
         <div class="container-fluid size-container">
             <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 d-flex justify-content-center align-items-center">
+                <div class="col-12 d-flex justify-content-center align-items-center mt-4">
                     <div class="search-bar rounded d-flex justify-content-center align-items-center">
                         <div class="search-image">
                             <img src="../assets/hamburger.png" alt="logo-hamburger">
@@ -39,8 +39,15 @@ export default {
                         </div>
                     </div>
                 </div>
-                <div class="col-12 d-flex flex-row justify-content-center flex-wrap mt-5">
-                    <div class="card border-0 mx-4 my-3" style="width: 12rem;" v-for="(type, index) in types" :key="index">
+                <div class="col-12 mt-5">
+                    <div class="title">
+                        <h3 class="text-center fw-bold font-size-15">
+                            Le cucine più richieste
+                        </h3>
+                    </div>
+                </div>
+                <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
+                    <div class="card border-0 mx-4 my-3 card-size" v-for="(type, index) in types" :key="index">
                         <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="card-img-top" alt="logo">
                         <div class="card-body bg-orange">
                             <h6 class="card-text text-center bg-white">{{ type.name }}</h6>
@@ -56,6 +63,10 @@ export default {
 <style lang="scss">
 // IMPORTO GENERALS.SCSS
 @use '../styles/generals.scss' as *;
+
+.card-size {
+    width: 12rem;
+}
 
 .size-container {
     height: 100vh;

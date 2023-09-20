@@ -5,7 +5,8 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            currentSlideIndex: 0,
+            currentIndex: 0,
+            numVisibleSlides: 3,
             store,
             types: [],
             types_info: [
@@ -68,29 +69,13 @@ export default {
             console.log(this.types)
         },
         nextSlide() {
-            if (this.currentSlideIndex < this.types.length - 1) {
-                this.currentSlideIndex++;
-            } else {
-                this.currentSlideIndex = 0;
-            }
-
-            if (this.currentSlideIndex < this.types_info.length - 1) {
-                this.currentSlideIndex++;
-            } else {
-                this.currentSlideIndex = 0;
+            if (this.currentIndex < this.types.length - this.numVisibleSlides) {
+                this.currentIndex++;
             }
         },
         prevSlide() {
-            if (this.currentSlideIndex > 0) {
-                this.currentSlideIndex--;
-            } else {
-                this.currentSlideIndex = this.types.length - 1;
-            }
-
-            if (this.currentSlideIndex > 0) {
-                this.currentSlideIndex--;
-            } else {
-                this.currentSlideIndex = this.types_info.length - 1;
+            if (this.currentIndex > 0) {
+                this.currentIndex--;
             }
         }
     },
@@ -123,40 +108,24 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
-                <div class="card w-50 px-0">
-                    <div class="col-12 d-flex">
-                        <div class="col-4 bg-left">
-                            <div v-for="(item, index) in types_info" :key="index" class="type-info">
-                                <div v-if="index === currentSlideIndex">
-                                    <h3 class="type-title">{{ item.title }}</h3>
-                                    <p class="type-description">{{ item.description }}</p>
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-12 body-carousel">
+                    <div class="carousel d-flex justify-content-center" ref="carousel">
+                        <div class="wrapper">
+                            <img v-for="(type, index) in types" :key="index"
+                                :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="slide"
+                                class="carousel-image rounded-5 mx-4"
+                                v-show="index >= currentIndex && index < currentIndex + numVisibleSlides" />
                         </div>
-
-                        <div class="col-8 col-image">
-                            <div class="buttons w-100">
-                                <div class="button-next-prev d-flex justify-content-between">
-                                    <button @click="prevSlide" class="btn">
-                                        <i class="fa-solid fa-angle-left fa-xl"></i>
-                                    </button>
-
-                                    <button @click="nextSlide" class="btn">
-                                        <i class="fa-solid fa-chevron-right fa-xl"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div v-for="(type, index) in types" :key="index">
-                                <div class="col-12 d-flex flex-column justify-content-center align-items-center"
-                                    v-if="index === currentSlideIndex">
-                                    <div class="border-0">
-                                        <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="img-fluid"
-                                            alt="logo">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    </div>
+                    <div class="buttons d-flex justify-content-between">
+                        <button class="btn-custom-left" @click="prevSlide" :disabled="currentIndex === 0">
+                            <i class="fa-solid fa-chevron-left fa-xl"></i>
+                        </button>
+                        <button class="btn-custom-right" @click="nextSlide"
+                            :disabled="currentIndex >= types.length - numVisibleSlides">
+                            <i class="fa-solid fa-chevron-right fa-xl"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -167,11 +136,81 @@ export default {
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 
-.bg-left {
-    background-color: orange;
-    text-align: center;
-    padding: 15px;
+.carousel {
+    font-size: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    position: relative;
 }
+
+.wrapper {
+    max-width: 1500px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.carousel-image {
+    width: 350px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.buttons {
+    position: absolute;
+    bottom: 23%;
+    /* Al centro verticalmente rispetto alle immagini */
+    width: 100%;
+    text-align: center;
+
+    .btn-custom-left {
+        position: absolute;
+        left: 11%;
+        transform: translate(23%, -11%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        /* Centra rispetto al contenitore .buttons */
+    }
+
+    .btn-custom-right {
+        position: absolute;
+        right: 14%;
+        transform: translate(23%, -14%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        /* Centra rispetto al contenitore .buttons */
+    }
+}
+
+
+// .body-carousel {
+//     display: flex;
+//     flex-direction: row;
+//     justify-content: center;
+//     padding: 0 10px;
+// }
+
+// .wrapper .carousel {
+//     font-size: 0px;
+//     overflow: hidden;
+//     white-space: nowrap;
+//     cursor: pointer;
+// }
+
+// .wrapper {
+//     max-width: 1200px;
+// }
+
+// .carousel img {
+//     height: 340px;
+//     object-fit: cover;
+//     margin-left: 14px;
+//     width: calc(100% / 3);
+// }
+
+// .carousel-image.active-slide {
+//     border: 2px solid #007bff;
+// }
 
 .type-title {
     font-size: 1.5em;

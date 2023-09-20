@@ -97,8 +97,6 @@ export default {
 }
 </script>
 
-<!-- TEMPLATE HTML -->
-
 <template>
     <main>
         <div class="container-fluid size-container">
@@ -125,17 +123,6 @@ export default {
                     </div>
                 </div>
             </div>
-            <!-- <div class="row justify-content-center">
-                <div class="col-md-2 col-12 d-flex flex-column justify-content-center align-items-center"
-                    v-for="(type, index) in types" :key="index">
-                    <div class="card border-0 my-3 card-size">
-                        <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="card-img-top" alt="logo">
-                        <div class="card-body bg-orange">
-                            <h6 class="card-text text-center bg-white">{{ type.name }}</h6>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div class="row justify-content-center">
                 <div class="card w-50 px-0">
                     <div class="col-12 d-flex">
@@ -177,9 +164,7 @@ export default {
     </main>
 </template>
 
-<!-- STYLE SCSS -->
 <style lang="scss">
-// IMPORTO GENERALS.SCSS
 @use '../styles/generals.scss' as *;
 
 .bg-left {

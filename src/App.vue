@@ -10,11 +10,9 @@ export default {
 </script>
 
 <!-- TEMPLATE HTML -->
-<template lang="">
-    <AppHeader/>
-    <main>
-        <router-view></router-view>
-    </main>
+<template>
+    <AppHeader />
+    <router-view></router-view>
 </template>
 
 <!-- STYLE SCSS -->

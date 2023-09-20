@@ -1,10 +1,15 @@
 <!-- JAVASCRIPT & VUE.JS -->
 <script>
 import { store } from '../store';
-
 import axios from 'axios';
+import AppMain from '../components/AppMain.vue';
+import AppFooter from '../components/AppFooter.vue'
 
 export default {
+    components: {
+        AppMain,
+        AppFooter
+    },
     data() {
         return {
             store,
@@ -14,15 +19,12 @@ export default {
 </script>
 
 <!-- TEMPLATE HTML -->
-<template lang="">
-    <div class="container mb-5">
-        <div class="row">
-            <div class="col-12">
-                <h1>Homepage</h1>
-            </div>
-        </div>
-    </div>
+<template>
+    <AppMain />
+    <AppFooter />
 </template>
+  
+  
 
 <!-- STYLE SCSS -->
 <style lang="scss">

@@ -1,25 +1,39 @@
 <!-- JAVASCRIPT & VUE.JS -->
+
 <script>
 export default {
     data() {
         return {
-            menuItems: [
-                {
-                    label: 'Home',
-                    routeName: 'home',
-                },
-            ]
+
         }
     },
 }
 </script>
 
 <!-- TEMPLATE HTML -->
-<template lang="">
+<template>
     <header>
-        <li class="nav-item" v-for="(item, index) in menuItems" :key="index">
-            <router-link :to="{ name: item.routeName }" v-text="item.label" class="nav-link"></router-link>
-        </li>
+        <div class="container-fluid p-0">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="navbar navbar-expand-lg color px-5 d-flex justify-content-between">
+                        <div class="container-fluid mx-5 my-3">
+                            <router-link class="navbar-brand logo" :to="{ name: 'home' }">
+                                <img src="../assets/deliveboo-2.png" alt="logo" class="d-inline-block align-text-top">
+                            </router-link>
+                            <div class="d-flex">
+                                <a class="link-underline text-white link-underline-opacity-0 px-3" href="#">
+                                    Accedi
+                                </a>
+                                <a class="link-underline text-white link-underline-opacity-0 px-3" href="#">
+                                    Aiuto
+                                </a>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
     </header>
 </template>
 
@@ -27,4 +41,14 @@ export default {
 <style lang="scss">
 // IMPORTO GENERALS.SCSS
 @use '../styles/generals.scss' as *;
+
+.color {
+    background-color: #FF8100;
+}
+
+.logo {
+    img {
+        width: 150px;
+    }
+}
 </style>

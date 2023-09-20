@@ -1,74 +1,77 @@
-<!-- JAVASCRIPT & VUE.JS -->
 <script>
+import { store } from '../store';
+import axios from 'axios';
+
 export default {
     data() {
         return {
-
+            types: [], // Inizializza un array vuoto per contenere le tipologie
         }
     },
+    mounted() {
+        // Chiamata alla funzione per ottenere le tipologie dei ristoranti
+        this.getRestaurantTypes();
+    },
+    methods: {
+        getRestaurantTypes() {
+            axios.get(`${store.baseUrl}/api/types`).then((response) => {
+                this.types = response.data.results;
+            })
+        },
+    }
 }
 </script>
 
 <!-- TEMPLATE HTML -->
 <template>
         <footer>
-            <div class="container ">
+            <div class="container py-5">
                 <div class="row">
-                    <div class="col-lg-2 col-md-6 mb-4">
-                        <h5 class="mb-3" style="letter-spacing: 2px; color: #7f4722;">shopping online</h5>
-                        <ul class="list-unstyled mb-0">
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">frequently asked questions</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">delivery</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">pricing</a>
-                        </li>
-                        <li>
-                            <a href="#!" style="color: #4f4f4f;">where we deliver?</a>
-                        </li>
-                        </ul>
+                    <div class="col-12 col-md-4">
+                        <div class="content d-flex justify-content-center">
+                            
+                            <ul class="list-unstyled mb-0">
+                                <p class="mb-3" style="letter-spacing: 2px; color: #7f4722;">ABOUT US</p>
+                                <li class="mb-1">
+                                    <a href="#!" class="text-decoration-none" style="color: #4f4f4f;">Chi siamo</a>
+                                </li>
+                                <li class="mb-1">
+                                    <a href="#!" class="text-decoration-none" style="color: #4f4f4f;">Visualizza tutti i risoranti</a>
+                                </li>
+                                <li class="mb-1">
+                                    <a href="#!" class="text-decoration-none" style="color: #4f4f4f;">Lavora con noi</a>
+                                </li>
+                            </ul>
+
+                        </div>
                     </div>
-                    <div class="col-lg-2 col-md-6 mb-4">
-                        <h5 class="mb-3" style="letter-spacing: 2px; color: #7f4722;">git cards</h5>
-                        <ul class="list-unstyled mb-0">
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">frequently asked questions</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">delivery and payment</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">activate the card</a>
-                        </li>
-                        <li>
-                            <a href="#!" style="color: #4f4f4f;">rules</a>
-                        </li>
-                        </ul>
+                    <div class="col-12 col-md-4">
+                        <div class="content d-flex justify-content-center">
+                            <ul class="list-unstyled mb-0">
+                                <p class="mb-3" style="letter-spacing: 2px; color: #7f4722;">RISTORANTI</p>
+                                <a class="text-decoration-none" href="#">
+                                    <li v-for="(type, index) in types" :key="index" class="mb-1" style="color: #4f4f4f">{{ type.name }}</li>
+                                </a>
+                            </ul>
+
+                        </div>
                     </div>
-                    <div class="col-lg-2 col-md-6 mb-4">
-                        <h5 class="mb-3" style="letter-spacing: 2px; color: #7f4722;">company</h5>
-                        <ul class="list-unstyled mb-0">
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">buy a gift card</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">history</a>
-                        </li>
-                        <li class="mb-1">
-                            <a href="#!" style="color: #4f4f4f;">return</a>
-                        </li>
-                        <li>
-                            <a href="#!" style="color: #4f4f4f;">contact</a>
-                        </li>
-                        </ul>
+                    <div class="col-12 col-md-4">
+                        <div class="content d-flex justify-content-center">
+                            
+                            <ul class="list-unstyled mb-0">
+                                <p class="mb-3" style="letter-spacing: 2px; color: #7f4722;">CITTA'</p>
+                                <li class="mb-1">
+                                    <a href="#!" class="text-decoration-none" style="color: #4f4f4f;">Milano</a>
+                                </li>
+                            
+                            </ul>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </footer>
-
 </template>
 
 <!-- STYLE SCSS -->

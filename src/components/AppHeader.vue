@@ -13,9 +13,9 @@ export default {
 <!-- TEMPLATE HTML -->
 <template>
     <header>
-        <div class="container-fluid p-0">
-            <div class="row">
-                <div class="col-12">
+        <div class="container-fluid px-0 mx-0">
+            <div class="row mx-0">
+                <div class="col-12 px-0">
                     <nav class="navbar navbar-expand-lg color px-5 d-flex justify-content-between">
                         <div class="container-fluid mx-5 my-3">
                             <router-link class="navbar-brand logo" :to="{ name: 'home' }">

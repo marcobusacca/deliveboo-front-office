@@ -5,6 +5,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            currentSlideIndex: 0,
             store,
             types: []
         }
@@ -17,6 +18,20 @@ export default {
             axios.get(`${store.baseUrl}/api/types`).then((response) => {
                 this.types = response.data.results;
             })
+        },
+        nextSlide() {
+            if (this.currentSlideIndex < this.types.length - 1) {
+                this.currentSlideIndex++;
+            } else {
+                this.currentSlideIndex = 0;
+            }
+        },
+        prevSlide() {
+            if (this.currentSlideIndex > 0) {
+                this.currentSlideIndex--;
+            } else {
+                this.currentSlideIndex = this.types.length - 1;
+            }
         }
     },
 }
@@ -50,7 +65,7 @@ export default {
                     </div>
                 </div>
             </div>
-            <div class="row justify-content-center">
+            <!-- <div class="row justify-content-center">
                 <div class="col-md-2 col-12 d-flex flex-column justify-content-center align-items-center"
                     v-for="(type, index) in types" :key="index">
                     <div class="card border-0 my-3 card-size">
@@ -60,18 +75,90 @@ export default {
                         </div>
                     </div>
                 </div>
+            </div> -->
+            <div class="row justify-content-center">
+                <div class="card w-75 px-0">
+                    <div class="col-12 d-flex">
+                        <div class="col-4 bg-left">
+
+                        </div>
+
+                        <div class="col-8 col-image">
+                            <div class="buttons w-100">
+                                <div class="button-next-prev d-flex justify-content-between">
+                                    <button @click="prevSlide" class="btn">
+                                        <i class="fa-solid fa-angle-left fa-xl"></i>
+                                    </button>
+
+                                    <button @click="nextSlide" class="btn">
+                                        <i class="fa-solid fa-chevron-right fa-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div v-for="(type, index) in types" :key="index">
+                                <div class="col-12 d-flex flex-column justify-content-center align-items-center"
+                                    v-if="index === currentSlideIndex">
+                                    <div class="border-0">
+                                        <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="img-fluid"
+                                            alt="logo">
+                                        <!-- <div class="card-body bg-orange">
+                                            <h6 class="card-text text-center bg-white">{{ type.name }}</h6>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
 </template>
+<!-- <div class="d-flex justify-content-end align-items-center">
+    <button @click="prevSlide">
+        
+    </button>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+    <div v-for="(type, index) in types" :key="index">
+        <div class="col-12 d-flex flex-column justify-content-center align-items-center"
+            v-if="index === currentSlideIndex">
+            <div class="card border-0 my-3 card-size">
+                <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="card-img-top"
+                    alt="logo">
+                <div class="card-body bg-orange">
+                    <h6 class="card-text text-center bg-white">{{ type.name }}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+    <button @click="nextSlide">Next</button>
+</div> -->
 
 <!-- STYLE SCSS -->
 <style lang="scss">
 // IMPORTO GENERALS.SCSS
 @use '../styles/generals.scss' as *;
 
+.bg-left {
+    width: 100%;
+    height: 100%;
+    background-color: orange;
+}
+
+.col-image {
+    position: relative;
+
+    .buttons {
+        position: absolute;
+        top: 50%;
+    }
+}
+
 .card-size {
-    width: 12rem;
+    width: 24rem;
 }
 
 .size-container {

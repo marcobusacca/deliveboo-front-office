@@ -24,7 +24,7 @@ export default {
 
 <!-- TEMPLATE HTML -->
 <template>
-        <footer>
+        <footer >
             <div class="container py-5">
                 <div class="row">
                     <div class="col-12 col-md-4">
@@ -78,4 +78,7 @@ export default {
 <style lang="scss">
 // IMPORTO GENERALS.SCSS
 @use '../styles/generals.scss' as *;
+footer{
+    background-color: rgb(200, 208, 216);
+}
 </style>

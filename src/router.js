@@ -2,6 +2,8 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 // IMPORTARE TUTTE LE PAGINE DALLA CARTELLA "PAGES"
 import HomePage from './pages/HomePage.vue';
+import SearchRestaurant from './pages/SearchRestaurant.vue';
+import HomePage from './pages/SearchRestaurant.vue';
 
 // CREIAMO IL ROUTER CON LE SUE ROTTE
 const router = createRouter({
@@ -13,6 +15,12 @@ const router = createRouter({
             path: '/',
             name: 'home',
             component: HomePage,
+        },
+    
+        {
+            path: '/search-restaurant',
+            name: 'search-restaurant',
+            component: SearchRestaurant,
         },
     ]
 

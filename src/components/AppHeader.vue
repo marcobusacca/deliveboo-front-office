@@ -12,28 +12,41 @@ export default {
 
 <!-- TEMPLATE HTML -->
 <template>
+    <!-- Header Navbar -->
     <header>
-        <div class="container-fluid px-0 mx-0">
-            <div class="row mx-0">
-                <div class="col-12 px-0">
-                    <nav class="navbar navbar-expand-lg color px-5 d-flex justify-content-between">
-                        <div class="container-fluid mx-5 my-3">
-                            <router-link class="navbar-brand logo" :to="{ name: 'home' }">
-                                <img src="../assets/deliveboo-2.png" alt="logo" class="d-inline-block align-text-top">
-                            </router-link>
-                            <div class="d-flex">
-                                <a class="link-underline text-white link-underline-opacity-0 px-3" href="#">
-                                    Accedi
+        <nav class="top-bar navbar navbar-expand-md navbar-light shadow">
+            <div class="container-fluid px-5">
+                <div class="row w-100">
+                    <div class="col-6">
+                        <!-- Navbar Logo -->
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">
+                                    <img class="logo-deliveboo" src="../assets/deliveboo-1.png" alt="deliveboo-logo">
                                 </a>
-                                <a class="link-underline text-white link-underline-opacity-0 px-3" href="#">
-                                    Aiuto
-                                </a>
-                            </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <!-- Navbar Hamburger -->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <!-- Navbar Item -->
+                        <div class="collapse navbar-collapse d-flex justify-content-end align-items-center h-100 w-100" id="navbarSupportedContent">
+                            <!-- Authentication Links -->
+                            <ul class="navbar-nav ml-auto">
+                                <!-- Login Link -->
+                                <li class="nav-item">
+                                    <a class="nav-link text-white" href="http://127.0.0.1:8000">Lavora con noi</a>
+                                </li>
+                            </ul>
                         </div>
-                    </nav>
+                    </div>
                 </div>
             </div>
-        </div>
+        </nav>
+
     </header>
 </template>
 

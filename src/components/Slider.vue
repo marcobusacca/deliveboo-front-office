@@ -4,8 +4,12 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            isDragging: false,
+            startPosition: null,
+            currentTranslate: 0,
+            prevTranslate: 0,
             currentIndex: 0,
-            numVisibleSlides: 4,
+            numVisibleSlides: 11,
             store,
             types: [],
             types_info: [
@@ -76,8 +80,34 @@ export default {
             if (this.currentIndex > 0) {
                 this.currentIndex--;
             }
-        }
-    },
+        },
+        onTouchStart(e) {
+            if (e.type === 'touchstart') {
+                this.startPosition = e.touches[0].clientX;
+            } else {
+                this.startPosition = e.clientX;
+                document.addEventListener('mousemove', this.onTouchMove);
+                document.addEventListener('mouseup', this.onTouchEnd);
+            }
+            this.isDragging = true;
+        },
+
+        onTouchMove(e) {
+            if (this.isDragging) {
+                const currentPosition = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+                this.currentTranslate = this.prevTranslate + currentPosition - this.startPosition;
+            }
+        },
+
+        onTouchEnd() {
+            if (this.isDragging) {
+                this.prevTranslate = this.currentTranslate;
+                this.isDragging = false;
+                document.removeEventListener('mousemove', this.onTouchMove);
+                document.removeEventListener('mouseup', this.onTouchEnd);
+            }
+        },
+    }
 }
 </script>
 
@@ -86,7 +116,9 @@ export default {
         <div class="row">
             <div class="col-12 body-carousel">
                 <div class="carousel d-flex justify-content-center" ref="carousel">
-                    <div class="wrapper">
+                    <div class="wrapper" @mousedown="onTouchStart" @touchstart="onTouchStart" @mousemove="onTouchMove"
+                        @touchmove="onTouchMove" @mouseup="onTouchEnd" @touchend="onTouchEnd"
+                        :style="{ transform: `translateX(${currentTranslate}px)` }">
                         <div class="">
                             <img v-for="(type, index) in types" :key="index"
                                 :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="slide"
@@ -124,6 +156,7 @@ export default {
     transition: transform 0.3s ease-in-out;
     position: relative;
 }
+
 
 .carousel-image {
     width: 240px;

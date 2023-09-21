@@ -49,70 +49,27 @@
 //END FOOTER
 
 // MEDIA QUERY COMPONENTE SLIDER
-@media screen and (max-width: 767px) {
-    .wrapper {
-        max-width: 991px;
-        display: flex;
-        justify-content: center;
-    }
-
+@media screen and (min-width: 576px) and (max-width: 767px) {
     .carousel-image {
-        max-height: 100%;
-        object-fit: contain;
-        width: calc(100% / 2.3);
-        height: auto;
-        max-width: none;
+        max-width: 180px;
     }
-
-    .buttons .btn-custom-left,
-    .buttons .btn-custom-right {
-        width: 30px;
-        height: 30px;
-    }
-
 }
 
 @media screen and (min-width: 768px) and (max-width: 991px) {
-    .wrapper {
-        max-width: 1200px;
-        display: flex;
-        justify-content: center;
-    }
-
     .carousel-image {
-        width: calc(100% / 3.3);
-        max-height: 100%;
-        object-fit: contain;
-        height: auto;
-        max-width: none;
-    }
-
-    .buttons .btn-custom-left,
-    .buttons .btn-custom-right {
-        width: 30px;
-        height: 30px;
+        max-width: 220px;
     }
 }
 
-@media screen and (min-width: 991px) and (max-width: 1199px) {
-    .wrapper {
-        max-width: 1200px;
-        display: flex;
-        justify-content: center;
-    }
-
+@media screen and (min-width: 992px) and (max-width: 1199px) {
     .carousel-image {
-        width: calc(100% / 4.3);
-        max-height: 100%;
-        object-fit: contain;
-        height: auto;
-        max-width: none;
+        max-width: 260px;
     }
+}
 
-    .buttons .btn-custom-left,
-    .buttons .btn-custom-right {
-        width: 30px;
-        height: 30px;
+@media screen and (min-width: 1200px) {
+    .carousel-image {
+        max-width: 300px;
     }
 }
 

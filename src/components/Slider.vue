@@ -82,17 +82,15 @@ export default {
 </script>
 
 <template>
-    <div>
+    <div class="mt-4">
         <div class="row">
             <div class="col-12 body-carousel">
                 <div class="carousel d-flex justify-content-center" ref="carousel">
-                    <div class="wrapper">
-                        <div class="">
-                            <img v-for="(type, index) in types" :key="index"
-                                :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="slide"
-                                class="carousel-image rounded-5 mx-4"
-                                v-show="index >= currentIndex && index < currentIndex + numVisibleSlides" />
-                        </div>
+                    <div class="wrapper d-flex">
+                        <img v-for="(type, index) in types" :key="index"
+                            :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="slide"
+                            class="carousel-image rounded-5 mx-4"
+                            v-show="index >= currentIndex && index < currentIndex + numVisibleSlides" />
                         <div class="buttons d-flex justify-content-between">
                             <button class="btn-custom-left" @click="prevSlide" :disabled="currentIndex === 0">
                                 <i class="fa-solid fa-chevron-left fa-xl"></i>
@@ -113,50 +111,57 @@ export default {
 @use '../styles/generals.scss' as *;
 
 .carousel {
-    font-size: 0;
-    white-space: nowrap;
     overflow: hidden;
     position: relative;
+    width: 100%;
 }
+
 
 .wrapper {
-    max-width: 1200px;
-    transition: transform 0.3s ease-in-out;
-    position: relative;
+    max-width: 100%;
 }
-
 
 .carousel-image {
-    width: 240px;
-    height: 160px;
-    object-fit: contain;
+    width: 100%;
+    max-width: 240px;
+    height: auto;
+    object-fit: cover;
 }
 
-.buttons {
-    position: relative;
-    /* Al centro verticalmente rispetto alle immagini */
-    width: 100%;
-    text-align: center;
 
-    .btn-custom-left {
-        position: absolute;
-        left: -4%;
-        bottom: 100%;
-        transform: translate(25%, -100%);
+
+.buttons {
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .btn-custom-left,
+    .btn-custom-right {
         width: 40px;
         height: 40px;
         border-radius: 50%;
+        background-color: #ffffff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
-    .btn-custom-right {
-        position: absolute;
-        right: -5%;
-        bottom: 100%;
-        transform: translate(-15%, -100%);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
+    .btn-custom-left:hover,
+    .btn-custom-right:hover {
+        background-color: #f0f0f0;
+    }
 
+    .fa-chevron-left,
+    .fa-chevron-right {
+        font-size: 24px;
+        color: #333333;
     }
 }
 </style>

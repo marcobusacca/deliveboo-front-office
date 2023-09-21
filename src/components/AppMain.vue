@@ -6,7 +6,7 @@ export default {
     data() {
         return {
             currentIndex: 0,
-            numVisibleSlides: 3,
+            numVisibleSlides: 4,
             store,
             types: [],
             types_info: [
@@ -85,47 +85,51 @@ export default {
 <template>
     <main>
         <div class="container-fluid size-container">
-            <div class="row justify-content-center align-items-center py-5 h-100">
-                <div class="col-12 mt-5 d-flex justify-content-center align-items-center">
-                    <div class="search-bar rounded d-flex justify-content-center align-items-center">
-                        <div class="search-image">
-                            <img src="../assets/hamburger.png" alt="logo-hamburger">
-                        </div>
-                        <div class="input-group rounded-pill p-2">
-                            <input type="text" class="form-control rounded-pill border-0 p-2"
-                                placeholder="Cerca il tuo ristorante...">
-                            <button class="btn search-button btn-success rounded-pill" type="submit">Vai</button>
+            <div class="container">
+                <div class="row justify-content-center align-items-center py-5 h-100">
+                    <div class="col-12 mt-5 d-flex justify-content-center align-items-center">
+                        <div class="search-bar rounded d-flex justify-content-center align-items-center">
+                            <div class="search-image">
+                                <img src="../assets/hamburger.png" alt="logo-hamburger">
+                            </div>
+                            <div class="input-group rounded-pill p-2">
+                                <input type="text" class="form-control rounded-pill border-0 p-2"
+                                    placeholder="Cerca il tuo ristorante...">
+                                <button class="btn search-button btn-success rounded-pill" type="submit">Vai</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-12 mt-5">
-                    <div class="title">
-                        <h3 class="text-center fw-bold font-size-15">
-                            Le cucine più richieste
-                        </h3>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 body-carousel">
-                    <div class="carousel d-flex justify-content-center" ref="carousel">
-                        <div class="wrapper">
-                            <img v-for="(type, index) in types" :key="index"
-                                :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="slide"
-                                class="carousel-image rounded-5 mx-4"
-                                v-show="index >= currentIndex && index < currentIndex + numVisibleSlides" />
+                <div class="row">
+                    <div class="col-12 mt-5">
+                        <div class="title">
+                            <h3 class="text-center fw-bold font-size-15">
+                                Le cucine più richieste
+                            </h3>
                         </div>
                     </div>
-                    <div class="buttons d-flex justify-content-between">
-                        <button class="btn-custom-left" @click="prevSlide" :disabled="currentIndex === 0">
-                            <i class="fa-solid fa-chevron-left fa-xl"></i>
-                        </button>
-                        <button class="btn-custom-right" @click="nextSlide"
-                            :disabled="currentIndex >= types.length - numVisibleSlides">
-                            <i class="fa-solid fa-chevron-right fa-xl"></i>
-                        </button>
+                </div>
+                <div class="row">
+                    <div class="col-12 body-carousel">
+                        <div class="carousel d-flex justify-content-center" ref="carousel">
+                            <div class="wrapper">
+                                <div class="">
+                                    <img v-for="(type, index) in types" :key="index"
+                                        :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="slide"
+                                        class="carousel-image rounded-5 mx-4"
+                                        v-show="index >= currentIndex && index < currentIndex + numVisibleSlides" />
+                                </div>
+                                <div class="buttons d-flex justify-content-between">
+                                    <button class="btn-custom-left" @click="prevSlide" :disabled="currentIndex === 0">
+                                        <i class="fa-solid fa-chevron-left fa-xl"></i>
+                                    </button>
+                                    <button class="btn-custom-right" @click="nextSlide"
+                                        :disabled="currentIndex >= types.length - numVisibleSlides">
+                                        <i class="fa-solid fa-chevron-right fa-xl"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,41 +148,42 @@ export default {
 }
 
 .wrapper {
-    max-width: 1500px;
+    max-width: 1200px;
     transition: transform 0.3s ease-in-out;
+    position: relative;
 }
 
 .carousel-image {
-    width: 350px;
-    height: 300px;
+    width: 240px;
+    height: 160px;
     object-fit: cover;
 }
 
 .buttons {
-    position: absolute;
-    bottom: 23%;
+    position: relative;
     /* Al centro verticalmente rispetto alle immagini */
     width: 100%;
     text-align: center;
 
-    .btn-custom-left {
-        position: absolute;
-        left: 11%;
-        transform: translate(23%, -11%);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        /* Centra rispetto al contenitore .buttons */
-    }
+        .btn-custom-left {
+            position: absolute;
+            left: -4%;
+            bottom: 100%;
+            transform: translate(25%, -100%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
 
-    .btn-custom-right {
-        position: absolute;
-        right: 14%;
-        transform: translate(23%, -14%);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        /* Centra rispetto al contenitore .buttons */
+        .btn-custom-right {
+            position: absolute;
+            right: -5%;
+            bottom: 100%;
+            transform: translate(-15%, -100%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+
     }
 }
 

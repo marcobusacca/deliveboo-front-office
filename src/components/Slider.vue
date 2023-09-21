@@ -9,7 +9,7 @@ export default {
             currentTranslate: 0,
             prevTranslate: 0,
             currentIndex: 0,
-            numVisibleSlides: 11,
+            numVisibleSlides: 4,
             store,
             types: [],
             types_info: [
@@ -81,32 +81,6 @@ export default {
                 this.currentIndex--;
             }
         },
-        onTouchStart(e) {
-            if (e.type === 'touchstart') {
-                this.startPosition = e.touches[0].clientX;
-            } else {
-                this.startPosition = e.clientX;
-                document.addEventListener('mousemove', this.onTouchMove);
-                document.addEventListener('mouseup', this.onTouchEnd);
-            }
-            this.isDragging = true;
-        },
-
-        onTouchMove(e) {
-            if (this.isDragging) {
-                const currentPosition = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-                this.currentTranslate = this.prevTranslate + currentPosition - this.startPosition;
-            }
-        },
-
-        onTouchEnd() {
-            if (this.isDragging) {
-                this.prevTranslate = this.currentTranslate;
-                this.isDragging = false;
-                document.removeEventListener('mousemove', this.onTouchMove);
-                document.removeEventListener('mouseup', this.onTouchEnd);
-            }
-        },
     }
 }
 </script>
@@ -116,9 +90,7 @@ export default {
         <div class="row">
             <div class="col-12 body-carousel">
                 <div class="carousel d-flex justify-content-center" ref="carousel">
-                    <div class="wrapper" @mousedown="onTouchStart" @touchstart="onTouchStart" @mousemove="onTouchMove"
-                        @touchmove="onTouchMove" @mouseup="onTouchEnd" @touchend="onTouchEnd"
-                        :style="{ transform: `translateX(${currentTranslate}px)` }">
+                    <div class="wrapper">
                         <div class="">
                             <img v-for="(type, index) in types" :key="index"
                                 :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="slide"

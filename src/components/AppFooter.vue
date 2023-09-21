@@ -82,7 +82,7 @@ export default {
                         <div class="container-seguici text-center text-md-end">
                             <span style="color: #FF8100;"><strong>Seguici</strong></span>
                             <div class="container-loghi-social d-flex justify-content-center justify-content-md-end">
-                                <img src="../assets/loghi-social.png" class="img-fluid" alt="">
+                                <a href="#"><img src="../assets/loghi-social.png" class="img-fluid" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -132,5 +132,14 @@ export default {
 
     footer{
         background-color: rgb(200, 208, 216);
+    }
+
+    @media (min-width: 992px) {
+        .google-apple {
+            padding-top: 8px;
+            padding-left: 36px;
+            transform: scale(2.0); // Aumenta la dimensione dell'immagine del 150%
+            transition: transform 0.3s ease; // Aggiunge una transizione fluida
+        }
     }
 </style>

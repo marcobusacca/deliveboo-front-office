@@ -109,9 +109,11 @@ export default {
 }
 
 .size-container {
-    min-height: 100vh;
-    background-image: url('../assets/bg-homepage.jpg');
-    background-size: contain;
+    padding-top: 150px;
+    height: 100vh;
+    background-image: url('../assets/bg-home/4.png');
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 .bg-orange {

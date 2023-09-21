@@ -26,24 +26,94 @@
 //FOOTER
 
 
-.google-apple{
+.google-apple {
     width: 150px;
- }
- 
+}
+
 //PAYMENTS LOGO
 
-.visa-logo{
+.visa-logo {
     width: 40px;
 }
 
-.paypal-logo{
+.paypal-logo {
     width: 70px;
 }
 
-.master-logo{
+.master-logo {
     width: 70px;
 }
 
 //END PAYMENTS LOGO
 
 //END FOOTER
+
+// MEDIA QUERY COMPONENTE SLIDER
+@media screen and (max-width: 767px) {
+    .wrapper {
+        max-width: 991px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .carousel-image {
+        max-height: 100%;
+        object-fit: contain;
+        width: calc(100% / 2.3);
+        height: auto;
+        max-width: none;
+    }
+
+    .buttons .btn-custom-left,
+    .buttons .btn-custom-right {
+        width: 30px;
+        height: 30px;
+    }
+
+}
+
+@media screen and (min-width: 768px) and (max-width: 991px) {
+    .wrapper {
+        max-width: 1200px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .carousel-image {
+        width: calc(100% / 3.3);
+        max-height: 100%;
+        object-fit: contain;
+        height: auto;
+        max-width: none;
+    }
+
+    .buttons .btn-custom-left,
+    .buttons .btn-custom-right {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+@media screen and (min-width: 991px) and (max-width: 1199px) {
+    .wrapper {
+        max-width: 1200px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .carousel-image {
+        width: calc(100% / 4.3);
+        max-height: 100%;
+        object-fit: contain;
+        height: auto;
+        max-width: none;
+    }
+
+    .buttons .btn-custom-left,
+    .buttons .btn-custom-right {
+        width: 30px;
+        height: 30px;
+    }
+}
+
+// FINE MEDIA QUERY

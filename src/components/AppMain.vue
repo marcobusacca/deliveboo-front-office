@@ -50,38 +50,6 @@ export default {
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 
-
-
-
-// .body-carousel {
-//     display: flex;
-//     flex-direction: row;
-//     justify-content: center;
-//     padding: 0 10px;
-// }
-
-// .wrapper .carousel {
-//     font-size: 0px;
-//     overflow: hidden;
-//     white-space: nowrap;
-//     cursor: pointer;
-// }
-
-// .wrapper {
-//     max-width: 1200px;
-// }
-
-// .carousel img {
-//     height: 340px;
-//     object-fit: cover;
-//     margin-left: 14px;
-//     width: calc(100% / 3);
-// }
-
-// .carousel-image.active-slide {
-//     border: 2px solid #007bff;
-// }
-
 .type-title {
     font-size: 1.5em;
     font-weight: bold;

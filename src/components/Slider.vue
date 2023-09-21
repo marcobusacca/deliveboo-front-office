@@ -4,10 +4,6 @@ import axios from 'axios';
 export default {
     data() {
         return {
-            isDragging: false,
-            startPosition: null,
-            currentTranslate: 0,
-            prevTranslate: 0,
             currentIndex: 0,
             numVisibleSlides: 4,
             store,
@@ -133,7 +129,7 @@ export default {
 .carousel-image {
     width: 240px;
     height: 160px;
-    object-fit: cover;
+    object-fit: contain;
 }
 
 .buttons {

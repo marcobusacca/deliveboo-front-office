@@ -77,7 +77,6 @@ export default {
 }
 
 .size-container {
-    padding-top: 150px;
     height: 100vh;
     background-image: url('../assets/bg-home/4.png');
     background-size: cover;

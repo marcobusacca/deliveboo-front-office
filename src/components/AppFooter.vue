@@ -29,7 +29,7 @@ export default {
         <div class="container px-3 py-5">
             <div class="row">
                 <div class="col-12 col-md-4">
-                    <div class="content py-3 d-flex justify-content-start justify-content-md-center">
+                    <div class="content py-3 d-flex justify-content-center justify-content-md-center text-center text-md-start">
                         <ul class="list-unstyled mb-0">
                             <li style="letter-spacing: 2px; color: #FF8100;"><strong>About Us</strong></li>
                             <li class="mt-3">
@@ -45,7 +45,7 @@ export default {
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="content py-3 d-flex justify-content-start justify-content-md-center">
+                    <div class="content py-3 d-flex justify-content-center justify-content-md-center text-center text-md-start">
                         <ul class="list-unstyled mb-0">
                             <li class="mb-3" style="letter-spacing: 2px; color: #FF8100;"><strong>Ristoranti</strong></li>
                             <a class="text-decoration-none" href="#">
@@ -55,7 +55,7 @@ export default {
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="content py-3 d-flex justify-content-start justify-content-md-center">
+                    <div class="content py-3 d-flex justify-content-center justify-content-md-center text-center text-md-start">
                         <ul class="list-unstyled mb-0">
                             <li style="letter-spacing: 2px; color: #FF8100;"><strong>Città</strong></li>
                             <li class="mt-3 ">
@@ -71,17 +71,17 @@ export default {
             <div class="container py-5">
                 <div class="row justify-content-between">
                     <div class="col-12 col-md-6">
-                        <div>
+                        <div class="text-center text-md-start">
                             <span style="color: #FF8100;"><strong>Scarica le nostre app e seguici</strong></span>
-                            <div class="container-google-apple">
-                                <img src="../assets/goo-app.png" class="img-fluid" alt="">
+                            <div class="container-google-apple d-flex justify-content-center justify-content-md-start">
+                                <img src="../assets/goo-app.png" class="google-apple" alt="">
                             </div>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
-                        <div class="container-seguici text-lg-end">
+                        <div class="container-seguici text-center text-md-end">
                             <span style="color: #FF8100;"><strong>Seguici</strong></span>
-                            <div class="container-loghi-social d-flex justify-content-lg-end">
+                            <div class="container-loghi-social d-flex justify-content-center justify-content-md-end">
                                 <img src="../assets/loghi-social.png" class="img-fluid" alt="">
                             </div>
                         </div>
@@ -94,13 +94,13 @@ export default {
             <div class="container py-5">
                 <div class="row justify-content-between">
                     <div class="col-12 col-md-6">
-                        <div class="text-iva py-2">
+                        <div class="text-iva text-center text-md-start py-2">
                             <span>Just Eat Italy S.r.l. - P.IVA 02392740932</span>
                         </div>
                     </div>
                     <div class="col-12 col-md-6">
                         <div class="container-payments py-2">
-                            <ul class="list-group list-group-horizontal list-unstyled d-flex justify-content-lg-end">
+                            <ul class="list-group list-group-horizontal list-unstyled d-flex justify-content-center justify-content-md-end">
                                 <li class="text-lg-end mb-2">
                                     <a href="">
                                         <img src="../assets/mastercard.png" class="master-logo py-2" alt="">

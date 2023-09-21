@@ -1,5 +1,3 @@
-<!-- JAVASCRIPT & VUE.JS -->
-
 <script>
 export default {
     data() {

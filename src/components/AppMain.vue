@@ -8,12 +8,11 @@ export default {
             store,
             types: [],
             restaurants: [],
-            type_id: 1
         }
     },
     mounted() {
         this.getRestaurantTypes();
-        this.getRestaurantByTypes(this.type_id)
+        this.getRestaurantsByTypeId([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
     },
     methods: {
         getRestaurantTypes() {
@@ -23,13 +22,20 @@ export default {
                 console.error('Errore nella chiamata API:', error);
             });
         },
-        getRestaurantByTypes(type_id) {
-            axios.get(`${store.baseUrl}/api/types/${type_id}`).then((response) => {
-                this.restaurants = response.data.results
-            }).catch((error) => {
-                console.error('Errore nella chiamata API:', error);
+        getRestaurantsByTypeId(typeId) {
+            const promises = typeId.map(type_id => {
+                return axios.get(`${store.baseUrl}/api/types/${type_id}`)
+                    .then(response => response.data.results)
+                    .catch(error => {
+                        console.error(`Errore nella chiamata API per type_id ${type_id}:`, error);
+                        return [];
+                    });
             });
-            console.log(this.restaurants)
+
+            Promise.all(promises)
+                .then(results => {
+                    this.restaurants = results.flat();
+                });
         }
     }
 }

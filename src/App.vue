@@ -1,16 +1,23 @@
 <!-- JAVASCRIPT & VUE.JS -->
 <script>
+import AppHeader from './components/AppHeader.vue';
+import AppFooter from './components/AppFooter.vue';
 
 export default {
     components: {
         AppHeader,
+        AppFooter,
     },
 }
 </script>
 
 <!-- TEMPLATE HTML -->
 <template>
-    <router-view></router-view>
+    <AppHeader />
+    <main>
+        <router-view></router-view>
+    </main>
+    <AppFooter />
 </template>
 
 <!-- STYLE SCSS -->

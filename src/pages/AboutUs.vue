@@ -54,21 +54,17 @@ export default {
             </div>
         </div>
     </section>
-    <footer>
-        <AppFooter/>
-    </footer>
 </template>
 
     
 <style lang="scss">
 #about {
-    background: url(../assets/aboutsus/aboutus.png);
+    background: url(../assets/about-us-img/about-us.png);
 
 }
 
 .about-1 {
-    margin: 30px;
-    padding: 5px;
+    padding: 15px;
 
     h1 {
         text-align: center;

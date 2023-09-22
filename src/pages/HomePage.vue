@@ -3,7 +3,6 @@
 import { store } from '../store';
 import axios from 'axios';
 import AppMain from '../components/AppMain.vue';
-import AppFooter from '../components/AppFooter.vue'
 
 export default {
     components: {
@@ -21,7 +20,6 @@ export default {
 <!-- TEMPLATE HTML -->
 <template>
     <AppMain />
-    <AppFooter />
 </template>
   
   

@@ -1,6 +1,5 @@
 <!-- JAVASCRIPT & VUE.JS -->
 <script>
-import AppHeader from './components/AppHeader.vue';
 
 export default {
     components: {
@@ -11,7 +10,6 @@ export default {
 
 <!-- TEMPLATE HTML -->
 <template>
-    <AppHeader />
     <router-view></router-view>
 </template>
 

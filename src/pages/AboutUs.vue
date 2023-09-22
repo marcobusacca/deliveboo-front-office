@@ -61,7 +61,7 @@ export default {
         <AppFooter/>
     </footer>
 </template>
-.
+
     
 <style lang="scss">
 .sfondo {
@@ -81,7 +81,7 @@ p {
     margin-top: 20px;
 }
 
-}
+
 
 .about-item:hover {
     background-color: rgb(9, 100, 13);

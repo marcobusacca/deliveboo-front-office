@@ -3,38 +3,47 @@
 import { store } from '../store';
 import axios from 'axios';
 export default {
-    props: ['type_id'],
+    // props: ['restaurants'],
     data() {
         return {
             store,
             restaurants: [],
-            types_restaurants: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+            type_id: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
         }
     },
     mounted() {
+        this.getRestaurants(this.type_id);
     },
     methods: {
-        getRestaurantsByTypeId(typeId) {
-            const promises = typeId.map(type_id => {
-                return axios.get(`${store.baseUrl}/api/types/${type_id}`)
-                    .then(response => response.data.results)
-                    .catch(error => {
-                        console.error(`Errore nella chiamata API per type_id ${type_id}:`, error);
-                        return [];
-                    });
+        // getRestaurantsByTypeId(typeId) {
+        //     const promises = typeId.map(type_id => {
+        //         return axios.get(`${store.baseUrl}/api/types/${type_id}`)
+        //             .then(response => response.data.results)
+        //             .catch(error => {
+        //                 console.error(`Errore nella chiamata API per type_id ${type_id}:`, error);
+        //                 return [];
+        //             });
+        //     });
+
+        //     Promise.all(promises)
+        //         .then(results => {
+        //             const allRestaurants = results.flat();
+        //             const uniqueRestaurants = {};
+
+        //             allRestaurants.forEach(restaurant => {
+        //                 uniqueRestaurants[restaurant.id] = restaurant;
+        //             });
+
+        //             this.restaurants = Object.values(uniqueRestaurants);
+        //         });
+        // }
+
+        getRestaurants(type_id) {
+            axios.get(`${store.baseUrl}/api/types/${type_id}`).then((response) => {
+                this.restaurants = response.data.results
+            }).catch((error) => {
+                console.error('Errore nella chiamata API:', error);
             });
-
-            Promise.all(promises)
-                .then(results => {
-                    const allRestaurants = results.flat();
-                    const uniqueRestaurants = {};
-
-                    allRestaurants.forEach(restaurant => {
-                        uniqueRestaurants[restaurant.id] = restaurant;
-                    });
-
-                    this.restaurants = Object.values(uniqueRestaurants);
-                });
         }
     },
 }

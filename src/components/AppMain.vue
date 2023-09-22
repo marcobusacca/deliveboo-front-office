@@ -34,7 +34,14 @@ export default {
 
             Promise.all(promises)
                 .then(results => {
-                    this.restaurants = results.flat();
+                    const allRestaurants = results.flat();
+                    const uniqueRestaurants = {};
+
+                    allRestaurants.forEach(restaurant => {
+                        uniqueRestaurants[restaurant.id] = restaurant;
+                    });
+
+                    this.restaurants = Object.values(uniqueRestaurants);
                 });
         }
     }

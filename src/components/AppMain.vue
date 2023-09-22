@@ -1,131 +1,112 @@
-<!-- JAVASCRIPT & VUE.JS -->
 <script>
-import Slider from './Slider.vue';
-import { store } from '../store';
-export default {
-    components: {
-        Slider
-    },
-    data() {
-        return {
-            store
+    import { store } from '../store';
+    import axios from 'axios'; // Importa axios se non l'hai già fatto
+    
+    export default {
+        data() {
+            return {
+                store,
+                types: [] // Inizializza un array vuoto per le tipologie
+            }
+        },
+        mounted() {
+            // Chiamata alla funzione per ottenere le tipologie dei ristoranti
+            this.getRestaurantTypes();
+        },
+        methods: {
+            getRestaurantTypes() {
+                axios.get(`${store.baseUrl}/api/types`).then((response) => {
+                    this.types = response.data.results;
+                }).catch((error) => {
+                    console.error('Errore nella chiamata API:', error);
+                });
+            },
         }
     }
-}
 </script>
-
+    
 <template>
-    <main>
-        <div class="container-fluid size-container">
-            <div class="container">
-                <div class="row justify-content-center align-items-center py-5 h-100">
-                    <div class="col-12 mt-5 d-flex justify-content-center align-items-center">
-                        <div class="search-bar rounded d-flex justify-content-center align-items-center">
-                            <div class="search-image">
-                                <img src="../assets/hamburger.png" alt="logo-hamburger">
+        <main>
+            <div class="container-fluid size-container">
+                <div class="container mt-5 pb-5">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="container-text-main p-3 bg-white shadow mb-2">
+                                <div class="text-main px-4 py-2 shadow mb-2 text-white w-75">
+                                    <h3>Scegli la tipologia di ristorante che vuoi ordinare</h3>
+                                </div>
                             </div>
-                            <div class="input-group rounded-pill p-2">
-                                <input type="text" class="form-control rounded-pill border-0 p-2"
-                                    placeholder="Cerca il tuo ristorante...">
-                                <button class="btn search-button btn-success rounded-pill" type="submit">Vai</button>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 col-md-2" v-for="(type, index) in types" :key="index">
+                                    <div class="card my-3">
+                                        <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante"/>
+                                        <div class="card-body">
+                                            <h5 class="card-title">{{ type.name }}</h5>
+                                            <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12 mt-5">
-                        <div class="title">
-                            <h3 class="text-center fw-bold font-size-15">
-                                Le cucine più richieste
-                            </h3>
-                        </div>
-                    </div>
-                </div>
-                <Slider />
             </div>
-        </div>
-    </main>
+        </main>
 </template>
-
+    
 <style lang="scss">
-@use '../styles/generals.scss' as *;
-
-.type-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #333;
-}
-
-.type-description {
-    font-size: 1em;
-    line-height: 1.6;
-    color: #555;
-}
-
-
-.col-image {
-    position: relative;
-
-    .buttons {
-        position: absolute;
-        top: 50%;
+    @use '../styles/generals.scss' as *;
+    
+    .container-text-main{
+        border-radius: 40px;
     }
-}
-
-.card-size {
-    width: 24rem;
-}
-
-.size-container {
-    height: 100vh;
-    background-image: url('../assets/bg-home/4.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-}
-
-.bg-orange {
-    background-color: orange;
-
-    .bg-white {
-        background-color: white;
-        border-radius: 10px;
+    
+    .text-main{
+        border: 1px solid rgb(95, 95, 95);
+        border-radius: 40px;
+        background-color: #FF8100;
     }
-}
-
-.search-bar {
-    position: relative;
-    background-color: green;
-    height: 140px;
-    width: 60%;
-    padding-right: 250px;
-    box-shadow: 0 15px 20px 0 rgba(0, 0, 0, 0.912);
-
-    .search-image {
-        position: absolute;
-        left: 70%;
-        bottom: 5%;
-
-        img {
-            width: 100%;
+    
+    .type-title {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .type-description {
+        font-size: 1em;
+        line-height: 1.6;
+        color: #555;
+    }
+    
+    
+    .col-image {
+        position: relative;
+    
+        .buttons {
+            position: absolute;
+            top: 50%;
         }
     }
-}
-
-.input-group {
-    margin-left: 50px;
-    width: 500px;
-    border: 15px solid white;
-    background-color: white;
-}
-
-.input-group input {
-    border: none;
-}
-
-.search-button {
-    background-color: green;
-    color: white;
-    cursor: pointer;
-    border: none;
-}
+    
+    
+    .size-container {
+        padding-top: 150px;
+        background-image: url('../assets/bg-home/4.png');
+        background-size: cover;
+        background-repeat: no-repeat;
+    }
+    
+    .bg-orange {
+        background-color: orange;
+    
+        .bg-white {
+            background-color: white;
+            border-radius: 10px;
+        }
+    }
+    
+    
 </style>

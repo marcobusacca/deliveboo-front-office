@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import HomePage from './pages/HomePage.vue';
 import SearchRestaurant from './pages/SearchRestaurant.vue';
 import AboutUs from './pages/AboutUs.vue';
+import ProductList from './pages/AboutUs.vue';
 
 // CREIAMO IL ROUTER CON LE SUE ROTTE
 const router = createRouter({
@@ -27,7 +28,12 @@ const router = createRouter({
             name: 'about-us',
             component: AboutUs,
         },
-    
+        {
+            path: '/products',
+            name: 'products',
+            component: ProductList,
+        },
+
     ]
 
 })

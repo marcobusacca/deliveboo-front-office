@@ -50,49 +50,56 @@ export default {
     
 <template>
     <main>
-        <div class="container-fluid size-container">
-            <div class="container mt-5 pb-5">
+        <div class="container-fluid size-container py-5">
+            <div class="container main-container py-5 pb-5">
                 <div class="row">
                     <div class="col-12">
-                        <div class="container-text-main p-3 bg-white shadow mb-2">
+                        <div class="container-text-main card shadow p-3 bg-white shadow mb-2">
                             <div class="text-main px-4 py-2 shadow mb-2 text-white w-75">
                                 <h3>Scegli la tipologia di ristorante che vuoi ordinare</h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                        <div class="card my-3 card-size mx-3" v-for="(type, index) in types" :key="index">
-                            <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante"
-                                class="card-img-top" />
-                            <div class="card-body">
-                                <h5 class="card-title">{{ type.name }}</h5>
-                                <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                        <div class="card my-3 card-size mx-3" v-for="(item, index) in restaurants" :key="index">
-                            <img :src="`${store.baseUrl}/storage/${item.cover_image}`" alt="Immagine del ristorante"
-                                class="card-img-top" />
-                            <div class="card-body">
-                                <h5 class="card-title">{{ item.name }}</h5>
-                                <h6>{{ item.address }}</h6>
-                                <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
+                    <div class="col-12 card shadow">
+                        <div class="row justify-content-center">
+                            <div class="col-12 col-md-6 col-lg-2 d-flex " v-for="(type, index) in types" :key="index">
+                                <div class="card my-3">
+                                    <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante"/>
+                                    <div class="card-body">
+                                        <h5 class="card-title">{{ type.name }}</h5>
+                                        <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
+                    <div class="card my-3 card-size mx-3" v-for="(item, index) in restaurants" :key="index">
+                        <img :src="`${store.baseUrl}/storage/${item.cover_image}`" alt="Immagine del ristorante"
+                            class="card-img-top" />
+                        <div class="card-body">
+                            <h5 class="card-title">{{ item.name }}</h5>
+                            <h6>{{ item.address }}</h6>
+                            <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
     </main>
 </template>
     
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 
-.card-size {
-    width: 15rem;
-}
 
 .container-text-main {
     border-radius: 40px;
@@ -128,8 +135,7 @@ export default {
 
 
 .size-container {
-    padding-top: 150px;
-    background-image: url('../assets/bg-home/4.png');
+    background-image: url('../assets/bg-home/final-bg.png');
     background-size: cover;
     background-repeat: no-repeat;
 }

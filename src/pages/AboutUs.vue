@@ -1,11 +1,7 @@
 <script>
 import AppFooter from '../components/AppFooter.vue'
 export default {
-    name:'AboutUS',
-     components: {
-        
-        AppFooter
-    },
+    name: 'about-us'
 }
 </script>
 <template lang="">
@@ -68,65 +64,36 @@ export default {
 .
     
 <style lang="scss">
-    #about{
-        background:url(../assets/aboutsus/aboutus.png);
-    
-    }
-   .about-1{
-    margin: 30px;
-    padding: 5px;
-    h1{
-        text-align: center;
-        color: black;
-        font-weight: bold;
-    }
-    p{
-        text-align: center;
-        padding: 3px;
-        
-    }
-   }
-   .about-item{
-    min-height: 600px;
-    margin-bottom: 20px;
+.sfondo {
+    background-image: url('../assets/about-us/about-us.png');
+
+}
+
+hr {
+    width: 46px;
+    height: 3px;
+    background-color: rgb(9, 100, 13);
+    margin: 0 auto;
+    border: none;
+}
+
+p {
     margin-top: 20px;
-    background-color: #fff;
-    padding-top: 50px;
-    padding-bottom: 30px;
-    box-shadow: 0 0 9px rgb(9, 100, 13);
-    i{
-        font-size: 50px;
-        margin: 0;
-        margin-bottom: 20px;
-    }
-    h3{
-        font-size: 25px;
-        margin-bottom: 20px;
-    }
-    hr{
-        width: 46px;
-        height: 3px;
-        background-color: rgb(9, 100, 13);
-        margin: 0 auto;
-        border: none;
-    }
-    p{
-        margin-top: 20px;
-    }
-    
-   }
-   .about-item:hover{
-        background-color:rgb(9, 100, 13) ;
-    }
-    .about-item:hover i,
-    .about-item:hover h3,
-    .about-item:hover p{
-        color: #fff;
-    }
-    .about-item:hover hr{
-        background-color: white;
-    }
+}
 
-    
+}
 
+.about-item:hover {
+    background-color: rgb(9, 100, 13);
+}
+
+.about-item:hover i,
+.about-item:hover h3,
+.about-item:hover p {
+    color: #fff;
+}
+
+.about-item:hover hr {
+    background-color: white;
+}
 </style>

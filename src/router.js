@@ -22,9 +22,10 @@ const router = createRouter({
             component: AboutUs,
         },
         {
-            path: '/search-restaurant',
+            path: '/search-restaurant/:type_id',
             name: 'search-restaurant',
             component: SearchRestaurant,
+            props: true
         },
     ]
 

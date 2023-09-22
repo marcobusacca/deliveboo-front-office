@@ -52,20 +52,19 @@ export default {
     <div class="container-fluid size-container py-5">
         <div class="container main-container py-5 pb-5">
             <div class="row">
-                <div class="col-12">
-                    <div class="container-text-main card shadow p-3 bg-white shadow mb-2">
-                        <div class="text-main px-4 py-2 shadow mb-2 text-white w-75">
-                            <h3>Scegli la tipologia di ristorante che vuoi ordinare</h3>
-                        </div>
+                <div class="col-12 shadow">
+                    <div class="shadow p-3 bg-white shadow mb-2 carousel rounded-3">
+                        <h3>I nostri ristoranti</h3>
+                        <p>Stasera sushi, pizza o poke? Su Deliveboo trovi un'immensa selezione di cucine dal mondo. Lasciati ispirare.</p>
                     </div>
                 </div>
-                <div class="col-12 card shadow">
+                <div class="col-12 shadow">
                     <div class="row justify-content-center">
                         <div class="col-12 col-md-6 col-lg-2 d-flex " v-for="(type, index) in types" :key="index">
-                            <div class="card my-3">
+                            <div class="card big-card my-3 rounded-5 rounded-top-0">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ type.name }}</h5>
+                                <div class="card-body deliveboo-orange rounded-5 rounded-top-0">
+                                    <h5 class="card-title text-white text-center">{{ type.name }}</h5>
                                     <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                                 </div>
                             </div>
@@ -95,27 +94,35 @@ export default {
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 
+.carousel{
+    background-color: rgba(255, 255, 255, 0.075);
 
-.container-text-main {
-    border-radius: 40px;
+}
+
+
+.card {
+    transition: transform 0.1s ease; /* Aggiungi una transizione per la trasformazione (ingrandimento) */
+}
+
+.card:hover {
+    transform: scale(1.05); /* Aumenta la scala dell'intera card al passaggio del mouse */
+}
+
+.card-body {
+  background-color: transparent; /* Imposta il colore di sfondo iniziale */
+  transition: background-color 0.5s ease; /* Aggiungi una transizione */
+  
+}
+
+.card:hover .card-body {
+  background-color: #90BB3F; /* O il colore che desideri */
+  
 }
 
 .text-main {
     border: 1px solid rgb(95, 95, 95);
     border-radius: 40px;
     background-color: #FF8100;
-}
-
-.type-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #333;
-}
-
-.type-description {
-    font-size: 1em;
-    line-height: 1.6;
-    color: #555;
 }
 
 

@@ -1,6 +1,6 @@
 <script>
 export default {
-    name:'AboutUS'
+    name:'About-us'
 }
 </script>
 <template lang="">
@@ -81,8 +81,7 @@ export default {
 </template>
 <style lang="scss">
     .sfondo{
-        background-image:url('../assets/aboutsus/aboutus.png') ;
-        max-height: 100vh;
+        background-image:url('../assets/about-us/about-us.png') ;
         
     }
     .blocco{

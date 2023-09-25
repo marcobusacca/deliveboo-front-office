@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 // IMPORTARE TUTTE LE PAGINE DALLA CARTELLA "PAGES"
 import HomePage from './pages/HomePage.vue';
 import AboutUs from './pages/AboutUs.vue';
-import SearchRestaurant from './pages/SearchRestaurant.vue';
 import Restaurant from './pages/Restaurant.vue';
 
 
@@ -24,15 +23,10 @@ const router = createRouter({
             component: AboutUs,
         },
         {
-            path: '/restaurants/:type_id',
-            name: 'search-restaurant',
-            component: SearchRestaurant,
-            props: true
-        },
-        {
-            path: '/restaurant',
+            path: '/restaurants/:slug',
             name: 'restaurant',
             component: Restaurant,
+            props: true
         },
     ]
 

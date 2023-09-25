@@ -66,14 +66,15 @@ export default {
                         </div>
                     </div>
                     <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                        <div class="card my-3 card-size mx-3" v-for="(restaurant, index) in restaurants" :key="index">
+                        <router-link class="card my-3 card-size mx-3" v-for="(restaurant, index) in restaurants"
+                            :key="index" :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
                             <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" alt="Immagine del ristorante"
                                 class="card-img-top" />
                             <div class="card-body">
                                 <h5 class="card-title">{{ restaurant.name }}</h5>
                                 <h6>{{ restaurant.address }}</h6>
                             </div>
-                        </div>
+                        </router-link>
                     </div>
                 </div>
             </div>

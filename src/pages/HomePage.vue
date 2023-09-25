@@ -7,6 +7,8 @@ export default {
         return {
             store,
             types: [],
+            selectedType: null,
+            restaurants: [],
         }
     },
     mounted() {
@@ -14,15 +16,29 @@ export default {
     },
     methods: {
         getRestaurantTypes() {
-            axios.get(`${store.baseUrl}/api/types`).then((response) => {
-                this.types = response.data.results;
-            }).catch((error) => {
-                console.error('Errore nella chiamata API:', error);
-            });
+            axios.get(`${store.baseUrl}/api/types`)
+                .then((response) => {
+                    this.types = response.data.results;
+                })
+                .catch((error) => {
+                    console.error('Errore nella chiamata API:', error);
+                });
         },
+        showRestaurants(typeId) {
+            axios.get(`${store.baseUrl}/api/types/${typeId}`)
+                .then(response => {
+                    const restaurants = response.data.results.type.restaurants;
+                    const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id)))
+                        .map(id => restaurants.find(r => r.id === id));
+                    this.selectedType = response.data.results.type_id;
+                    this.restaurants = uniqueRestaurants;
+                })
+        }
+
     }
 }
 </script>
+
     
 <template>
     <div class="container-fluid size-container py-5">
@@ -37,25 +53,42 @@ export default {
                 </div>
                 <div class="col-12 shadow">
                     <div class="row justify-content-center">
-                        <router-link class="col-12 col-md-6 col-lg-2 d-flex" v-for="type in types" :key="type.id"
-                            :to="{ name: 'search-restaurant', params: { type_id: type.id } }">
-                            <div class="card my-3">
+                        <div class="col-12 col-md-6 col-lg-2 d-flex" v-for="type in types" :key="type.id"
+                            @click="showRestaurants(type.id)">
+                            <div class="card my-3 border-0">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
                                 <div class="card-body deliveboo-orange rounded-5 rounded-top-0">
                                     <h5 class="card-title text-white text-center">{{ type.name }}</h5>
                                     <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                                 </div>
                             </div>
-                        </router-link>
+
+                        </div>
+                    </div>
+                    <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
+                        <div class="card my-3 card-size mx-3" v-for="(restaurant, index) in restaurants" :key="index">
+                            <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" alt="Immagine del ristorante"
+                                class="card-img-top" />
+                            <div class="card-body">
+                                <h5 class="card-title">{{ restaurant.name }}</h5>
+                                <h6>{{ restaurant.address }}</h6>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+
+
     
 <style lang="scss">
 @use '../styles/generals.scss' as *;
+
+.card-size {
+    width: 20rem;
+}
 
 .carousel {
     background-color: rgba(255, 255, 255, 0.075);
@@ -117,4 +150,5 @@ export default {
         background-color: white;
         border-radius: 10px;
     }
-}</style>
+}
+</style>      

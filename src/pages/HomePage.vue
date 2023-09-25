@@ -141,6 +141,7 @@ export default {
     background-image: url('../assets/bg-home/final-bg.png');
     background-size: cover;
     background-repeat: no-repeat;
+    width: 100%;
 }
 
 .bg-orange {

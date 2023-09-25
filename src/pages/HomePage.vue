@@ -1,14 +1,18 @@
 <script>
 import { store } from '../store';
 import axios from 'axios';
+import AppLoader from '../components/AppLoader.vue';
 
 export default {
+    components: {
+        AppLoader
+
+    },
     data() {
         return {
             store,
             types: [],
-            selectedType: null,
-            restaurants: [],
+
         }
     },
     mounted() {
@@ -16,23 +20,23 @@ export default {
     },
     methods: {
         getRestaurantTypes() {
-            axios.get(`${store.baseUrl}/api/types`)
-                .then((response) => {
-                    this.types = response.data.results;
-                })
-                .catch((error) => {
-                    console.error('Errore nella chiamata API:', error);
-                });
+            this.store.loading = true;
+            axios.get(`${store.baseUrl}/api/types`).then((response) => {
+                this.types = response.data.results;
+                this.store.loading = false;
+            }).catch((error) => {
+                console.error('Errore nella chiamata API:', error);
+
+            });
         },
         showRestaurants(typeId) {
-            axios.get(`${store.baseUrl}/api/types/${typeId}`)
-                .then(response => {
-                    const restaurants = response.data.results.type.restaurants;
-                    const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id)))
-                        .map(id => restaurants.find(r => r.id === id));
-                    this.selectedType = response.data.results.type_id;
-                    this.restaurants = uniqueRestaurants;
-                })
+            axios.get(`${store.baseUrl}/api/types/${typeId}`).then(response => {
+                const restaurants = response.data.results.type.restaurants;
+                const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id)))
+                    .map(id => restaurants.find(r => r.id === id));
+                this.selectedType = response.data.results.type_id;
+                this.restaurants = uniqueRestaurants;
+            })
         }
 
     }
@@ -41,7 +45,8 @@ export default {
 
     
 <template>
-    <div class="container-fluid size-container py-5">
+    <AppLoader v-if="store.loading" />
+    <div class="container-fluid size-container py-5" v-if="!store.loading">
         <div class="container main-container py-5 pb-5">
             <div class="row">
                 <div class="col-12 shadow">
@@ -53,17 +58,17 @@ export default {
                 </div>
                 <div class="col-12 shadow">
                     <div class="row justify-content-center">
-                        <div class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type, index) in types" :key="index"
-                            @click="showRestaurants(type.id)">
-                            <div class="card my-3 border-0">
+
+                        <router-link class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type, index) in types" :key="index"
+                            :to="{ name: 'search-restaurant', params: { type_id: type.id } }">
+                            <div class="card my-3">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
                                 <div class="card-body deliveboo-orange rounded-5 rounded-top-0">
                                     <h5 class="card-title text-white text-center">{{ type.name }}</h5>
                                     <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                                 </div>
                             </div>
-
-                        </div>
+                        </router-link>
                     </div>
                     <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
                         <router-link class="card my-3 card-size mx-3" v-for="(restaurant, index) in restaurants"

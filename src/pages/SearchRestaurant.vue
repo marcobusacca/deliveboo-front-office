@@ -2,9 +2,11 @@
 <script>
 import { store } from '../store';
 import axios from 'axios';
+
 export default {
     data() {
         return {
+           
             store,
             restaurants: []
         }
@@ -30,6 +32,7 @@ export default {
 </script>
 
 <template>
+
     <div class="container">
         <div class="row d-flex flex-column align-items-center">
             <div class="col-12 d-flex flex-row justify-content-center flex-wrap" v-if="restaurants.length > 0">

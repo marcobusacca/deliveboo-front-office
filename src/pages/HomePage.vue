@@ -1,12 +1,18 @@
 <script>
 import { store } from '../store';
 import axios from 'axios';
+import AppLoader from '../components/AppLoader.vue';
 
 export default {
+    components:{
+        AppLoader
+
+    },
     data() {
         return {
             store,
             types: [],
+            
         }
     },
     mounted() {
@@ -14,10 +20,13 @@ export default {
     },
     methods: {
         getRestaurantTypes() {
+            this.store.loading = true;
             axios.get(`${store.baseUrl}/api/types`).then((response) => {
                 this.types = response.data.results;
+                this.store.loading = false;
             }).catch((error) => {
                 console.error('Errore nella chiamata API:', error);
+                
             });
         },
     }
@@ -25,7 +34,9 @@ export default {
 </script>
     
 <template>
-    <div class="container-fluid size-container py-5">
+    <AppLoader v-if="store.loading"/>
+    <div  class="container-fluid size-container py-5" v-if="!store.loading">
+        
         <div class="container main-container py-5 pb-5">
             <div class="row">
                 <div class="col-12 shadow">
@@ -37,7 +48,8 @@ export default {
                 </div>
                 <div class="col-12 shadow">
                     <div class="row justify-content-center">
-                        <router-link class="col-12 col-md-6 col-lg-2 d-flex" v-for="type in types" :key="type.id"
+                        
+                        <router-link class="col-12 col-md-6 col-lg-2 d-flex"  v-for="type in types" :key="type.id"
                             :to="{ name: 'search-restaurant', params: { type_id: type.id } }">
                             <div class="card my-3">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />

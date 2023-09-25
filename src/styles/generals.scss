@@ -7,45 +7,36 @@
     box-sizing: border-box;
 }
 
-// UTILITIES
-
-    .deliveboo-orange{
-        background-color: #FF8100;
-
-    }
-
-    .deliveboo-green{
-        background-color: #90BB3F;
-
-    }
-
-
-// END UTILITIES
-
 // HEADER
 
-.navbar {
+header {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
     background-color: #FF8100;
-}
 
-.top-bar {
-    height: 75px;
-}
+    .navbar-container-fluid {
+        padding: 0 20px;
 
-.logo-deliveboo {
-    width: 150px;
+        .logo-deliveboo {
+            width: 150px;
+        }
+
+        .navbar-item {
+            padding: 20px 0;
+        }
+    }
+
 }
 
 // END HEADER
 
-//FOOTER
 
+// FOOTER
 
 .google-apple {
     width: 150px;
 }
-
-//PAYMENTS LOGO
 
 .visa-logo {
     width: 40px;
@@ -59,11 +50,64 @@
     width: 70px;
 }
 
-//END PAYMENTS LOGO
+// END FOOTER
 
-//END FOOTER
 
-// MEDIA QUERY COMPONENTE SLIDER
+// UTILITIES
+
+.deliveboo-orange {
+    background-color: #FF8100;
+
+}
+
+.deliveboo-green {
+    background-color: #90BB3F;
+
+}
+
+// END UTILITIES
+
+
+
+// MEDIA QUERY
+
+@media screen and (min-width: 992px) {
+
+    // HEADER
+
+    header {
+        height: 80px;
+
+        .navbar-container-fluid {
+            padding: 0 3rem;
+
+            .navbar-nav {
+                width: 100%;
+                justify-content: end;
+            }
+
+            .navbar-item {
+                padding: 0;
+            }
+        }
+    }
+
+    // END HEADER
+
+
+    // MAIN
+
+    main {
+        padding-top: 80px;
+    }
+
+    // END MAIN
+}
+
+// MEDIA QUERY
+
+/************************************************************************/
+// MEDIA QUERY SLIDER
 @media screen and (min-width: 576px) and (max-width: 767px) {
     .carousel-image {
         max-width: 180px;
@@ -88,4 +132,6 @@
     }
 }
 
-// FINE MEDIA QUERY
+// END MEDIA QUERY SLIDER
+
+/************************************************************************/

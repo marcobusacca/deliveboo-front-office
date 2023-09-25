@@ -4,13 +4,11 @@ import { store } from './store';
 
 import AppHeader from './components/AppHeader.vue';
 import AppFooter from './components/AppFooter.vue';
-import Cart from './components/Cart.vue';
 
 export default {
     components: {
         AppHeader,
         AppFooter,
-        Cart,
     },
     data() {
         return {
@@ -27,7 +25,6 @@ export default {
         <router-view></router-view>
     </main>
     <AppFooter />
-    <Cart v-if="store.showCart" />
 </template>
 
 <!-- STYLE SCSS -->

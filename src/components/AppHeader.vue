@@ -15,7 +15,7 @@ export default {
         <nav class="navbar navbar-expand-lg shadow p-0 h-100">
             <div class="container-fluid navbar-container-fluid h-100">
                 <!-- Navbar Logo -->
-                <a class="navbar-brand" href="">
+                <a class="navbar-brand" href="/">
                     <img class="logo-deliveboo" src="../assets/deliveboo-1.png" alt="deliveboo-logo">
                 </a>
                 <!-- Navbar Hamburger -->
@@ -43,13 +43,43 @@ export default {
 // IMPORTO GENERALS.SCSS
 @use '../styles/generals.scss' as *;
 
-.color {
+header {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
     background-color: #FF8100;
+
+    .navbar-container-fluid {
+        padding: 0 20px;
+
+        .logo-deliveboo {
+            width: 150px;
+        }
+
+        .navbar-item {
+            padding: 20px 0;
+        }
+    }
+
 }
 
-.logo {
-    img {
-        width: 150px;
+@media screen and (min-width: 992px) {
+
+    header {
+        height: 80px;
+
+        .navbar-container-fluid {
+            padding: 0 3rem;
+
+            .navbar-nav {
+                width: 100%;
+                justify-content: end;
+            }
+
+            .navbar-item {
+                padding: 0;
+            }
+        }
     }
 }
 </style>

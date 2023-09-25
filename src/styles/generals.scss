@@ -7,51 +7,6 @@
     box-sizing: border-box;
 }
 
-// HEADER
-
-header {
-    position: fixed;
-    z-index: 1;
-    width: 100%;
-    background-color: #FF8100;
-
-    .navbar-container-fluid {
-        padding: 0 20px;
-
-        .logo-deliveboo {
-            width: 150px;
-        }
-
-        .navbar-item {
-            padding: 20px 0;
-        }
-    }
-
-}
-
-// END HEADER
-
-
-// FOOTER
-
-.google-apple {
-    width: 150px;
-}
-
-.visa-logo {
-    width: 40px;
-}
-
-.paypal-logo {
-    width: 70px;
-}
-
-.master-logo {
-    width: 70px;
-}
-
-// END FOOTER
-
 
 // UTILITIES
 
@@ -67,44 +22,6 @@ header {
 
 // END UTILITIES
 
-
-
-// MEDIA QUERY
-
-@media screen and (min-width: 992px) {
-
-    // HEADER
-
-    header {
-        height: 80px;
-
-        .navbar-container-fluid {
-            padding: 0 3rem;
-
-            .navbar-nav {
-                width: 100%;
-                justify-content: end;
-            }
-
-            .navbar-item {
-                padding: 0;
-            }
-        }
-    }
-
-    // END HEADER
-
-
-    // MAIN
-
-    main {
-        padding-top: 80px;
-    }
-
-    // END MAIN
-}
-
-// MEDIA QUERY
 
 /************************************************************************/
 // MEDIA QUERY SLIDER

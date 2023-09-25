@@ -24,4 +24,10 @@ export default {
 <style lang="scss">
 // IMPORTO GENERALS.SCSS
 @use './styles/generals.scss' as *;
+
+@media screen and (min-width: 992px) {
+    main {
+        padding-top: 80px;
+    }
+}
 </style>

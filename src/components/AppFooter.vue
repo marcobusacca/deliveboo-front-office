@@ -84,7 +84,7 @@ export default {
                         <div class="text-center text-md-start">
                             <span style="color: #FF8100;"><strong>Scarica le nostre app e seguici</strong></span>
                             <div class="container-google-apple d-flex justify-content-center justify-content-md-start">
-                                <img src="../assets/goo-app.png" class="google-apple">
+                                <img src="../assets/footer-img/goo-app.png" class="google-apple" alt="">
                             </div>
                         </div>
                     </div>
@@ -93,7 +93,7 @@ export default {
                         <div class="container-seguici text-center text-md-end">
                             <span style="color: #FF8100;"><strong>Seguici</strong></span>
                             <div class="container-loghi-social d-flex justify-content-center justify-content-md-end">
-                                <a href="/"><img src="../assets/loghi-social.png" class="img-fluid"></a>
+                                <a href="#"><img src="../assets/footer-img/loghi-social.png" class="img-fluid" alt=""></a>
                             </div>
                         </div>
                     </div>
@@ -115,19 +115,19 @@ export default {
                         <div class="container-payments py-2">
                             <ul
                                 class="list-group list-group-horizontal list-unstyled d-flex justify-content-center justify-content-md-end">
-                                <li class="text-lg-end px-2 mb-2">
-                                    <a href="/">
-                                        <img src="../assets/paypal.png" class="py-2 paypal-logo">
-                                    </a>
-                                </li>
-                                <li class="text-lg-end px-2 mb-2">
-                                    <a href="/">
-                                        <img src="../assets/visa.png" class="visa-logo">
-                                    </a>
-                                </li>
                                 <li class="text-lg-end mb-2">
-                                    <a href="/">
-                                        <img src="../assets/mastercard.png" class="master-logo py-2">
+                                    <a href="">
+                                        <img src="../assets/footer-img/mastercard.png" class="master-logo py-2" alt="">
+                                    </a>
+                                </li>
+                                <li class="text-lg-end px-2 mb-2">
+                                    <a href="">
+                                        <img src="../assets/footer-img/paypal.png" class="py-2 paypal-logo" alt="">
+                                    </a>
+                                </li>
+                                <li class="text-lg-end px-2 mb-2">
+                                    <a href="">
+                                        <img src="../assets/footer-img/visa.png" class="visa-logo" alt="">
                                     </a>
                                 </li>
                             </ul>

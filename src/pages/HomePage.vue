@@ -68,9 +68,9 @@ export default {
                         <!-- Restaurants Types Card -->
                         <div class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type, index) in types" :key="type.id"
                             @click="showRestaurants(type.id)">
-                            <div class="card border-0 my-3">
+                            <div class="card card-type border-0 my-3">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
-                                <div class="card-body deliveboo-orange rounded-5 rounded-top-0">
+                                <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
                                     <h5 class="card-title text-white text-center">{{ type.name }}</h5>
                                     <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                                 </div>
@@ -78,8 +78,9 @@ export default {
                         </div>
                         <!-- Selected Restaurants Card -->
                         <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                            <router-link class="card my-3 card-size mx-3" v-for="(restaurant, index) in restaurants"
-                                :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
+                            <router-link class="card my-3 card-size mx-3 text-decoration-none"
+                                v-for="(restaurant, index) in restaurants" :key="index"
+                                :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
                                 <!-- Restaurants Card Image -->
                                 <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`"
                                     :alt="`${restaurant.slug}-image`" class="card-img-top" v-if="restaurant.cover_image" />
@@ -111,17 +112,17 @@ export default {
 
 }
 
-.card {
+.card-type {
     transition: transform 0.1s ease;
     /* Aggiungi una transizione per la trasformazione (ingrandimento) */
 }
 
-.card:hover {
+.card-type:hover {
     transform: scale(1.05);
     /* Aumenta la scala dell'intera card al passaggio del mouse */
 }
 
-.card-body {
+.card-body-type {
     background-color: transparent;
     /* Imposta il colore di sfondo iniziale */
     transition: background-color 0.5s ease;
@@ -129,7 +130,7 @@ export default {
 
 }
 
-.card:hover .card-body {
+.card-type:hover .card-body-type {
     background-color: #90BB3F;
     /* O il colore che desideri */
 

@@ -38,11 +38,12 @@ export default {
                                 <a href="/about-us" class="text-decoration-none" style="color: #4f4f4f;">Chi siamo</a>
                             </li>
                             <li class="">
-                                <a href="" class="text-decoration-none" style="color: #4f4f4f;">Visualizza tutti i
+                                <a href="/" class="text-decoration-none" style="color: #4f4f4f;">Visualizza tutti i
                                     risoranti</a>
                             </li>
                             <li class="">
-                                <a href="" class="text-decoration-none" style="color: #4f4f4f;">Lavora con noi</a>
+                                <a href="http://127.0.0.1:8000" class="text-decoration-none" style="color: #4f4f4f;">Lavora
+                                    con noi</a>
                             </li>
                         </ul>
                     </div>
@@ -53,8 +54,8 @@ export default {
                         class="content py-3 d-flex justify-content-center justify-content-md-center text-center text-md-start">
                         <ul class="list-unstyled mb-0">
                             <li class="mb-3" style="letter-spacing: 2px; color: #FF8100;"><strong>Ristoranti</strong></li>
-                            <a class="text-decoration-none d-block mb-1" href="" v-for="(type, index) in types" :key="index"
-                                style="color: #4f4f4f">
+                            <a class="text-decoration-none d-block mb-1" href="/" v-for="(type, index) in types"
+                                :key="index" style="color: #4f4f4f">
                                 {{ type.name }}
                             </a>
                         </ul>
@@ -67,7 +68,7 @@ export default {
                         <ul class="list-unstyled mb-0">
                             <li style="letter-spacing: 2px; color: #FF8100;"><strong>Città</strong></li>
                             <li class="mt-3 ">
-                                <a href="" class="text-decoration-none" style="color: #4f4f4f;">Milano</a>
+                                <a href="/" class="text-decoration-none" style="color: #4f4f4f;">Milano</a>
                             </li>
                         </ul>
                     </div>
@@ -92,7 +93,7 @@ export default {
                         <div class="container-seguici text-center text-md-end">
                             <span style="color: #FF8100;"><strong>Seguici</strong></span>
                             <div class="container-loghi-social d-flex justify-content-center justify-content-md-end">
-                                <a href=""><img src="../assets/loghi-social.png" class="img-fluid"></a>
+                                <a href="/"><img src="../assets/loghi-social.png" class="img-fluid"></a>
                             </div>
                         </div>
                     </div>
@@ -114,19 +115,19 @@ export default {
                         <div class="container-payments py-2">
                             <ul
                                 class="list-group list-group-horizontal list-unstyled d-flex justify-content-center justify-content-md-end">
+                                <li class="text-lg-end px-2 mb-2">
+                                    <a href="/">
+                                        <img src="../assets/paypal.png" class="py-2 paypal-logo">
+                                    </a>
+                                </li>
+                                <li class="text-lg-end px-2 mb-2">
+                                    <a href="/">
+                                        <img src="../assets/visa.png" class="visa-logo">
+                                    </a>
+                                </li>
                                 <li class="text-lg-end mb-2">
-                                    <a href="">
-                                        <img src="../assets/mastercard.png" class="master-logo py-2" alt="">
-                                    </a>
-                                </li>
-                                <li class="text-lg-end px-2 mb-2">
-                                    <a href="">
-                                        <img src="../assets/paypal.png" class="py-2 paypal-logo" alt="">
-                                    </a>
-                                </li>
-                                <li class="text-lg-end px-2 mb-2">
-                                    <a href="">
-                                        <img src="../assets/visa.png" class="visa-logo" alt="">
+                                    <a href="/">
+                                        <img src="../assets/mastercard.png" class="master-logo py-2">
                                     </a>
                                 </li>
                             </ul>

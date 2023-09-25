@@ -30,14 +30,13 @@ export default {
             });
         },
         showRestaurants(typeId) {
-            axios.get(`${store.baseUrl}/api/types/${typeId}`)
-                .then(response => {
-                    const restaurants = response.data.results.type.restaurants;
-                    const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id)))
-                        .map(id => restaurants.find(r => r.id === id));
-                    this.selectedType = response.data.results.type_id;
-                    this.restaurants = uniqueRestaurants;
-                })
+            axios.get(`${store.baseUrl}/api/types/${typeId}`).then(response => {
+                const restaurants = response.data.results.type.restaurants;
+                const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id)))
+                    .map(id => restaurants.find(r => r.id === id));
+                this.selectedType = response.data.results.type_id;
+                this.restaurants = uniqueRestaurants;
+            })
         }
 
     }
@@ -48,7 +47,6 @@ export default {
 <template>
     <AppLoader v-if="store.loading" />
     <div class="container-fluid size-container py-5" v-if="!store.loading">
-
         <div class="container main-container py-5 pb-5">
             <div class="row">
                 <div class="col-12 shadow">
@@ -61,7 +59,7 @@ export default {
                 <div class="col-12 shadow">
                     <div class="row justify-content-center">
 
-                        <router-link class="col-12 col-md-6 col-lg-2 d-flex" v-for="type in types" :key="type.id"
+                        <router-link class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type, index) in types" :key="index"
                             :to="{ name: 'search-restaurant', params: { type_id: type.id } }">
                             <div class="card my-3">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
@@ -70,7 +68,7 @@ export default {
                                     <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                                 </div>
                             </div>
-
+                        </router-link>
                     </div>
                 </div>
                 <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
@@ -86,7 +84,7 @@ export default {
             </div>
         </div>
     </div>
-</div></template>
+</template>
 
 
     

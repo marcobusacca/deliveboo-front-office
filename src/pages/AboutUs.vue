@@ -15,7 +15,7 @@ export default {
             <div class="content-box-lg">
                 <div class="container">
                     <div class="row">
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12">
                             <div class="about-item text-center">
                                 <i class="fa-solid fa-timeline"></i>
                                 <h3>LA NOSTRA STORIA</h3>
@@ -25,7 +25,7 @@ export default {
                                 </p>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12">
                             <div class="about-item text-center">
                                 <i class="fa-solid fa-users"></i>
                                 <h3>CONSUMATORI</h3>
@@ -37,7 +37,7 @@ export default {
                                 </p>
                             </div>
                         </div>
-                        <div class="col-12 col-lg-4">
+                        <div class="col-12">
                             <div class="about-item text-center">
                                 <i class="fa-solid fa-person-biking"></i>
                                 <h3>RIDER</h3>

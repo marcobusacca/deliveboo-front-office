@@ -79,9 +79,11 @@ export default {
                         <!-- Selected Restaurants Card -->
                         <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
                             <router-link class="card my-3 card-size mx-3" v-for="(restaurant, index) in restaurants"
-                                :key="index" :to="{ name: 'restaurant', params: { slug: restaurant.slug } }">
+                                :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
+                                <!-- Restaurants Card Image -->
                                 <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`"
-                                    alt="Immagine del ristorante" class="card-img-top" />
+                                    :alt="`${restaurant.slug}-image`" class="card-img-top" v-if="restaurant.cover_image" />
+                                <!-- Restaurants Card Body -->
                                 <div class="card-body">
                                     <h5 class="card-title">{{ restaurant.name }}</h5>
                                     <h6>{{ restaurant.address }}</h6>
@@ -108,7 +110,6 @@ export default {
     background-color: rgba(255, 255, 255, 0.075);
 
 }
-
 
 .card {
     transition: transform 0.1s ease;
@@ -149,7 +150,6 @@ export default {
         top: 50%;
     }
 }
-
 
 .size-container {
     background-image: url('../assets/bg-home/final-bg.png');

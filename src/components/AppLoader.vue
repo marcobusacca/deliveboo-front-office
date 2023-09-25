@@ -7,10 +7,12 @@ export default {
     <div class="center">
         <div class="ring">
         </div>
-        <span>loading...</span>
+        <span class="loader-text">loading...</span>
     </div>
 </template>
 <style lang="scss">
+@use '../styles/generals.scss' as *;
+
 .center {
     background-image: url('../assets/bg-home/final-bg.png');
     background-size: cover;
@@ -48,13 +50,11 @@ export default {
     }
 }
 
-span {
+.loader-text {
     color: orangered;
     font-size: 20px;
     text-transform: uppercase;
     letter-spacing: 1px;
     line-height: 200px;
-
-
 }
 </style>

@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // IMPORTARE TUTTE LE PAGINE DALLA CARTELLA "PAGES"
 import HomePage from './pages/HomePage.vue';
 import AboutUs from './pages/AboutUs.vue';
-import Restaurant from './pages/Restaurant.vue';
+import SingleRestaurant from './pages/SingleRestaurant.vue';
 
 
 // CREIAMO IL ROUTER CON LE SUE ROTTE
@@ -24,8 +24,8 @@ const router = createRouter({
         },
         {
             path: '/restaurants/:slug',
-            name: 'restaurant',
-            component: Restaurant,
+            name: 'single-restaurant',
+            component: SingleRestaurant,
             props: true
         },
     ]

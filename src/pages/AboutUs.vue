@@ -4,16 +4,18 @@ export default {
 </script>
 
 <template lang="">
-    <section id="about">
-        <div class="about-1 text-white">
-            <h1 class="text-white">CHI SIAMO</h1>
-            <p>
-                In Deliveroo i nostri valori sono al centro di tutto ciò che facciamo. Sono la nostra cultura, la nostra mentalità e l’espressione di ciò che siamo come persone e come azienda quando diamo il meglio di noi. Considerateli come i nostri principi guida. Stabiliscono gli standard su come facciamo le cose, dal modo in cui ci parliamo, alle decisioni che prendiamo e persino alle persone che introduciamo nel team. In parole povere, sono la nostra tabella di marcia per ciò che è possibile.
-            </p>
-        </div>
-        <div id="about-2">
-            <div class="content-box-lg">
-                <div class="container">
+    <div class="container py-5">
+        <div class="row py-5">
+            <div class="col-12">
+                <div class="about-1">
+                    <h1>CHI SIAMO</h1>
+                    <p>
+                        In Deliveroo i nostri valori sono al centro di tutto ciò che facciamo. Sono la nostra cultura, la nostra mentalità e l’espressione di ciò che siamo come persone e come azienda quando diamo il meglio di noi. Considerateli come i nostri principi guida. Stabiliscono gli standard su come facciamo le cose, dal modo in cui ci parliamo, alle decisioni che prendiamo e persino alle persone che introduciamo nel team. In parole povere, sono la nostra tabella di marcia per ciò che è possibile.
+                    </p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div id="about-2">
                     <div class="row">
                         <div class="col-12">
                             <div class="about-item text-center">
@@ -53,15 +55,12 @@ export default {
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 </template>
 
     
 <style lang="scss">
-#about {
-    background: url(../assets/about-us-img/about-us.png);
-
-}
+@use '../styles/generals.scss' as *;
 
 .about-1 {
     padding: 15px;

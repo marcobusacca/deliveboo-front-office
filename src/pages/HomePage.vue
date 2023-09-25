@@ -37,7 +37,7 @@ export default {
                 </div>
                 <div class="col-12 shadow">
                     <div class="row justify-content-center">
-                        <router-link class="col-12 col-md-6 col-lg-2 d-flex" v-for="type in types" :key="type.id"
+                        <router-link class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type, index) in types" :key="index"
                             :to="{ name: 'search-restaurant', params: { type_id: type.id } }">
                             <div class="card my-3">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
@@ -117,4 +117,5 @@ export default {
         background-color: white;
         border-radius: 10px;
     }
-}</style>
+}
+</style>

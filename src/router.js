@@ -3,7 +3,6 @@ import { createRouter, createWebHistory } from 'vue-router';
 // IMPORTARE TUTTE LE PAGINE DALLA CARTELLA "PAGES"
 import HomePage from './pages/HomePage.vue';
 import AboutUs from './pages/AboutUs.vue';
-import SearchRestaurant from './pages/SearchRestaurant.vue';
 import Restaurant from './pages/Restaurant.vue';
 
 

@@ -104,13 +104,15 @@ export default {
                     <div class="card">
                         <div v-if="cart.length > 0">
                             <h1>Il tuo carrello</h1>
-                            <div class="card-body d-flex justify-content-around align-items-center">
-                                <h5 v-for="(item, index) in cartWithQuantity" :key="index">
-                                    {{ item.product.name }} x{{ item.quantity }}
-                                </h5>
-                                <button @click="removeFromCart(index)" class="btn">
-                                    <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
-                                </button>
+                            <div class="card-body">
+                                <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
+                                    <h5 class="d-inline-block">
+                                        {{ item.product.name }} x{{ item.quantity }}
+                                    </h5>
+                                    <!-- <button @click="removeFromCart(index)" class="btn">
+                                        <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
+                                    </button> -->
+                                </div>
                             </div>
                             <h4>Totale: {{ totalAmount }} €</h4>
                             <button class="btn btn-success my-2">Vai al checkout</button>
@@ -131,7 +133,7 @@ export default {
                 <div class="cartel-mobile mb-2">
                     <div class="badge bg-primary rounded-pill px-2">
                         <i class="fa-solid fa-basket-shopping px-2"></i>
-                        <span>14</span>
+                        <!-- <span>14</span> -->
                     </div>
                     <span class="px-2">Hai ordinato tot prezzo</span>
                 </div>
@@ -150,28 +152,25 @@ export default {
         <div class="offcanvas-body">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div v-if="cart.length > 0">
-                        <h1>Il tuo carrello</h1>
-                        <div class="card-body d-flex justify-content-around align-items-center">
-                            <h5 v-for="(item, index) in cartWithQuantity" :key="index">
-                                {{ item.product.name }} x{{ item.quantity }}
-                            </h5>
-                            <button @click="removeFromCart(index)" class="btn">
-                                <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
-                            </button>
+                    <div class="card-body">
+                        <div class="text-center my-5" v-if="cart.length > 0" v-for="(item, index) in cartWithQuantity"
+                            :key="index">
+                            <h5 class="d-inline-block">{{ item.product.name }} x{{ item.quantity }}</h5>
+                            <!-- <button @click="removeFromCart(index)" class="btn">
+                                    <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
+                                </button> -->
                         </div>
-                        <h4>Totale: {{ totalAmount }} €</h4>
-                        <button class="btn btn-success my-2">Vai al checkout</button>
-                    </div>
-                    <div class="p-5" v-else>
-                        <h3>Il carrello è vuoto</h3>
+                        <div class="text-center p-5" v-else>
+                            <h3>Il carrello è vuoto</h3>
+                        </div>
+                        <h4 class="text-center mt-5" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12">
-                        <button class="btn btn-primary p-3 w-100 mt-3">
-                            Effettua pagamento
-                        </button>
+                    <div class="col-12 text-center my-3">
+                        <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci il
+                            carrello</button>
+                        <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
                     </div>
                 </div>
             </div>

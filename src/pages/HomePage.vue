@@ -108,6 +108,9 @@ export default {
                         <!-- Restaurants Card Image -->
                         <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" :alt="`${restaurant.slug}-image`"
                             class="card-img-top" v-if="restaurant.cover_image" />
+
+                        <!-- Placeholder Image -->
+                        <img src="../assets/placeholder-image.jpg" alt="placeholder-image" class="card-img-top" v-else />
                         <!-- Restaurants Card Body -->
                         <div class="card-body">
                             <h5 class="card-title">{{ restaurant.name }}</h5>

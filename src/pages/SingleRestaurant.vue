@@ -4,9 +4,7 @@ import { store } from '../store';
 import axios from 'axios';
 
 export default {
-    props: [
-        'slug'
-    ],
+    props: ['slug'],
     data() {
         return {
             store,
@@ -30,16 +28,16 @@ export default {
     },
     methods: {
         getProducts(slug) {
+            store.loading = true;
             axios.get(`${store.baseUrl}/api/restaurants/${slug}`).then(response => {
-
                 if (response.data.success) {
-
+                    store.loading = false
                     this.restaurant = response.data.results;
                     this.products = response.data.results.products;
-
                 } else {
                     this.$router.push({ name: 'not-found' });
                 }
+
             });
         },
         addToCart(product) {
@@ -57,12 +55,16 @@ export default {
                     alert(`Hai raggiunto la quantità massima per ${product.name}`);
                 }
             } else {
-                this.cart.push({
-                    ...product,
-                    quantity: 1,
-                    id: product.id,
-                    restaurantId: this.restaurant.id,
-                });
+                if (this.cart.length < this.maxQuantity) {
+                    this.cart.push({
+                        ...product,
+                        quantity: 1,
+                        id: product.id,
+                        restaurantId: this.restaurant.id,
+                    });
+                } else {
+                    alert(`Hai raggiunto la quantità massima per ${product.name}`);
+                }
             }
         },
         removeFromCart(id) {
@@ -121,22 +123,38 @@ export default {
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8 shadow">
                 <div class="text-center p-3 my-3">
+                    <!-- Restaurant Image -->
                     <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" class="img-fluid logo-ristorante"
-                        :alt="`${restaurant.slug}-logo`">
+                        :alt="`${restaurant.slug}-logo`" v-if="restaurant.cover_image">
+
+                    <!-- Placeholder Image -->
+                    <img src="../assets/placeholder-image.jpg" alt="placeholder-image" class="img-fluid logo-ristorante"
+                        v-else />
                     <h1>{{ restaurant.name }}</h1>
                     <p>{{ restaurant.address }}</p>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-12 col-md-4 col-lg-4 bg-alert p-3" v-for="product in products" :key="product.id"
-                        @click="addToCart(product)">
-                        <div class="card border-0">
-                            <img :src="`${store.baseUrl}/storage/${product.cover_image}`"
-                                class="card-img-top border border-black rounded-top-5" alt="product-image"
-                                v-if="product.cover_image">
-                            <div class="card-body border border-black p-3">
-                                <p>{{ product.name }}</p>
-                                <p>{{ product.description }}</p>
-                                <p>{{ product.price }}€</p>
+                <div class="row">
+                    <div class="d-flex justify-content-center m-4" v-if="products.length === 0">
+                        <h3>Non ci sono prodotti disponibili per questo ristorante</h3>
+                    </div>
+                    <div class="d-flex justify-content-center" v-else>
+                        <div class="col-12 col-md-4 col-lg-4 bg-alert p-3" v-for="product in products" :key="product.id"
+                            @click="addToCart(product)">
+                            <div class="card border-0">
+
+                                <!-- Product Image -->
+                                <img :src="`${store.baseUrl}/storage/${product.cover_image}`"
+                                    class="card-img-top border border-black rounded-top-5" alt="product-image"
+                                    v-if="product.cover_image">
+
+                                <!-- Placeholder Image -->
+                                <img src="../assets/placeholder-image.jpg" alt="placeholder-image"
+                                    class="card-img-top border border-black rounded-top-5" v-else />
+                                <div class="card-body border border-black p-3">
+                                    <p>{{ product.name }}</p>
+                                    <p>{{ product.description }}</p>
+                                    <p>{{ product.price }}€</p>
+                                </div>
                             </div>
                         </div>
                     </div>

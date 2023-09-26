@@ -29,6 +29,7 @@ const router = createRouter({
             path: '/restaurants/:slug',
             name: 'single-restaurant',
             component: SingleRestaurant,
+            props: true
         },
         {
             path: '/:catchAll(.*)',

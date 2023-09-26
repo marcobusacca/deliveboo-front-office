@@ -8,14 +8,15 @@ export default {
         return {
             store,
             types: [],
+            selectedTypes: [],
             restaurants: [],
         }
     },
     mounted() {
-        this.getRestaurantTypes();
+        this.getRestaurantsTypes();
     },
     methods: {
-        getRestaurantTypes() {
+        getRestaurantsTypes() {
 
             this.store.loading = true;
 
@@ -42,29 +43,48 @@ export default {
                 }
             });
         },
-        selectType(index) {
+        selectTypes(index) {
+
+            // RECUPERO L'ELEMENTO CLICCATO DALL'ARRAY DI OGGETTI "TYPES", TRAMITE L'INDEX CHE MI è STATO PASSATO
             const clickedType = this.types[index];
 
+            // IMPOSTO LA VARIABILE "SELECTED" DELL'ELEMENTO CLICCATO SU TRUE|FALSE
             clickedType.selected = !clickedType.selected;
+
+            // SVUOTO L'ARRAY "SELECTED_TYPES"
+            this.selectedTypes = [];
+
+            // FILTRO GLI ELEMENTI SELEZIONATI DALL'ARRAY DI OGGETTI "TYPES" E LI INSERISCO NELL'ARRAY "SELECTED_TYPES"
+            const selectedTypes = this.types.filter(type => type.selected);
+
+            // SALVO NELL'ARRAY "SELECTED_TYPES" GLI ID DELLE TIPOLOGIE SELEZIONATE
+            selectedTypes.forEach(type => {
+                const selectedTypeId = type.data.id;
+                this.selectedTypes.push(selectedTypeId);
+            });
+
+            console.log(this.selectedTypes);
         },
-        showRestaurants(type_id) {
-            axios.get(`${store.baseUrl}/api/types/${type_id}`).then(response => {
+    },
+    computed: {
+        showRestaurants() {
 
-                if (response.data.success) {
+            // axios.get(`${store.baseUrl}/api/types/${type_id}`).then(response => {
 
-                    const restaurants = response.data.results.type.restaurants;
-                    const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id))).map(id => restaurants.find(r => r.id === id));
+            //     if (response.data.success) {
 
-                    this.selectedType = response.data.results.type_id;
-                    this.restaurants = uniqueRestaurants;
+            //         const restaurants = response.data.results.type.restaurants;
+            //         const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id))).map(id => restaurants.find(r => r.id === id));
 
-                } else {
-                    this.$router.push({ name: 'not-found' });
-                }
-            })
+            //         this.selectedType = response.data.results.type_id;
+            //         this.restaurants = uniqueRestaurants;
+
+            //     } else {
+            //         this.$router.push({ name: 'not-found' });
+            //     }
+            // })
         }
-
-    }
+    },
 }
 </script>
 
@@ -90,10 +110,10 @@ export default {
                     </div>
                 </div>
                 <!-- Restaurants Types Card Mobile -->
-                <div class="col-12 restaurants-types-card restaurants-types-card-mobile">
+                <div class="col-12 restaurants-types-card-mobile">
                     <div class="card card-type rounded-5 my-3"
                         :class="type.selected ? 'restaurants-types-card-selected' : ''" v-for="(type, index) in types"
-                        :key="type.data.id" @click="showRestaurants(type.data.id), selectType(index)">
+                        :key="type.data.id" @click="showRestaurants(type.data.id), selectTypes(index)">
                         <!-- Restaurants Types Card Img Top -->
                         <img :src="`${store.baseUrl}/storage/${type.data.cover_image}`" class="card-img-top"
                             alt="types-image" />
@@ -109,7 +129,7 @@ export default {
                 </div>
                 <!-- Restaurants Types Card Desktop -->
                 <div class="col-12 col-lg-2 restaurants-types-card-desktop my-3" v-for="(type, index) in  types"
-                    :key="type.data.id" @click="showRestaurants(type.data.id), selectType(index)">
+                    :key="type.data.id" @click="showRestaurants(type.data.id), selectTypes(index)">
                     <div class="card card-type rounded-5" :class="type.selected ? 'restaurants-types-card-selected' : ''">
                         <!-- Restaurants Types Card Img Top -->
                         <img :src="`${store.baseUrl}/storage/${type.data.cover_image}`" class="card-img-top"
@@ -176,6 +196,7 @@ export default {
     overflow-x: auto;
     /* Impedisce il wrap delle card su più righe */
     white-space: nowrap;
+    cursor: pointer;
 
     .card {
         display: inline-block;
@@ -234,6 +255,7 @@ export default {
 
     .restaurants-types-card-desktop {
         display: block;
+        cursor: pointer;
     }
 }
 </style>      

@@ -1,12 +1,9 @@
+<!-- JAVASCRIPT & VUE.JS -->
 <script>
 import { store } from '../store';
 import axios from 'axios';
-import AppLoader from '../components/AppLoader.vue';
 
 export default {
-    components: {
-        AppLoader
-    },
     data() {
         return {
             store,
@@ -25,22 +22,31 @@ export default {
 
             axios.get(`${store.baseUrl}/api/types`).then((response) => {
 
-                this.types = response.data.results;
-                this.store.loading = false;
+                if (response.data.success) {
 
-            }).catch((error) => {
-                console.error('Errore nella chiamata API:', error);
+                    this.types = response.data.results;
+                    this.store.loading = false;
+
+                } else {
+                    this.$router.push({ name: 'not-found' });
+                }
 
             });
         },
         showRestaurants(typeId) {
             axios.get(`${store.baseUrl}/api/types/${typeId}`).then(response => {
 
-                const restaurants = response.data.results.type.restaurants;
-                const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id))).map(id => restaurants.find(r => r.id === id));
+                if (response.data.success) {
 
-                this.selectedType = response.data.results.type_id;
-                this.restaurants = uniqueRestaurants;
+                    const restaurants = response.data.results.type.restaurants;
+                    const uniqueRestaurants = Array.from(new Set(restaurants.map(r => r.id))).map(id => restaurants.find(r => r.id === id));
+
+                    this.selectedType = response.data.results.type_id;
+                    this.restaurants = uniqueRestaurants;
+
+                } else {
+                    this.$router.push({ name: 'not-found' });
+                }
             })
         }
 
@@ -48,11 +54,10 @@ export default {
 }
 </script>
 
-    
+<!-- TEMPLATE HTML -->
 <template>
-    <AppLoader v-if="store.loading" />
     <div class="container-fluid size-container py-3" v-if="!store.loading">
-        <div class="container main-container py-3">
+        <div class=" container main-container py-3">
             <div class="row">
                 <!-- HomePage Title -->
                 <div class="col-12 bg-white shadow rounded-3 p-3 mb-2">
@@ -64,7 +69,7 @@ export default {
                 </div>
                 <!-- Restaurants Types Card Mobile -->
                 <div class="col-12 restaurants-types-card-mobile">
-                    <div class="card card-type rounded-5 my-3" v-for="(type) in types" :key="type.id"
+                    <div class="card card-type rounded-5 my-3" v-for="( type ) in  types " :key="type.id"
                         @click="showRestaurants(type.id)">
                         <!-- Restaurants Types Card Img Top -->
                         <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="card-img-top" alt="types-image" />
@@ -76,7 +81,7 @@ export default {
                     </div>
                 </div>
                 <!-- Restaurants Types Card Desktop -->
-                <div class="col-12 col-lg-2 restaurants-types-card-desktop my-3" v-for="(type) in types" :key="type.id"
+                <div class="col-12 col-lg-2 restaurants-types-card-desktop my-3" v-for="( type ) in  types " :key="type.id"
                     @click="showRestaurants(type.id)">
                     <div class="card card-type rounded-5">
                         <!-- Restaurants Types Card Img Top -->
@@ -90,7 +95,7 @@ export default {
                 </div>
                 <!-- Selected Restaurants Card -->
                 <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                    <router-link class="card my-3 mx-3" v-for="(restaurant, index) in restaurants" :key="index"
+                    <router-link class="card my-3 mx-3" v-for="( restaurant, index ) in  restaurants " :key="index"
                         :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
                         <!-- Restaurants Card Image -->
                         <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" :alt="`${restaurant.slug}-image`"
@@ -107,8 +112,7 @@ export default {
     </div>
 </template>
 
-
-    
+<!-- STYLE SCSS -->
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 

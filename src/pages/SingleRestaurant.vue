@@ -1,13 +1,16 @@
+<!-- JAVASCRIPT & VUE.JS -->
 <script>
 import { store } from '../store';
 import axios from 'axios';
 
 export default {
-    props: ['slug'],
+    props: [
+        'slug'
+    ],
     data() {
         return {
-            maxQuantity: 100,
             store,
+            maxQuantity: 100,
             products: [],
             restaurant: {},
             cart: JSON.parse(localStorage.getItem('cart')) || [],
@@ -22,38 +25,22 @@ export default {
             deep: true,
         },
     },
-    computed: {
-        totalAmount() {
-            return this.cart.reduce(
-                (total, item) =>
-                    total + parseFloat(item.price) * item.quantity,
-                0
-            ).toFixed(2);
-        },
-
-        cartWithQuantity() {
-            const cartMap = new Map();
-            this.cart.forEach(item => {
-                if (cartMap.has(item.id)) {
-                    cartMap.get(item.id).quantity += item.quantity;
-                } else {
-                    cartMap.set(item.id, { ...item });
-                }
-            });
-            return Array.from(cartMap.values());
-        },
-    },
     mounted() {
         this.getProducts(this.slug);
     },
     methods: {
         getProducts(slug) {
-            axios
-                .get(`${store.baseUrl}/api/restaurants/${slug}`)
-                .then(response => {
+            axios.get(`${store.baseUrl}/api/restaurants/${slug}`).then(response => {
+
+                if (response.data.success) {
+
                     this.restaurant = response.data.results;
                     this.products = response.data.results.products;
-                });
+
+                } else {
+                    this.$router.push({ name: 'not-found' });
+                }
+            });
         },
         addToCart(product) {
             if (!product) {
@@ -78,7 +65,6 @@ export default {
                 });
             }
         },
-
         removeFromCart(id) {
             const item = this.cart.find(item => item.id === id);
 
@@ -97,20 +83,40 @@ export default {
             localStorage.removeItem('cart');
         },
     },
+    computed: {
+        totalAmount() {
+            return this.cart.reduce(
+                (total, item) =>
+                    total + parseFloat(item.price) * item.quantity,
+                0
+            ).toFixed(2);
+        },
+
+        cartWithQuantity() {
+            const cartMap = new Map();
+            this.cart.forEach(item => {
+                if (cartMap.has(item.id)) {
+                    cartMap.get(item.id).quantity += item.quantity;
+                } else {
+                    cartMap.set(item.id, { ...item });
+                }
+            });
+            return Array.from(cartMap.values());
+        },
+    },
 };
 </script>
 
+<!-- TEMPLATE HTML -->
 <template>
     <div class="container-fluid p-0">
         <div class="row">
             <div class="col-12">
                 <!-- Restaurant Image Full Page -->
-                <div class="image-restaurant">
-                </div>
+                <div class="image-restaurant"></div>
             </div>
         </div>
     </div>
-
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8 shadow">
@@ -217,6 +223,7 @@ export default {
     </div>
 </template>
 
+<!-- STYLE SCSS -->
 <style lang="scss">
 .image-restaurant {
     height: 65vh;

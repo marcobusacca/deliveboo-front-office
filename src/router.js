@@ -3,7 +3,10 @@ import { createRouter, createWebHistory } from 'vue-router';
 // IMPORTARE TUTTE LE PAGINE DALLA CARTELLA "PAGES"
 import HomePage from './pages/HomePage.vue';
 import AboutUs from './pages/AboutUs.vue';
+
 import SingleRestaurant from './pages/SingleRestaurant.vue';
+
+import NotFound from './pages/NotFound.vue';
 
 
 // CREIAMO IL ROUTER CON LE SUE ROTTE
@@ -26,7 +29,15 @@ const router = createRouter({
             path: '/restaurants/:slug',
             name: 'single-restaurant',
             component: SingleRestaurant,
-            props: true
+        },
+        {
+            path: '/:catchAll(.*)',
+            redirect: '/pagina-non-trovata',
+        },
+        {
+            path: '/pagina-non-trovata',
+            name: 'not-found',
+            component: NotFound,
         },
     ]
 

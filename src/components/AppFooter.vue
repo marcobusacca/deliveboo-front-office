@@ -1,3 +1,4 @@
+<!-- JAVASCRIPT & VUE.JS -->
 <script>
 import { store } from '../store';
 import axios from 'axios';
@@ -15,7 +16,14 @@ export default {
     methods: {
         getRestaurantTypes() {
             axios.get(`${store.baseUrl}/api/types`).then((response) => {
-                this.types = response.data.results;
+
+                if (response.data.success) {
+
+                    this.types = response.data.results;
+
+                } else {
+                    this.$router.push({ name: 'not-found' });
+                }
             })
         },
     }
@@ -115,19 +123,19 @@ export default {
                         <div class="container-payments py-2">
                             <ul
                                 class="list-group list-group-horizontal list-unstyled d-flex justify-content-center justify-content-md-end">
-                                <li class="text-lg-end mb-2">
+                                <li class="text-lg-end pe-2 mb-2">
                                     <a href="">
                                         <img src="../assets/footer-img/mastercard.png" class="master-logo py-2" alt="">
                                     </a>
                                 </li>
                                 <li class="text-lg-end px-2 mb-2">
                                     <a href="">
-                                        <img src="../assets/footer-img/paypal.png" class="py-2 paypal-logo" alt="">
+                                        <img src="../assets/footer-img/visa.png" class="visa-logo" alt="">
                                     </a>
                                 </li>
-                                <li class="text-lg-end px-2 mb-2">
+                                <li class="text-lg-end ps-2 mb-2">
                                     <a href="">
-                                        <img src="../assets/footer-img/visa.png" class="visa-logo" alt="">
+                                        <img src="../assets/footer-img/paypal.png" class="py-2 paypal-logo" alt="">
                                     </a>
                                 </li>
                             </ul>

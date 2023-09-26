@@ -1,15 +1,19 @@
+<!-- JAVASCRIPT & VUE.JS -->
 <script>
 export default {
 
 }
 </script>
-<template >
+
+<!-- TEMPLATE HTML -->
+<template>
     <div class="center">
-        <div class="ring">
-        </div>
+        <div class="ring"></div>
         <span class="loader-text">loading...</span>
     </div>
 </template>
+
+<!-- STYLE SCSS -->
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 
@@ -52,9 +56,9 @@ export default {
 
 .loader-text {
     color: orangered;
-    font-size: 20px;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    font-size: 20px;
     line-height: 200px;
+    letter-spacing: 1px;
 }
 </style>

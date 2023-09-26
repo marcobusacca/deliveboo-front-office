@@ -1,10 +1,7 @@
+<!-- JAVASCRIPT & VUE.JS -->
 <script>
 export default {
-    data() {
-        return {
 
-        }
-    },
 }
 </script>
 

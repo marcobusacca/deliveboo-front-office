@@ -62,11 +62,7 @@ export default {
                 const selectedTypeId = type.data.id;
                 this.selectedTypes.push(selectedTypeId);
             });
-
-            console.log(this.selectedTypes);
         },
-    },
-    computed: {
         showRestaurants() {
 
             // axios.get(`${store.baseUrl}/api/types/${type_id}`).then(response => {
@@ -84,6 +80,8 @@ export default {
             //     }
             // })
         }
+    },
+    computed: {
     },
 }
 </script>

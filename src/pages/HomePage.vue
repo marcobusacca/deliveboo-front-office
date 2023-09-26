@@ -61,11 +61,17 @@ export default {
             <div class="row">
                 <!-- HomePage Title -->
                 <div class="col-12 bg-white shadow rounded-3 p-3 mb-2">
-                    <h3>I nostri ristoranti</h3>
-                    <p>
-                        Stasera sushi, pizza o poke? Su Deliveboo trovi un'immensa selezione di cucine dal mondo.
-                        Lasciati ispirare.
-                    </p>
+                    <div class="row">
+                        <div class="col-12 col-lg-8">
+                            <h3>I nostri ristoranti</h3>
+                            <p>Stasera sushi, pizza o poke? Su Deliveboo trovi un'immensa selezione di cucine dal mondo. <br> Lasciati ispirare.</p>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="d-flex justify-content-center justify-content-lg-start">
+                                <img src="../assets/eat.png" class="title-image" alt="">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Restaurants Types Card Mobile -->
                 <div class="col-12 restaurants-types-card-mobile">
@@ -171,19 +177,37 @@ export default {
 
 }
 
+.title-image{
+    width: 40vw;
+}
+
 // End Restaurants Types Card
 
 
 /********** MEDIAQUERY **********/
 
+//TABLET
+
+@media screen and (min-width: 768px) {
+    .title-image{
+    width: 20vw;
+}
+}
+
 // DESKTOP
+
 @media screen and (min-width: 992px) {
     .restaurants-types-card-mobile {
         display: none;
     }
-
+    
+    .title-image{
+        width: 10vw;
+    }
+    
     .restaurants-types-card-desktop {
         display: block;
     }
 }
+
 </style>      

@@ -93,7 +93,7 @@ export default {
                             <div class="card-body border border-black p-3">
                                 <p>{{ product.name }}</p>
                                 <p>{{ product.description }}</p>
-                                <p>{{ product.price }}</p>
+                                <p>{{ product.price }}€</p>
                             </div>
                         </div>
                     </div>

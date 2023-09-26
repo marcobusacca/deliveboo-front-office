@@ -56,7 +56,7 @@ export default {
 
 <!-- TEMPLATE HTML -->
 <template>
-    <div class="container-fluid size-container py-3" v-if="!store.loading">
+    <div class="container-fluid deliveboo-background py-3" v-if="!store.loading">
         <div class=" container main-container py-3">
             <div class="row">
                 <!-- HomePage Title -->
@@ -64,7 +64,9 @@ export default {
                     <div class="row">
                         <div class="col-12 col-lg-8">
                             <h3>I nostri ristoranti</h3>
-                            <p>Stasera sushi, pizza o poke? Su Deliveboo trovi un'immensa selezione di cucine dal mondo. <br> Lasciati ispirare.</p>
+                            <p>Stasera sushi, pizza o poke? Su Deliveboo trovi un'immensa selezione di cucine dal mondo.
+                                <br> Lasciati ispirare.
+                            </p>
                         </div>
                         <div class="col-12 col-lg-4">
                             <div class="d-flex justify-content-center justify-content-lg-start">
@@ -122,13 +124,6 @@ export default {
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 
-.size-container {
-    background-image: url('../assets/bg-home/final-bg.png');
-    background-size: cover;
-    background-repeat: no-repeat;
-    width: 100%;
-}
-
 // Restaurants Types Card
 
 .restaurants-types-card-desktop {
@@ -177,7 +172,7 @@ export default {
 
 }
 
-.title-image{
+.title-image {
     width: 40vw;
 }
 
@@ -189,9 +184,9 @@ export default {
 //TABLET
 
 @media screen and (min-width: 768px) {
-    .title-image{
-    width: 20vw;
-}
+    .title-image {
+        width: 20vw;
+    }
 }
 
 // DESKTOP
@@ -200,14 +195,13 @@ export default {
     .restaurants-types-card-mobile {
         display: none;
     }
-    
-    .title-image{
+
+    .title-image {
         width: 10vw;
     }
-    
+
     .restaurants-types-card-desktop {
         display: block;
     }
 }
-
 </style>      

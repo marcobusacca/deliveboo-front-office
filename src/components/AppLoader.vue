@@ -7,7 +7,7 @@ export default {
 
 <!-- TEMPLATE HTML -->
 <template>
-    <div class="center">
+    <div class="center deliveboo-background">
         <div class="ring"></div>
         <span class="loader-text">loading...</span>
     </div>
@@ -18,14 +18,11 @@ export default {
 @use '../styles/generals.scss' as *;
 
 .center {
-    background-image: url('../assets/bg-home/final-bg.png');
-    background-size: cover;
-    background-repeat: no-repeat;
     display: flex;
     text-align: center;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: calc(100vh - 80px);
 }
 
 .ring {

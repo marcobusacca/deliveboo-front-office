@@ -1,3 +1,4 @@
+<!-- JAVASCRIPT & VUE.JS -->
 <script>
 import { store } from '../store';
 import axios from 'axios';
@@ -81,6 +82,7 @@ export default {
 }
 </script>
 
+<!-- TEMPLATE HTML -->
 <template>
     <div class="mt-4">
         <div class="row">
@@ -107,6 +109,7 @@ export default {
     </div>
 </template>
 
+<!-- STYLE SCSS -->
 <style lang="scss">
 @use '../styles/generals.scss' as *;
 

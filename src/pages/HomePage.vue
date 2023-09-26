@@ -8,7 +8,6 @@ export default {
         return {
             store,
             types: [],
-            selectedType: null,
             restaurants: [],
         }
     },
@@ -24,17 +23,32 @@ export default {
 
                 if (response.data.success) {
 
-                    this.types = response.data.results;
+                    const results = response.data.results;
+
+                    results.forEach(type => {
+
+                        const object = {
+                            selected: false,
+                            data: type,
+                        }
+
+                        this.types.push(object);
+                    });
+
                     this.store.loading = false;
 
                 } else {
                     this.$router.push({ name: 'not-found' });
                 }
-
             });
         },
-        showRestaurants(typeId) {
-            axios.get(`${store.baseUrl}/api/types/${typeId}`).then(response => {
+        selectType(index) {
+            const clickedType = this.types[index];
+
+            clickedType.selected = !clickedType.selected;
+        },
+        showRestaurants(type_id) {
+            axios.get(`${store.baseUrl}/api/types/${type_id}`).then(response => {
 
                 if (response.data.success) {
 
@@ -76,29 +90,38 @@ export default {
                     </div>
                 </div>
                 <!-- Restaurants Types Card Mobile -->
-                <div class="col-12 restaurants-types-card-mobile">
-                    <div class="card card-type rounded-5 my-3" v-for="( type ) in  types " :key="type.id"
-                        @click="showRestaurants(type.id)">
+                <div class="col-12 restaurants-types-card restaurants-types-card-mobile">
+                    <div class="card card-type rounded-5 my-3"
+                        :class="type.selected ? 'restaurants-types-card-selected' : ''" v-for="(type, index) in types"
+                        :key="type.data.id" @click="showRestaurants(type.data.id), selectType(index)">
                         <!-- Restaurants Types Card Img Top -->
-                        <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="card-img-top" alt="types-image" />
+                        <img :src="`${store.baseUrl}/storage/${type.data.cover_image}`" class="card-img-top"
+                            alt="types-image" />
                         <!-- Restaurants Types Card Body -->
                         <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
-                            <h5 class="card-title text-white text-center">{{ type.name }}</h5>
+                            <h5 class="card-title text-white text-center">{{ type.data.name }}</h5>
                             <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                         </div>
+                        <!-- Restaurants Types Card Selected Icon -->
+                        <i class="fa-solid fa-circle-check text-green border border-white bg-white check-selected"
+                            v-if="type.selected"></i>
                     </div>
                 </div>
                 <!-- Restaurants Types Card Desktop -->
-                <div class="col-12 col-lg-2 restaurants-types-card-desktop my-3" v-for="( type ) in  types " :key="type.id"
-                    @click="showRestaurants(type.id)">
-                    <div class="card card-type rounded-5">
+                <div class="col-12 col-lg-2 restaurants-types-card-desktop my-3" v-for="(type, index) in  types"
+                    :key="type.data.id" @click="showRestaurants(type.data.id), selectType(index)">
+                    <div class="card card-type rounded-5" :class="type.selected ? 'restaurants-types-card-selected' : ''">
                         <!-- Restaurants Types Card Img Top -->
-                        <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="card-img-top" alt="types-image" />
+                        <img :src="`${store.baseUrl}/storage/${type.data.cover_image}`" class="card-img-top"
+                            alt="types-image" />
                         <!-- Restaurants Types Card Body -->
                         <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
-                            <h5 class="card-title text-white text-center">{{ type.name }}</h5>
+                            <h5 class="card-title text-white text-center">{{ type.data.name }}</h5>
                             <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                         </div>
+                        <!-- Restaurants Types Card Selected Icon -->
+                        <i class="fa-solid fa-circle-check text-green border rounded-5 border-white bg-white check-selected"
+                            v-if="type.selected"></i>
                     </div>
                 </div>
                 <!-- Selected Restaurants Card -->
@@ -129,6 +152,21 @@ export default {
 
 // Restaurants Types Card
 
+.restaurants-types-card-selected {
+    transform: scale(1.05);
+
+    .card-body-type {
+        background-color: #90BB3F;
+    }
+
+    .check-selected {
+        position: absolute;
+        top: -10px;
+        right: -5px;
+        font-size: 30px;
+    }
+}
+
 .restaurants-types-card-desktop {
     display: none;
 }
@@ -141,9 +179,7 @@ export default {
 
     .card {
         display: inline-block;
-        /* Larghezza di ciascuna card */
         width: 150px;
-        /* Spazio tra le card */
         margin-right: 10px;
     }
 
@@ -154,25 +190,18 @@ export default {
 
 .card-type {
     transition: transform 0.1s ease;
-    /* Aggiungi una transizione per la trasformazione (ingrandimento) */
 }
 
 .card-type:hover {
     transform: scale(1.05);
-    /* Aumenta la scala dell'intera card al passaggio del mouse */
 }
 
 .card-body-type {
-    /* Imposta il colore di sfondo iniziale */
     transition: background-color 0.5s ease;
-    /* Aggiungi una transizione */
-
 }
 
 .card-type:hover .card-body-type {
     background-color: #90BB3F;
-    /* O il colore che desideri */
-
 }
 
 .title-image {

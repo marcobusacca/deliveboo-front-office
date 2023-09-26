@@ -149,7 +149,7 @@ export default {
 
                                 <!-- Placeholder Image -->
                                 <img src="../assets/placeholder-image.jpg" alt="placeholder-image"
-                                    class="img-fluid logo-ristorante" v-else />
+                                    class="card-img-top border border-black rounded-top-5" v-else />
                                 <div class="card-body border border-black p-3">
                                     <p>{{ product.name }}</p>
                                     <p>{{ product.description }}</p>

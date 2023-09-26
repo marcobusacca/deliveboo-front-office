@@ -40,7 +40,6 @@ export default {
     },
     mounted() {
         this.getProducts(this.slug);
-        this.store.showCart = true;
     },
     methods: {
         getProducts(slug) {

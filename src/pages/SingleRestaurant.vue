@@ -153,12 +153,13 @@ export default {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="card-body">
-                        <div class="text-center my-5" v-if="cart.length > 0" v-for="(item, index) in cartWithQuantity"
-                            :key="index">
-                            <h5 class="d-inline-block">{{ item.product.name }} x{{ item.quantity }}</h5>
-                            <!-- <button @click="removeFromCart(index)" class="btn">
+                        <div v-if="cart.length > 0">
+                            <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
+                                <h5 class="d-inline-block">{{ item.product.name }} x{{ item.quantity }}</h5>
+                                <!-- <button @click="removeFromCart(index)" class="btn">
                                     <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
                                 </button> -->
+                            </div>
                         </div>
                         <div class="text-center p-5" v-else>
                             <h3>Il carrello è vuoto</h3>

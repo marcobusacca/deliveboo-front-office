@@ -51,47 +51,45 @@ export default {
     
 <template>
     <AppLoader v-if="store.loading" />
-    <div class="container-fluid size-container py-5" v-if="!store.loading">
-        <div class="container main-container py-5 pb-5">
-            <div class="row">
-                <div class="col-12 shadow">
-                    <div class="shadow p-3 bg-white shadow mb-2 carousel rounded-3">
-                        <h3>I nostri ristoranti</h3>
-                        <p>
-                            Stasera sushi, pizza o poke? Su Deliveboo trovi un'immensa selezione di cucine dal mondo.
-                            Lasciati ispirare.
-                        </p>
+    <div class="container-fluid size-container py-3" v-if="!store.loading">
+        <!-- Restaurants Types Card -->
+        <div class="restaurants-types-card d-inline-block">
+            <div class="">
+                <div class="" v-for="(type) in types" :key="type.id"
+                    @click="showRestaurants(type.id)">
+                    <div class="card card-type rounded-5 my-3 ">
+                        <img :src="`${store.baseUrl}/storage/${type.cover_image}`" class="card-img-top" alt="types-image" />
+                        <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
+                            <h5 class="card-title text-white text-center">{{ type.name }}</h5>
+                            <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
+                        </div>
                     </div>
                 </div>
-                <div class="col-12 shadow">
-                    <div class="row justify-content-center">
-                        <!-- Restaurants Types Card -->
-                        <div class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type) in types" :key="type.id"
-                            @click="showRestaurants(type.id)">
-                            <div class="card card-type rounded-5 my-3">
-                                <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
-                                <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
-                                    <h5 class="card-title text-white text-center">{{ type.name }}</h5>
-                                    <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
-                                </div>
-                            </div>
+            </div>
+        </div>
+        <div class="container main-container py-3">
+            <div class="row">
+                <div class="col-12 p-3 bg-white shadow mb-2 carousel rounded-3">
+                    <h3>I nostri ristoranti</h3>
+                    <p>
+                        Stasera sushi, pizza o poke? Su Deliveboo trovi un'immensa selezione di cucine dal mondo.
+                        Lasciati ispirare.
+                    </p>
+                </div>
+                <!-- Selected Restaurants Card -->
+                <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
+                    <router-link class="card my-3 card-size mx-3 text-decoration-none"
+                        v-for="(restaurant, index) in restaurants" :key="index"
+                        :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
+                        <!-- Restaurants Card Image -->
+                        <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`"
+                            :alt="`${restaurant.slug}-image`" class="card-img-top" v-if="restaurant.cover_image" />
+                        <!-- Restaurants Card Body -->
+                        <div class="card-body">
+                            <h5 class="card-title">{{ restaurant.name }}</h5>
+                            <h6>{{ restaurant.address }}</h6>
                         </div>
-                        <!-- Selected Restaurants Card -->
-                        <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                            <router-link class="card my-3 card-size mx-3 text-decoration-none"
-                                v-for="(restaurant, index) in restaurants" :key="index"
-                                :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
-                                <!-- Restaurants Card Image -->
-                                <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`"
-                                    :alt="`${restaurant.slug}-image`" class="card-img-top" v-if="restaurant.cover_image" />
-                                <!-- Restaurants Card Body -->
-                                <div class="card-body">
-                                    <h5 class="card-title">{{ restaurant.name }}</h5>
-                                    <h6>{{ restaurant.address }}</h6>
-                                </div>
-                            </router-link>
-                        </div>
-                    </div>
+                    </router-link>
                 </div>
             </div>
         </div>
@@ -166,5 +164,10 @@ export default {
         background-color: white;
         border-radius: 10px;
     }
+}
+
+.restaurants-types-card{
+    overflow-x: auto;
+    width: 100%;
 }
 </style>      

@@ -68,7 +68,7 @@ export default {
                         <!-- Restaurants Types Card -->
                         <div class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type) in types" :key="type.id"
                             @click="showRestaurants(type.id)">
-                            <div class="card card-type border-0 my-3">
+                            <div class="card card-type rounded-5 my-3">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />
                                 <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
                                     <h5 class="card-title text-white text-center">{{ type.name }}</h5>

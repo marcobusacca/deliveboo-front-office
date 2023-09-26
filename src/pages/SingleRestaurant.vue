@@ -6,11 +6,12 @@ export default {
     props: ['slug'],
     data() {
         return {
+            maxQuantity: 100,
             store,
             products: [],
-            restaurant: [],
+            restaurant: {},
             cart: JSON.parse(localStorage.getItem('cart')) || [],
-        }
+        };
     },
     watch: {
         // Osserva il carrello e salvalo nel local storage quando cambia
@@ -23,36 +24,72 @@ export default {
     },
     computed: {
         totalAmount() {
-            return this.cart.reduce((total, item) => total + (parseFloat(item.product.price) * item.quantity), 0).toFixed(2);
+            return this.cart.reduce(
+                (total, item) =>
+                    total + parseFloat(item.price) * item.quantity,
+                0
+            ).toFixed(2);
         },
 
         cartWithQuantity() {
             const cartMap = new Map();
             this.cart.forEach(item => {
-                if (cartMap.has(item.product.id)) {
-                    cartMap.get(item.product.id).quantity += 1;
+                if (cartMap.has(item.id)) {
+                    cartMap.get(item.id).quantity += item.quantity;
                 } else {
-                    cartMap.set(item.product.id, { product: item.product, quantity: 1 });
+                    cartMap.set(item.id, { ...item });
                 }
             });
             return Array.from(cartMap.values());
-        }
+        },
     },
     mounted() {
         this.getProducts(this.slug);
     },
     methods: {
         getProducts(slug) {
-            axios.get(`${store.baseUrl}/api/restaurants/${slug}`).then((response) => {
-                this.restaurant = response.data.results;
-                this.products = response.data.results.products;
-            })
+            axios
+                .get(`${store.baseUrl}/api/restaurants/${slug}`)
+                .then(response => {
+                    this.restaurant = response.data.results;
+                    this.products = response.data.results.products;
+                });
         },
         addToCart(product) {
-            this.cart.push({ product, quantity: 1 });
+            if (!product) {
+                console.error('Prodotto non valido');
+                return;
+            }
+
+            const existingItem = this.cart.find(item => item.id === product.id);
+
+            if (existingItem) {
+                if (existingItem.quantity < this.maxQuantity) {
+                    existingItem.quantity++;
+                } else {
+                    alert(`Hai raggiunto la quantità massima per ${product.name}`);
+                }
+            } else {
+                this.cart.push({
+                    ...product,
+                    quantity: 1,
+                    id: product.id,
+                    restaurantId: this.restaurant.id,
+                });
+            }
         },
-        removeFromCart(index) {
-            this.cart.splice(index, 1);
+
+        removeFromCart(id) {
+            const item = this.cart.find(item => item.id === id);
+
+            if (item) {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                } else {
+                    const index = this.cart.indexOf(item);
+                    this.cart.splice(index, 1);
+                }
+            }
         },
         clearCart() {
             // Pulisci il carrello e rimuovilo dal local storage
@@ -60,9 +97,8 @@ export default {
             localStorage.removeItem('cart');
         },
     },
-}
+};
 </script>
-
 
 <template>
     <div class="container-fluid p-0">
@@ -74,6 +110,7 @@ export default {
             </div>
         </div>
     </div>
+
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-12 col-lg-8 shadow">
@@ -99,6 +136,7 @@ export default {
                     </div>
                 </div>
             </div>
+
             <div class="col-4 d-none d-lg-block">
                 <div class="text-center text-white p-3 py-5">
                     <div class="card">
@@ -107,11 +145,11 @@ export default {
                             <div class="card-body">
                                 <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
                                     <h5 class="d-inline-block">
-                                        {{ item.product.name }} x{{ item.quantity }}
+                                        {{ item.name }} x{{ item.quantity }}
                                     </h5>
-                                    <!-- <button @click="removeFromCart(index)" class="btn">
-                                        <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
-                                    </button> -->
+                                    <button @click="removeFromCart(item.id)" class="btn" style="color: #f00a0a;">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </div>
                             </div>
                             <h4>Totale: {{ totalAmount }} €</h4>
@@ -153,12 +191,13 @@ export default {
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="card-body">
-                        <div class="text-center my-5" v-if="cart.length > 0" v-for="(item, index) in cartWithQuantity"
-                            :key="index">
-                            <h5 class="d-inline-block">{{ item.product.name }} x{{ item.quantity }}</h5>
-                            <!-- <button @click="removeFromCart(index)" class="btn">
+                        <div v-if="cart.length > 0">
+                            <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
+                                <h5 class="d-inline-block">{{ item.name }} x{{ item.quantity }}</h5>
+                                <!-- <button @click="removeFromCart(index)" class="btn">
                                     <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
                                 </button> -->
+                            </div>
                         </div>
                         <div class="text-center p-5" v-else>
                             <h3>Il carrello è vuoto</h3>

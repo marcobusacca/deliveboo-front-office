@@ -66,7 +66,7 @@ export default {
                 <div class="col-12 shadow">
                     <div class="row justify-content-center">
                         <!-- Restaurants Types Card -->
-                        <div class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type, index) in types" :key="type.id"
+                        <div class="col-12 col-md-6 col-lg-2 d-flex" v-for="(type) in types" :key="type.id"
                             @click="showRestaurants(type.id)">
                             <div class="card card-type rounded-5 my-3">
                                 <img :src="`${store.baseUrl}/storage/${type.cover_image}`" alt="Immagine del ristorante" />

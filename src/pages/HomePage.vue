@@ -2,8 +2,12 @@
 <script>
 import { store } from '../store';
 import axios from 'axios';
+import AppLoaderRestaurants from '../components/AppLoaderRestaurants.vue'
 
 export default {
+    components: {
+        AppLoaderRestaurants,
+    },
     data() {
         return {
             store,
@@ -46,7 +50,7 @@ export default {
         },
         getRestaurants() {
 
-            this.store.loading = true;
+            this.store.loadingRestaurants = true;
 
             axios.get(`${store.baseUrl}/api/restaurants`).then((response) => {
 
@@ -54,7 +58,7 @@ export default {
 
                     this.restaurants = response.data.results;
 
-                    this.store.loading = false;
+                    this.store.loadingRestaurants = false;
 
                 } else {
                     this.$router.push({ name: 'not-found' });
@@ -73,6 +77,8 @@ export default {
         },
         getFilteredRestaurants() {
 
+            this.store.loadingRestaurants = true;
+
             const typeIds = this.selectedTypes.join(',');
 
             if (typeIds.length != 0) {
@@ -82,6 +88,8 @@ export default {
                     if (response.data.success) {
 
                         this.restaurants = response.data.results;
+
+                        this.store.loadingRestaurants = false;
 
                     } else {
 
@@ -161,12 +169,18 @@ export default {
                 </div>
                 <!-- Selected Restaurants Card -->
                 <div class="col-12 restaurants-container bg-white shadow rounded-5 my-3">
+                    <div class="row">
+                        <div class="col-12 text-center py-5" v-if="store.loadingRestaurants">
+                            <AppLoaderRestaurants />
+                        </div>
+                    </div>
                     <div class="row restaurants-row justify-content-center">
-                        <div class="col-12 text-center py-5" v-if="restaurants.length == 0">
+                        <div class="col-12 text-center py-5" v-if="!store.loadingRestaurants && restaurants.length == 0">
                             <h2>Nessun ristorante disponibile</h2>
                         </div>
                         <router-link class="col-12 restaurants-list" v-for="( restaurant, index ) in  restaurants"
-                            :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }" v-else>
+                            :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }"
+                            v-if="!store.loadingRestaurants && restaurants.length != 0">
                             <div class="row">
                                 <!-- Restaurants Cover Image -->
                                 <div class="col-12 col-lg-6 restaurants-col-image">

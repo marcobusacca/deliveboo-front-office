@@ -162,8 +162,8 @@ export default {
                 <!-- Selected Restaurants Card -->
                 <div class="col-12 restaurants-container bg-white shadow rounded-5 my-3">
                     <div class="row restaurants-row justify-content-center">
-                        <div class="col-12 text-center" v-if="restaurants.length == 0">
-                            <h1>Nessun ristorante disponibile</h1>
+                        <div class="col-12 text-center py-5" v-if="restaurants.length == 0">
+                            <h2>Nessun ristorante disponibile</h2>
                         </div>
                         <router-link class="col-12 restaurants-list" v-for="( restaurant, index ) in  restaurants"
                             :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }" v-else>

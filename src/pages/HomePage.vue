@@ -359,8 +359,6 @@ export default {
                     }
                 }
 
-                .restaurants-col-details {}
-
                 .restaurants-second-details {
                     text-align: end;
                     font-size: 13px;

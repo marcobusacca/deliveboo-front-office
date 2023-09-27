@@ -4,10 +4,10 @@ import { store } from '../store';
 import axios from 'axios';
 
 export default {
+    props: ['slug'],
     data() {
         return {
             store,
-            restaurantSlug: '',
             restaurant: {},
             cart: JSON.parse(localStorage.getItem('cart')) || [],
             maxQuantity: 100,
@@ -23,9 +23,7 @@ export default {
         },
     },
     mounted() {
-        this.restaurantSlug = this.$route.params.slug;
-
-        this.getRestaurantProducts(this.restaurantSlug);
+        this.getRestaurantProducts(this.slug);
     },
     methods: {
         getRestaurantProducts(restaurant_slug) {
@@ -139,22 +137,21 @@ export default {
                         <p>{{ restaurant.address }}</p>
                     </div>
                     <div class="row">
-                        <div class="d-flex justify-content-center m-4"> <!-- v-if="products.length === 0" -->
+                        <div class="d-flex justify-content-center m-4"
+                            v-if="restaurant.products && restaurant.products.length === 0">
                             <h3>Non ci sono prodotti disponibili per questo ristorante</h3>
                         </div>
-                        <div class="d-flex justify-content-center"> <!-- v-else -->
-                            <div class="col-12 col-md-4 col-lg-4 bg-alert p-3" v-for="product in products" :key="product.id"
-                                @click="addToCart(product)">
+                        <div class="d-flex justify-content-center" v-else>
+                            <div class="col-12 col-md-4 col-lg-4 bg-alert p-3" v-for="product in restaurant.products"
+                                :key="product.id" @click="addToCart(product)">
                                 <div class="card border-0">
-
+                                    <!-- Placeholder Image -->
+                                    <img src="../assets/placeholder-image.png" alt="placeholder-image"
+                                        class="card-img-top border border-black rounded-top-5"
+                                        v-if="!product.cover_image" />
                                     <!-- Product Image -->
                                     <img :src="`${store.baseUrl}/storage/${product.cover_image}`"
-                                        class="card-img-top border border-black rounded-top-5" alt="product-image"
-                                        v-if="product.cover_image">
-
-                                    <!-- Placeholder Image -->
-                                    <img src="../assets/placeholder-image.jpg" alt="placeholder-image"
-                                        class="card-img-top border border-black rounded-top-5" v-else />
+                                        class="card-img-top border border-black rounded-top-5" alt="product-image" v-else>
                                     <div class="card-body border border-black p-3">
                                         <p>{{ product.name }}</p>
                                         <p>{{ product.description }}</p>

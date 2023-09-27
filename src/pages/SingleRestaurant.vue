@@ -4,14 +4,13 @@ import { store } from '../store';
 import axios from 'axios';
 
 export default {
-    props: ['slug'],
     data() {
         return {
             store,
-            maxQuantity: 100,
-            products: [],
+            restaurantSlug: '',
             restaurant: {},
             cart: JSON.parse(localStorage.getItem('cart')) || [],
+            maxQuantity: 100,
         };
     },
     watch: {
@@ -24,19 +23,20 @@ export default {
         },
     },
     mounted() {
-        this.getProducts(this.slug);
+        this.restaurantSlug = this.$route.params.slug;
+
+        this.getRestaurantProducts(this.restaurantSlug);
     },
     methods: {
-
-        getProducts(slug) {
+        getRestaurantProducts(restaurant_slug) {
 
             this.store.loading = true;
 
-            axios.get(`${store.baseUrl}/api/restaurants/${slug}`).then(response => {
+            axios.get(`${store.baseUrl}/api/restaurants/${restaurant_slug}/products`).then(response => {
 
                 if (response.data.success) {
+
                     this.restaurant = response.data.results;
-                    this.products = response.data.results.products;
 
                     this.store.loading = false;
 
@@ -129,21 +129,20 @@ export default {
             <div class="row justify-content-center">
                 <div class="col-12 col-lg-8 shadow">
                     <div class="text-center p-3 my-3">
+                        <!-- Placeholder Image -->
+                        <img src="../assets/placeholder-image.png" alt="placeholder-image" class="img-fluid logo-ristorante"
+                            v-if="!restaurant.cover_image" />
                         <!-- Restaurant Image -->
                         <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" class="img-fluid logo-ristorante"
-                            :alt="`${restaurant.slug}-logo`" v-if="restaurant.cover_image">
-
-                        <!-- Placeholder Image -->
-                        <img src="../assets/placeholder-image.jpg" alt="placeholder-image" class="img-fluid logo-ristorante"
-                            v-else />
+                            :alt="`${restaurant.slug}-logo`" v-else>
                         <h1>{{ restaurant.name }}</h1>
                         <p>{{ restaurant.address }}</p>
                     </div>
                     <div class="row">
-                        <div class="d-flex justify-content-center m-4" v-if="products.length === 0">
+                        <div class="d-flex justify-content-center m-4"> <!-- v-if="products.length === 0" -->
                             <h3>Non ci sono prodotti disponibili per questo ristorante</h3>
                         </div>
-                        <div class="d-flex justify-content-center" v-else>
+                        <div class="d-flex justify-content-center"> <!-- v-else -->
                             <div class="col-12 col-md-4 col-lg-4 bg-alert p-3" v-for="product in products" :key="product.id"
                                 @click="addToCart(product)">
                                 <div class="card border-0">
@@ -166,7 +165,7 @@ export default {
                         </div>
                     </div>
                 </div>
-
+                <!-- Carrello versione desktop -->
                 <div class="col-4 d-none d-lg-block">
                     <div class="text-center text-white p-3 py-5">
                         <div class="card">
@@ -260,7 +259,7 @@ export default {
 }
 
 .logo-ristorante {
-    width: 80px;
+    width: 200px;
 }
 
 .menù {

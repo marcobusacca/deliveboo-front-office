@@ -101,6 +101,9 @@ export default {
 
                 this.getRestaurants();
             }
+        },
+        showRestaurant($id) {
+            this.store.showRestaurantId = $id;
         }
     }
 }
@@ -180,7 +183,8 @@ export default {
                         </div>
                         <router-link class="col-12 restaurants-list" v-for="( restaurant, index ) in  restaurants"
                             :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }"
-                            v-if="!store.loadingRestaurants && restaurants.length != 0">
+                            v-if="!store.loadingRestaurants && restaurants.length != 0"
+                            @click="showRestaurant(restaurant.id)">
                             <div class="row">
                                 <!-- Restaurants Cover Image -->
                                 <div class="col-12 col-lg-6 restaurants-col-image">

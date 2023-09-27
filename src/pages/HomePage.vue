@@ -18,7 +18,6 @@ export default {
     },
     methods: {
         showRestaurants() {
-            // Chiamata API per ottenere i ristoranti
             axios.get(`${store.baseUrl}/api/restaurants`).then((response) => {
                 if (response.data.success) {
                     this.restaurants = response.data.results;
@@ -26,7 +25,6 @@ export default {
                 } else {
                     this.$router.push({ name: 'not-found' });
                 }
-                this.restaurants = this.filteredRestaurants;
             });
         },
         getRestaurantsTypes() {
@@ -61,19 +59,22 @@ export default {
             clickedType.selected = !clickedType.selected;
             this.selectedTypes = this.types.filter(type => type.selected).map(type => type.data.id);
 
-            // Chiamo la funzione di filtraggio al click sulle tipologie
             this.showRestaurantsByTypes();
         },
         showRestaurantsByTypes() {
             const typeIds = this.selectedTypes.join(',');
 
-            axios.get(`${store.baseUrl}/api/restaurants/types/${typeIds}`).then((response) => {
-                if (response.data.success) {
-                    this.restaurants = response.data.results;
-                } else {
-                    this.restaurants = [];
-                }
-            });
+            if (typeIds) {
+                axios.get(`${store.baseUrl}/api/restaurants/types/${typeIds}`).then((response) => {
+                    if (response.data.success) {
+                        this.restaurants = response.data.results;
+                    } else {
+                        this.restaurants = [];
+                    }
+                });
+            } else {
+                this.showRestaurants();
+            }
         }
     },
     computed: {

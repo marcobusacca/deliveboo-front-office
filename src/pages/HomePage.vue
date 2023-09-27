@@ -121,7 +121,7 @@ export default {
                             <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
                         </div>
                         <!-- Restaurants Types Card Selected Icon -->
-                        <i class="fa-solid fa-circle-check text-green border border-white bg-white check-selected"
+                        <i class="fa-solid fa-circle-check text-green border rounded-5 border-white bg-white check-selected"
                             v-if="type.selected"></i>
                     </div>
                 </div>

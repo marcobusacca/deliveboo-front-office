@@ -14,6 +14,7 @@ export default {
     },
     mounted() {
         this.getRestaurantsTypes();
+        this.getRestaurants();
     },
     methods: {
         getRestaurantsTypes() {
@@ -61,6 +62,23 @@ export default {
             selectedTypes.forEach(type => {
                 const selectedTypeId = type.data.id;
                 this.selectedTypes.push(selectedTypeId);
+            });
+        },
+        getRestaurants() {
+
+            this.store.loading = true;
+
+            axios.get(`${store.baseUrl}/api/restaurants`).then((response) => {
+
+                if (response.data.success) {
+
+                    this.restaurants = response.data.results;
+
+                    this.store.loading = false;
+
+                } else {
+                    this.$router.push({ name: 'not-found' });
+                }
             });
         },
         showRestaurants() {
@@ -144,7 +162,7 @@ export default {
                 </div>
                 <!-- Selected Restaurants Card -->
                 <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                    <router-link class="card my-3 mx-3" v-for="( restaurant, index ) in  restaurants " :key="index"
+                    <router-link class="card my-3 mx-3" v-for="( restaurant, index ) in  restaurants" :key="index"
                         :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
                         <!-- Restaurants Card Image -->
                         <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" :alt="`${restaurant.slug}-image`"

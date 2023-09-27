@@ -14,19 +14,9 @@ export default {
     },
     mounted() {
         this.getRestaurantsTypes();
-        this.showRestaurants()
+        this.getRestaurants();
     },
     methods: {
-        showRestaurants() {
-            axios.get(`${store.baseUrl}/api/restaurants`).then((response) => {
-                if (response.data.success) {
-                    this.restaurants = response.data.results;
-                    this.store.loading = false;
-                } else {
-                    this.$router.push({ name: 'not-found' });
-                }
-            });
-        },
         getRestaurantsTypes() {
 
             this.store.loading = true;
@@ -54,36 +44,55 @@ export default {
                 }
             });
         },
+        getRestaurants() {
+
+            this.store.loading = true;
+
+            axios.get(`${store.baseUrl}/api/restaurants`).then((response) => {
+
+                if (response.data.success) {
+
+                    this.restaurants = response.data.results;
+
+                    this.store.loading = false;
+
+                } else {
+                    this.$router.push({ name: 'not-found' });
+                }
+            });
+        },
         selectTypes(index) {
+
             const clickedType = this.types[index];
+
             clickedType.selected = !clickedType.selected;
+
             this.selectedTypes = this.types.filter(type => type.selected).map(type => type.data.id);
 
-            this.showRestaurantsByTypes();
+            this.getFilteredRestaurants();
         },
-        showRestaurantsByTypes() {
+        getFilteredRestaurants() {
+
             const typeIds = this.selectedTypes.join(',');
 
-            if (typeIds) {
-                axios.get(`${store.baseUrl}/api/restaurants/types/${typeIds}`).then((response) => {
+            if (typeIds.length != 0) {
+
+                axios.get(`${store.baseUrl}/api/restaurants/${typeIds}`).then((response) => {
+
                     if (response.data.success) {
+
                         this.restaurants = response.data.results;
+
                     } else {
-                        this.restaurants = [];
+
+                        this.$router.push({ name: 'not-found' });
                     }
                 });
-            } else {
-                this.showRestaurants();
-            }
-        }
-    },
-    computed: {
-        filteredRestaurants() {
-            if (this.selectedTypes.length === 0) return this.restaurants;
 
-            return this.restaurants.filter((restaurant) =>
-                restaurant.types.some((type) => this.selectedTypes.includes(type.id))
-            );
+            } else {
+
+                this.getRestaurants();
+            }
         }
     }
 }

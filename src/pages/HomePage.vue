@@ -174,6 +174,15 @@ export default {
                         <div class="card-body">
                             <h5 class="card-title">{{ restaurant.name }}</h5>
                             <h6>{{ restaurant.address }}</h6>
+                            <div class="mt-4">
+                                <span class="fw-bold">Tipologie:</span>
+                                <ul class="list-unstyled d-inline-block mx-1">
+                                    <li v-for="(type, index) in restaurant.types" :key="index" class="d-inline-block">
+                                        <span>{{ type.name }}</span>
+                                        <span v-if="index < restaurant.types.length - 1" class="mx-1">•</span>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </router-link>
                 </div>

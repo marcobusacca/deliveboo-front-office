@@ -144,47 +144,74 @@ export default {
                     </div>
                 </div>
                 <!-- Restaurants Types Card Desktop -->
-                <div class="col-12 col-lg-2 restaurants-types-card-desktop my-3" v-for="(type, index) in  types"
-                    :key="type.data.id" @click="showRestaurants(type.data.id), selectTypes(index)">
-                    <div class="card card-type rounded-5" :class="type.selected ? 'restaurants-types-card-selected' : ''">
-                        <!-- Restaurants Types Card Img Top -->
-                        <img :src="`${store.baseUrl}/storage/${type.data.cover_image}`" class="card-img-top"
-                            alt="types-image" />
-                        <!-- Restaurants Types Card Body -->
-                        <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
-                            <h5 class="card-title text-white text-center">{{ type.data.name }}</h5>
-                            <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-12 col-lg-2 restaurants-types-card-desktop my-3" v-for="(type, index) in  types"
+                            :key="type.data.id" @click="showRestaurants(type.data.id), selectTypes(index)">
+                            <div class="card card-type rounded-5"
+                                :class="type.selected ? 'restaurants-types-card-selected' : ''">
+                                <!-- Restaurants Types Card Img Top -->
+                                <img :src="`${store.baseUrl}/storage/${type.data.cover_image}`" class="card-img-top"
+                                    alt="types-image" />
+                                <!-- Restaurants Types Card Body -->
+                                <div class="card-body card-body-type deliveboo-orange rounded-5 rounded-top-0">
+                                    <h5 class="card-title text-white text-center">{{ type.data.name }}</h5>
+                                    <!-- Altre informazioni sulla tipologia di ristorante, se necessario -->
+                                </div>
+                                <!-- Restaurants Types Card Selected Icon -->
+                                <i class="fa-solid fa-circle-check text-green border rounded-5 border-white bg-white check-selected"
+                                    v-if="type.selected"></i>
+                            </div>
                         </div>
-                        <!-- Restaurants Types Card Selected Icon -->
-                        <i class="fa-solid fa-circle-check text-green border rounded-5 border-white bg-white check-selected"
-                            v-if="type.selected"></i>
                     </div>
                 </div>
                 <!-- Selected Restaurants Card -->
-                <div class="col-12 d-flex flex-row justify-content-center flex-wrap">
-                    <router-link class="card my-3 mx-3" v-for="( restaurant, index ) in  restaurants" :key="index"
-                        :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
-                        <!-- Restaurants Card Image -->
-                        <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" :alt="`${restaurant.slug}-image`"
-                            class="card-img-top" v-if="restaurant.cover_image" />
-
-                        <!-- Placeholder Image -->
-                        <img src="../assets/placeholder-image.jpg" alt="placeholder-image" class="card-img-top" v-else />
-                        <!-- Restaurants Card Body -->
-                        <div class="card-body">
-                            <h5 class="card-title">{{ restaurant.name }}</h5>
-                            <h6>{{ restaurant.address }}</h6>
-                            <div class="mt-4">
-                                <span class="fw-bold">Tipologie:</span>
-                                <ul class="list-unstyled d-inline-block mx-1">
-                                    <li v-for="(type, index) in restaurant.types" :key="index" class="d-inline-block">
-                                        <span>{{ type.name }}</span>
-                                        <span v-if="index < restaurant.types.length - 1" class="mx-1">•</span>
-                                    </li>
-                                </ul>
+                <div class="col-12 restaurants-container bg-white shadow rounded-5 my-3">
+                    <div class="row restaurants-row justify-content-center">
+                        <router-link class="col-12 restaurants-list" v-for="( restaurant, index ) in  restaurants"
+                            :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }">
+                            <div class="row">
+                                <!-- Restaurants Cover Image -->
+                                <div class="col-12 col-lg-6 restaurants-col-image">
+                                    <!-- Placeholder Image -->
+                                    <div class="restaurants-image shadow rounded-3" v-if="!restaurant.cover_image"
+                                        style="background-image: url(src/assets/placeholder-image.png);">
+                                    </div>
+                                    <!-- Restaurants Image -->
+                                    <div class="restaurants-image shadow rounded-3" v-else
+                                        :style="`background-image: url(${store.baseUrl}/storage/${restaurant.cover_image});`">
+                                    </div>
+                                </div>
+                                <!-- Restaurants Details -->
+                                <div class="col-12 col-lg-6 text-black restaurants-col-details">
+                                    <div class="row">
+                                        <div class="col-12 col-lg-8">
+                                            <h5>{{ restaurant.name }}</h5>
+                                            <h6>{{ restaurant.address }}</h6>
+                                            <div>
+                                                <ul class="list-unstyled">
+                                                    <li v-for="(type, index) in restaurant.types" :key="index"
+                                                        class="d-inline-block">
+                                                        <span>{{ type.name }}</span>
+                                                        <span v-if="index < restaurant.types.length - 1"
+                                                            class="mx-1">•</span>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-lg-4 d-none d-lg-block">
+                                            <div class="restaurants-second-details">
+                                                <p class="d-inline-block">
+                                                    <i class="fa-solid fa-money-bill-wave mx-1"></i>
+                                                    Consegna da: GRATIS <br> Ordine Minimo: 5 €
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </router-link>
+                        </router-link>
+                    </div>
                 </div>
             </div>
         </div>
@@ -256,6 +283,34 @@ export default {
 
 // End Restaurants Types Card
 
+// Selected Restaurants Card
+
+.restaurants-container {
+    .restaurants-row {
+        .restaurants-list {
+            margin: 20px 0;
+
+            .restaurants-col-image {
+                .restaurants-image {
+                    width: 100%;
+                    min-height: 100px;
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                }
+            }
+
+            .restaurants-col-details {
+                margin: 20px 0;
+            }
+        }
+    }
+}
+
+// End Selected Restaurants Card
+
+
+
 
 /********** MEDIAQUERY **********/
 
@@ -270,6 +325,9 @@ export default {
 // DESKTOP
 
 @media screen and (min-width: 992px) {
+
+    // Restaurants Types Card
+
     .restaurants-types-card-mobile {
         display: none;
     }
@@ -282,5 +340,36 @@ export default {
         display: block;
         cursor: pointer;
     }
+
+    // End Restaurants Types Card
+
+
+    // Selected Restaurants Card
+
+    .restaurants-container {
+        .restaurants-row {
+            padding: 30px;
+
+            .restaurants-list {
+                margin: 40px 0;
+
+                .restaurants-col-image {
+                    .restaurants-image {
+                        min-height: 110%;
+                    }
+                }
+
+                .restaurants-col-details {}
+
+                .restaurants-second-details {
+                    text-align: end;
+                    font-size: 13px;
+                }
+            }
+        }
+
+    }
+
+    // End Selected Restaurants Card
 }
 </style>      

@@ -154,6 +154,10 @@ export default {
 
 footer {
     background-color: rgb(200, 208, 216);
+
+    a:hover {
+        text-decoration: underline !important;
+    }
 }
 
 .google-apple {

@@ -126,7 +126,7 @@ export default {
         <div class="container py-5">
             <div class="row justify-content-center">
                 <!-- Restaurant And Products -->
-                <div class="col-12 col-lg-8 shadow">
+                <div class="col-12 col-lg-8 card shadow">
                     <div class="row">
                         <!-- Restaurant Details -->
                         <div class="col-12 text-center pt-4">
@@ -180,28 +180,26 @@ export default {
                     </div>
                 </div>
                 <!-- Carrello Desktop -->
-                <div class="col-4 d-none d-lg-block">
-                    <div class="text-center text-white p-3 py-5">
-                        <div class="card">
-                            <div v-if="cart.length > 0">
-                                <h1>Il tuo carrello</h1>
-                                <div class="card-body">
-                                    <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
-                                        <h5 class="d-inline-block">
-                                            {{ item.name }} x{{ item.quantity }}
-                                        </h5>
-                                        <button @click="removeFromCart(item.id)" class="btn" style="color: #f00a0a;">
-                                            <i class="fa-solid fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </div>
+                <div class="col-12 col-lg-4 d-none d-lg-block">
+                    <div class="card shadow p-3">
+                        <div v-if="cart.length > 0">
+                            <h1>Il tuo ordine</h1>
+                            <div v-for="(item, index) in cartWithQuantity" :key="index">
+                                <h5 class="d-inline-block">
+                                    {{ item.name }} x{{ item.quantity }}
+                                </h5>
+                                <button @click="removeFromCart(item.id)" class="btn" style="color: #f00a0a;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                            <div class="text-center">
                                 <h4>Totale: {{ totalAmount }} €</h4>
-                                <button class="btn btn-success my-2">Vai al checkout</button>
+                                <button class="btn btn-success">Vai al checkout</button>
                                 <button @click="clearCart()">Pulisci il carrello</button>
                             </div>
-                            <div class="p-5" v-else>
-                                <h3>Il carrello è vuoto</h3>
-                            </div>
+                        </div>
+                        <div class="p-5" v-else>
+                            <h3>Il carrello è vuoto</h3>
                         </div>
                     </div>
                 </div>
@@ -277,6 +275,11 @@ export default {
 
     .products-card {
         cursor: pointer;
+        border: 2px solid transparent;
+
+        &:hover {
+            border: 2px solid rgb(0, 149, 255);
+        }
     }
 }
 

@@ -24,8 +24,8 @@ export default {
 
 <!-- TEMPLATE HTML -->
 <template lang="">
-    <div class="container mb-5">
-        <div class="row">
+    <div class="container my-5">
+        <div class="row justify-content-center">
             <CheckForm />
         </div>
     </div>

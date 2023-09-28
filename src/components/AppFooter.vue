@@ -115,7 +115,7 @@ export default {
                     <!-- COMPANY VAT CODE -->
                     <div class="col-12 col-md-6">
                         <div class="text-iva text-center text-md-start py-2">
-                            <span>Just Eat Italy S.r.l. - P.IVA 02392740932</span>
+                            <span>Deliveboo S.r.l. - P.IVA 02392740932</span>
                         </div>
                     </div>
                     <!-- COMPANY PAYMENT METHODS -->
@@ -124,19 +124,13 @@ export default {
                             <ul
                                 class="list-group list-group-horizontal list-unstyled d-flex justify-content-center justify-content-md-end">
                                 <li class="text-lg-end pe-2 mb-2">
-                                    <a href="">
-                                        <img src="../assets/footer-img/mastercard.png" class="master-logo py-2" alt="">
-                                    </a>
+                                    <img src="../assets/footer-img/mastercard.png" class="master-logo py-2" alt="">
                                 </li>
                                 <li class="text-lg-end px-2 mb-2">
-                                    <a href="">
-                                        <img src="../assets/footer-img/visa.png" class="visa-logo" alt="">
-                                    </a>
+                                    <img src="../assets/footer-img/visa.png" class="visa-logo" alt="">
                                 </li>
                                 <li class="text-lg-end ps-2 mb-2">
-                                    <a href="">
-                                        <img src="../assets/footer-img/paypal.png" class="py-2 paypal-logo" alt="">
-                                    </a>
+                                    <img src="../assets/footer-img/paypal.png" class="py-2 paypal-logo" alt="">
                                 </li>
                             </ul>
                         </div>

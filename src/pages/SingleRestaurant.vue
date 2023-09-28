@@ -8,17 +8,25 @@ export default {
     data() {
         return {
             store,
+
             restaurant: {},
             products: [],
-            cart: JSON.parse(localStorage.getItem('cart')) || [],
-            maxQuantity: 10,
+
+            // Utilizza lo slug del ristorante come chiave per il carrello
+            cartKey: `cart_${this.slug}`,
+
+            // Il carrello specifico del ristorante verrà aggiornato e salvato nel localStorage usando la "cartKey"
+            cart: JSON.parse(localStorage.getItem(`cart_${this.slug}`)) || [],
+
+            maxQuantity: 9,
         };
     },
     watch: {
-        // Osserva il carrello e salvalo nel local storage quando cambia
+        // Osserva il carrello e salvalo nel localStorage quando cambia
         cart: {
             handler() {
-                localStorage.setItem('cart', JSON.stringify(this.cart));
+                // Utilizza la chiave specifica "cartKey" del ristorante per memorizzare il carrello
+                localStorage.setItem(this.cartKey, JSON.stringify(this.cart));
             },
             deep: true,
         },
@@ -46,7 +54,7 @@ export default {
                 }
             });
         },
-        addToCart(product) {
+        increaseCartQuantity(product) {
 
             if (!product) {
                 console.error('Prodotto non valido');
@@ -77,18 +85,22 @@ export default {
                     });
 
                 } else {
+
                     alert(`Hai raggiunto la quantità massima per ${product.name}`);
                 }
             }
 
-            localStorage.setItem('cart', JSON.stringify(this.cart));
+            localStorage.setItem(this.cartKey, JSON.stringify(this.cart));
         },
-        removeFromCart(id) {
+        decreaseCartQuantity(id) {
+
             const item = this.cart.find(item => item.id === id);
 
             if (item) {
                 if (item.quantity > 1) {
+
                     item.quantity--;
+
                 } else {
                     const index = this.cart.indexOf(item);
                     this.cart.splice(index, 1);
@@ -96,10 +108,15 @@ export default {
             }
         },
         clearCart() {
-            // Pulisci il carrello e rimuovilo dal local storage
-            this.cart = [];
-            localStorage.removeItem('cart');
+
+            // Rimuovo il carrello specifico del ristorante corrente
+            localStorage.removeItem(this.cartKey);
+
+            this.cart = []; // Svuota il carrello nella componente
         },
+        subTotal(productPrice, productQuantity) {
+            return (parseFloat(productPrice) * productQuantity).toFixed(2);
+        }
     },
     computed: {
         totalAmount() {
@@ -109,16 +126,22 @@ export default {
                 0
             ).toFixed(2);
         },
-
         cartWithQuantity() {
+
             const cartMap = new Map();
+
             this.cart.forEach(item => {
+
                 if (cartMap.has(item.id)) {
+
                     cartMap.get(item.id).quantity += item.quantity;
+
                 } else {
+
                     cartMap.set(item.id, { ...item });
                 }
             });
+
             return Array.from(cartMap.values());
         },
     },
@@ -161,7 +184,7 @@ export default {
                         <div class="col-12 products-details-container">
                             <div class="row">
                                 <!-- Products Error Message -->
-                                <div class="col-12" v-if="products && products.length === 0">
+                                <div class="col-12 text-center" v-if="products && products.length === 0">
                                     <h3>Non ci sono prodotti disponibili per questo ristorante</h3>
                                 </div>
                                 <!-- Product Card -->
@@ -188,7 +211,8 @@ export default {
                                     </div>
                                     <!-- Product Card Footer -->
                                     <div class="card-footer bg-white text-center">
-                                        <button class="btn btn-success" @click="addToCart(product)">Aggiungi</button>
+                                        <button class="btn btn-success"
+                                            @click="increaseCartQuantity(product)">Aggiungi</button>
                                     </div>
                                 </div>
                             </div>
@@ -197,80 +221,133 @@ export default {
                 </div>
                 <!-- Carrello Desktop -->
                 <div class="col-12 col-lg-4 d-none d-lg-block">
-                    <div class="card shadow p-3">
-                        <div v-if="cart.length > 0">
-                            <h1>Il tuo ordine</h1>
-                            <div v-for="(item, index) in cartWithQuantity" :key="index">
-                                <h5 class="d-inline-block">
-                                    {{ item.name }} x{{ item.quantity }}
-                                </h5>
-                                <button @click="removeFromCart(item.id)" class="btn" style="color: #f00a0a;">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
-                            <div class="text-center">
-                                <h4>Totale: {{ totalAmount }}€</h4>
-                                <router-link class="btn btn-success my-2" :to="{ name: 'payment' }">Vai al
-                                    checkout</router-link>
-                                <button @click="clearCart()">Pulisci il carrello</button>
-                            </div>
+                    <!-- Cart Card -->
+                    <div class="card shadow p-3" v-if="cart.length > 0">
+                        <!-- Cart Card Header -->
+                        <div class="card-header bg-white">
+                            <!-- Card Header Title -->
+                            <h2>Il tuo ordine</h2>
                         </div>
-                        <div class="text-center p-5" v-else>
-                            <h3>Il carrello è vuoto</h3>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Carrello Mobile -->
-    <div class="container-fluid sticky-bottom bg-white d-block d-lg-none p-3">
-        <div class="row">
-            <div class="col-12 card p-3">
-                <div class="cartel-mobile mb-2" v-if="cart.length > 0">
-                    <div class="badge bg-primary rounded-pill px-2">
-                        <i class="fa-solid fa-basket-shopping px-2"></i>
-                    </div>
-                    <span class="px-2">Totale:</span>
-                    <span class="fw-bold">{{ totalAmount }}€</span>
-                </div>
-                <!-- Button Empty Cart -->
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
-                    aria-controls="offcanvasBottom" disabled v-if="cart.length === 0">Carrello vuoto</button>
-                <!-- Button Not Empty Cart -->
-                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
-                    aria-controls="offcanvasBottom" v-else>Visualizza carrello</button>
-            </div>
-        </div>
-    </div>
-    <!-- Carrello Mobile Off Canvas -->
-    <div class="offcanvas offcanvas-bottom h-100 d-block d-lg-none overflow-y-auto" tabindex="-1" id="offcanvasBottom"
-        aria-labelledby="offcanvasBottomLabel">
-        <div class="offcanvas-header products-cart-offcanvas-header-mobile">
-            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Il tuo carrello</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body products-cart-offcanvas-body-mobile p-0">
-            <div class="container h-100">
-                <div class="row products-cart-offcanvas-body-row-mobile h-100">
-                    <div class="col-12 products-cart-offcanvas-list-mobile card shadow w-100 h-75" v-if="cart.length > 0">
+                        <!-- Cart Card Body -->
                         <div class="card-body">
-                            <ul class="list-unstyled">
-                                <li class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
-                                    <h5 class="d-inline-block">{{ item.name }} x{{ item.quantity }}</h5>
-                                </li>
-                            </ul>
+                            <!-- Card Body Products List -->
+                            <div v-for="(product, index) in cartWithQuantity" :key="index"
+                                class="row justify-content-between border-bottom pt-5 pb-3">
+                                <!-- Product Name -->
+                                <div class="col-8">
+                                    <h5 class="d-inline-block">{{ product.name }}</h5>
+                                </div>
+                                <!-- Product Quantity and Quantity Button -->
+                                <div class="col-4">
+                                    <!-- Decrease Quantity Button -->
+                                    <i class="products-quantity-button fa-solid fa-circle-minus fa-lg mx-2"
+                                        @click="decreaseCartQuantity(product.id)"></i>
+                                    <!-- Quantity Counter -->
+                                    <span class="fs-5 mx-2">{{ product.quantity }}</span>
+                                    <!-- Increase Quantity Button -->
+                                    <i class="products-quantity-button fa-solid fa-circle-plus fa-lg mx-2"
+                                        @click="increaseCartQuantity(product)"></i>
+                                </div>
+                                <!-- Product Total Price -->
+                                <div class="col-12 text-end pt-3">
+                                    <span class="fs-5 fw-bold">{{ subTotal(product.price, product.quantity) }}€</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Cart Card Footer -->
+                        <div class="card-footer bg-white border-0 text-center pt-5">
+                            <!-- Card Footer Total Amount -->
+                            <div class="py-3">
+                                <span class="fs-5">Totale: </span>
+                                <span class="fw-bold fs-5"> {{ totalAmount }}€</span>
+                            </div>
+                            <!-- Card Footer Go to CheckOut Button -->
+                            <router-link class="d-block btn btn-success py-2 my-2" :to="{ name: 'payment' }">Vai al
+                                checkout</router-link>
+                            <!-- Card Footer Clear Cart Button -->
+                            <button class="btn btn-danger mt-4" @click="clearCart()">Svuota carrello</button>
                         </div>
                     </div>
-                    <div class="col-12 my-5 py-5" v-else>
-                        <h3 class="text-center">Il tuo carrello è vuoto</h3>
+                    <!-- Empty Cart Card -->
+                    <div class="card shadow text-center p-5" v-else>
+                        <h3>Il carrello è vuoto</h3>
                     </div>
-                    <div class="col-12 text-center w-100 h-25">
-                        <h4 class="mt-4" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
-                        <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci
-                            il
-                            carrello</button>
-                        <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
+                </div>
+            </div>
+        </div>
+        <!-- Carrello Mobile -->
+        <div class="container-fluid sticky-bottom bg-white d-block d-lg-none p-3">
+            <div class="row">
+                <div class="col-12 card p-3">
+                    <div class="cartel-mobile mb-2" v-if="cart.length > 0">
+                        <!-- Carrello Mobile Shopping Icoa -->
+                        <div class="badge bg-primary rounded-pill px-2">
+                            <i class="fa-solid fa-basket-shopping px-2"></i>
+                        </div>
+                        <!-- Carrello Mobile Totale Spesa -->
+                        <span class="px-2">Totale:</span>
+                        <span class="fw-bold">{{ totalAmount }}€</span>
+                    </div>
+                    <!-- Button Empty Cart -->
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" disabled
+                        v-if="cart.length === 0">Carrello vuoto</button>
+                    <!-- Button Not Empty Cart -->
+                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom" v-else>Visualizza
+                        carrello</button>
+                </div>
+            </div>
+        </div>
+        <!-- Carrello Mobile Off Canvas -->
+        <div class="offcanvas offcanvas-bottom h-100 d-block d-lg-none overflow-y-auto" tabindex="-1" id="offcanvasBottom"
+            aria-labelledby="offcanvasBottomLabel">
+            <div class="offcanvas-header products-cart-offcanvas-header-mobile">
+                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Il tuo carrello</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body products-cart-offcanvas-body-mobile p-0">
+                <div class="container h-100">
+                    <div class="row products-cart-offcanvas-body-row-mobile h-100">
+                        <div class="col-12 products-cart-offcanvas-list-mobile card shadow w-100 h-75"
+                            v-if="cart.length > 0">
+                            <!-- Cart Card Body -->
+                            <div class="card-body">
+                                <!-- Card Body Products List -->
+                                <div v-for="(product, index) in cartWithQuantity" :key="index"
+                                    class="row justify-content-between border-bottom pt-5 pb-3">
+                                    <!-- Product Name -->
+                                    <div class="col-7">
+                                        <h5 class="d-inline-block">{{ product.name }}</h5>
+                                    </div>
+                                    <!-- Product Quantity and Quantity Button -->
+                                    <div class="col-5">
+                                        <!-- Decrease Quantity Button -->
+                                        <i class="products-quantity-button fa-solid fa-circle-minus fa-lg mx-2"
+                                            @click="decreaseCartQuantity(product.id)"></i>
+                                        <!-- Quantity Counter -->
+                                        <span class="fs-5 mx-2">{{ product.quantity }}</span>
+                                        <!-- Increase Quantity Button -->
+                                        <i class="products-quantity-button fa-solid fa-circle-plus fa-lg mx-2"
+                                            @click="increaseCartQuantity(product)"></i>
+                                    </div>
+                                    <!-- Product Total Price -->
+                                    <div class="col-12 text-end pt-3">
+                                        <span class="fs-5">{{ subTotal(product.price, product.quantity) }}€</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 my-5 py-5" v-else>
+                            <h3 class="text-center">Il tuo carrello è vuoto</h3>
+                        </div>
+                        <div class="col-12 text-center w-100 h-25">
+                            <h4 class="mt-4" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
+                            <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci
+                                il
+                                carrello</button>
+                            <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -280,12 +357,21 @@ export default {
 
 <!-- STYLE SCSS -->
 <style lang="scss">
+@use '../styles/generals.scss' as *;
+
+// RESTAURANT DETAILS
+
 .image-restaurant {
     height: 60vh;
     width: 100%;
     background-size: cover;
     background-repeat: no-repeat;
 }
+
+// END RESTAURANT DETAILS
+
+
+// PRODUCTS DETAILS
 
 .products-details-container {
     padding: 50px 0;
@@ -302,8 +388,20 @@ export default {
     }
 }
 
+// END PRODUCTS DETAILS
+
+
+// CARRELLO GENERALE
+
+.products-quantity-button {
+    cursor: pointer;
+}
+
+// CARRELLO GENERALE
+
 
 // CARRELLO MOBILE
+
 .products-cart-offcanvas-header-mobile {
     height: 65px;
 }

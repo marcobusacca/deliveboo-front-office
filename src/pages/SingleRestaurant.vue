@@ -9,8 +9,9 @@ export default {
         return {
             store,
             restaurant: {},
+            products: [],
             cart: JSON.parse(localStorage.getItem('cart')) || [],
-            maxQuantity: 100,
+            maxQuantity: 10,
         };
     },
     watch: {
@@ -36,6 +37,8 @@ export default {
 
                     this.restaurant = response.data.results;
 
+                    this.products = response.data.results.products;
+
                     this.store.loading = false;
 
                 } else {
@@ -44,6 +47,7 @@ export default {
             });
         },
         addToCart(product) {
+
             if (!product) {
                 console.error('Prodotto non valido');
                 return;
@@ -52,19 +56,26 @@ export default {
             const existingItem = this.cart.find(item => item.id === product.id);
 
             if (existingItem) {
+
                 if (existingItem.quantity < this.maxQuantity) {
+
                     existingItem.quantity++;
+
                 } else {
                     alert(`Hai raggiunto la quantità massima per ${product.name}`);
                 }
+
             } else {
+
                 if (this.cart.length < this.maxQuantity) {
+
                     this.cart.push({
                         ...product,
                         quantity: 1,
                         id: product.id,
                         restaurantId: this.restaurant.id,
                     });
+
                 } else {
                     alert(`Hai raggiunto la quantità massima per ${product.name}`);
                 }
@@ -150,13 +161,12 @@ export default {
                         <div class="col-12 products-details-container">
                             <div class="row">
                                 <!-- Products Error Message -->
-                                <div class="col-12" v-if="restaurant.products && restaurant.products.length === 0">
+                                <div class="col-12" v-if="products && products.length === 0">
                                     <h3>Non ci sono prodotti disponibili per questo ristorante</h3>
                                 </div>
                                 <!-- Product Card -->
-                                <div class="col-12 products-card card shadow rounded-3 my-2"
-                                    v-for="product in restaurant.products" :key="product.id" @click="addToCart(product)"
-                                    v-else>
+                                <div class="col-12 products-card card shadow rounded-3 p-0 my-2" v-for="product in products"
+                                    :key="product.id" v-else>
                                     <!-- Product Card Body -->
                                     <div class="card-body d-flex">
                                         <!-- Product Details -->
@@ -175,6 +185,10 @@ export default {
                                                 class="img-fluid rounded-3 w-75" alt="product-image"
                                                 v-if="product.cover_image">
                                         </div>
+                                    </div>
+                                    <!-- Product Card Footer -->
+                                    <div class="card-footer bg-white text-center">
+                                        <button class="btn btn-success" @click="addToCart(product)">Aggiungi</button>
                                     </div>
                                 </div>
                             </div>
@@ -195,13 +209,13 @@ export default {
                                 </button>
                             </div>
                             <div class="text-center">
-                                <h4>Totale: {{ totalAmount }} €</h4>
+                                <h4>Totale: {{ totalAmount }}€</h4>
                                 <router-link class="btn btn-success my-2" :to="{ name: 'payment' }">Vai al
                                     checkout</router-link>
                                 <button @click="clearCart()">Pulisci il carrello</button>
                             </div>
                         </div>
-                        <div class="p-5" v-else>
+                        <div class="text-center p-5" v-else>
                             <h3>Il carrello è vuoto</h3>
                         </div>
                     </div>
@@ -213,46 +227,48 @@ export default {
     <div class="container-fluid sticky-bottom bg-white d-block d-lg-none p-3">
         <div class="row">
             <div class="col-12 card p-3">
-                <div class="cartel-mobile mb-2">
+                <div class="cartel-mobile mb-2" v-if="cart.length > 0">
                     <div class="badge bg-primary rounded-pill px-2">
                         <i class="fa-solid fa-basket-shopping px-2"></i>
-                        <!-- <span>14</span> -->
                     </div>
-                    <span class="px-2">Hai ordinato tot prezzo</span>
+                    <span class="px-2">Totale:</span>
+                    <span class="fw-bold">{{ totalAmount }}€</span>
                 </div>
+                <!-- Button Empty Cart -->
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
-                    aria-controls="offcanvasBottom">Visualizza carrello</button>
+                    aria-controls="offcanvasBottom" disabled v-if="cart.length === 0">Carrello vuoto</button>
+                <!-- Button Not Empty Cart -->
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
+                    aria-controls="offcanvasBottom" v-else>Visualizza carrello</button>
             </div>
         </div>
     </div>
-    <!-- Carrello off canvas -->
+    <!-- Carrello Mobile Off Canvas -->
     <div class="offcanvas offcanvas-bottom h-100 d-block d-lg-none overflow-y-auto" tabindex="-1" id="offcanvasBottom"
         aria-labelledby="offcanvasBottomLabel">
-        <div class="offcanvas-header">
+        <div class="offcanvas-header products-cart-offcanvas-header-mobile">
             <h5 class="offcanvas-title" id="offcanvasBottomLabel">Il tuo carrello</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div class="offcanvas-body">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="card-body">
-                        <div v-if="cart.length > 0">
-                            <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
-                                <h5 class="d-inline-block">{{ item.name }} x{{ item.quantity }}</h5>
-                                <!-- <button @click="removeFromCart(index)" class="btn">
-                                        <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
-                                    </button> -->
-                            </div>
+        <div class="offcanvas-body products-cart-offcanvas-body-mobile p-0">
+            <div class="container h-100">
+                <div class="row products-cart-offcanvas-body-row-mobile h-100">
+                    <div class="col-12 products-cart-offcanvas-list-mobile card shadow w-100 h-75" v-if="cart.length > 0">
+                        <div class="card-body">
+                            <ul class="list-unstyled">
+                                <li class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
+                                    <h5 class="d-inline-block">{{ item.name }} x{{ item.quantity }}</h5>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="text-center p-5" v-else>
-                            <h3>Il carrello è vuoto</h3>
-                        </div>
-                        <h4 class="text-center mt-5" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 text-center my-3">
-                        <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci il
+                    <div class="col-12 my-5 py-5" v-else>
+                        <h3 class="text-center">Il tuo carrello è vuoto</h3>
+                    </div>
+                    <div class="col-12 text-center w-100 h-25">
+                        <h4 class="mt-4" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
+                        <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci
+                            il
                             carrello</button>
                         <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
                     </div>
@@ -286,9 +302,38 @@ export default {
     }
 }
 
+
+// CARRELLO MOBILE
+.products-cart-offcanvas-header-mobile {
+    height: 65px;
+}
+
+.products-cart-offcanvas-body-mobile {
+    height: calc(100% - 65px);
+
+    .products-cart-offcanvas-body-row-mobile {
+        padding: 0 20px;
+
+        .products-cart-offcanvas-list-mobile {
+            overflow-y: scroll;
+        }
+    }
+}
+
+// END CARRELLO MOBILE
+
 /********** MEDIAQUERY **********/
 
-// TABLET
+//TABLET
+@media screen and (min-width: 768px) {
+
+    .products-cart-offcanvas-body-mobile {
+
+        .products-cart-offcanvas-body-row-mobile {
+            padding: 0;
+        }
+    }
+}
 
 // DESKTOP
 @media screen and (min-width: 992px) {

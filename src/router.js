@@ -6,6 +6,9 @@ import AboutUs from './pages/AboutUs.vue';
 
 import SingleRestaurant from './pages/SingleRestaurant.vue';
 
+import CheckOut from './pages/CheckOut.vue';
+
+
 import NotFound from './pages/NotFound.vue';
 
 
@@ -30,6 +33,11 @@ const router = createRouter({
             name: 'single-restaurant',
             component: SingleRestaurant,
             props: true
+        },
+        {
+            path: '/check-out',
+            name: 'check-out',
+            component: CheckOut,
         },
         {
             path: '/:catchAll(.*)',

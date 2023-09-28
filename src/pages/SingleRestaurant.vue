@@ -145,7 +145,7 @@ export default {
                             <span>{{ restaurant.address }}</span>
                         </div>
                         <!-- Products Details -->
-                        <div class="col-12 py-5 px-4">
+                        <div class="col-12 products-details-container">
                             <div class="row">
                                 <!-- Products Error Message -->
                                 <div class="col-12" v-if="restaurant.products && restaurant.products.length === 0">
@@ -209,7 +209,7 @@ export default {
         </div>
     </div>
     <!-- Carrello Mobile -->
-    <div class="container sticky-bottom bg-white d-block d-lg-none p-3">
+    <div class="container-fluid sticky-bottom bg-white d-block d-lg-none p-3">
         <div class="row">
             <div class="col-12 card p-3">
                 <div class="cartel-mobile mb-2">
@@ -270,15 +270,27 @@ export default {
     background-repeat: no-repeat;
 }
 
-.logo-ristorante {
-    width: 200px;
+.products-details-container {
+    padding: 50px 0;
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+
+    .products-card {
+        cursor: pointer;
+    }
 }
 
-.menù {
-    background-color: yellow;
-}
+/********** MEDIAQUERY **********/
 
-.products-card {
-    cursor: pointer;
+// TABLET
+
+// DESKTOP
+@media screen and (min-width: 992px) {
+
+    .products-details-container {
+        padding: 50px 0;
+        padding-right: 3rem !important;
+        padding-left: 3rem !important;
+    }
 }
 </style>

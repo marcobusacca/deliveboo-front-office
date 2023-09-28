@@ -339,7 +339,6 @@ export default {
 /********** MEDIAQUERY **********/
 
 //TABLET
-
 @media screen and (min-width: 768px) {
     .title-image {
         width: 20vw;
@@ -347,7 +346,6 @@ export default {
 }
 
 // DESKTOP
-
 @media screen and (min-width: 992px) {
 
     // Restaurants Types Card

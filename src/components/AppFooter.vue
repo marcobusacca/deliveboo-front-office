@@ -170,7 +170,12 @@ footer {
     width: 70px;
 }
 
-@media (min-width: 992px) {
+/********** MEDIAQUERY **********/
+
+// TABLET
+
+// DESKTOP
+@media screen and (min-width: 992px) {
     .google-apple {
         padding-top: 8px;
         padding-left: 36px;

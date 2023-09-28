@@ -7,7 +7,7 @@ import AboutUs from './pages/AboutUs.vue';
 import SingleRestaurant from './pages/SingleRestaurant.vue';
 
 import NotFound from './pages/NotFound.vue';
-
+import Payment from './pages/Payment.vue';
 
 // CREIAMO IL ROUTER CON LE SUE ROTTE
 const router = createRouter({
@@ -39,6 +39,11 @@ const router = createRouter({
             path: '/pagina-non-trovata',
             name: 'not-found',
             component: NotFound,
+        },
+        {
+            path: '/order/payments',
+            name: 'payment',
+            component: Payment,
         },
     ]
 

@@ -115,54 +115,71 @@ export default {
 <!-- TEMPLATE HTML -->
 <template>
     <div class="container-fluid p-0" v-if="!store.loading">
-        <div class="container-fluid p-0">
-            <div class="row">
-                <div class="col-12">
-                    <!-- Restaurant Image Full Page -->
-                    <div class="image-restaurant"></div>
-                </div>
-            </div>
+        <!-- Restaurants PlaceHolder Image -->
+        <div class="image-restaurant"
+            style="background-image: url(https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)"
+            v-if="!restaurant.cover_image"></div>
+        <!-- Restaurants Image -->
+        <div class="image-restaurant" :style="`background-image: url(${store.baseUrl}/storage/${restaurant.cover_image});`"
+            v-else>
         </div>
         <div class="container py-5">
             <div class="row justify-content-center">
+                <!-- Restaurant And Products -->
                 <div class="col-12 col-lg-8 shadow">
-                    <div class="text-center p-3 my-3">
-                        <!-- Placeholder Image -->
-                        <img src="../assets/placeholder-image.png" alt="placeholder-image" class="img-fluid logo-ristorante"
-                            v-if="!restaurant.cover_image" />
-                        <!-- Restaurant Image -->
-                        <img :src="`${store.baseUrl}/storage/${restaurant.cover_image}`" class="img-fluid logo-ristorante"
-                            :alt="`${restaurant.slug}-logo`" v-else>
-                        <h1>{{ restaurant.name }}</h1>
-                        <p>{{ restaurant.address }}</p>
-                    </div>
                     <div class="row">
-                        <div class="d-flex justify-content-center m-4"
-                            v-if="restaurant.products && restaurant.products.length === 0">
-                            <h3>Non ci sono prodotti disponibili per questo ristorante</h3>
+                        <!-- Restaurant Details -->
+                        <div class="col-12 text-center pt-4">
+                            <!-- Restaurant Name -->
+                            <h1 class="my-3">{{ restaurant.name }}</h1>
+                            <!-- Restaurant Types List -->
+                            <div>
+                                <ul class="list-unstyled">
+                                    <li v-for="(type, index) in restaurant.types" :key="index" class="d-inline-block">
+                                        <span>{{ type.name }}</span>
+                                        <span v-if="index < restaurant.types.length - 1" class="mx-1">•</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Restaurant Address -->
+                            <span>{{ restaurant.address }}</span>
                         </div>
-                        <div class="d-flex justify-content-center" v-else>
-                            <div class="col-12 col-md-4 col-lg-4 bg-alert p-3" v-for="product in restaurant.products"
-                                :key="product.id" @click="addToCart(product)">
-                                <div class="card border-0">
-                                    <!-- Placeholder Image -->
-                                    <img src="../assets/placeholder-image.png" alt="placeholder-image"
-                                        class="card-img-top border border-black rounded-top-5"
-                                        v-if="!product.cover_image" />
-                                    <!-- Product Image -->
-                                    <img :src="`${store.baseUrl}/storage/${product.cover_image}`"
-                                        class="card-img-top border border-black rounded-top-5" alt="product-image" v-else>
-                                    <div class="card-body border border-black p-3">
-                                        <p>{{ product.name }}</p>
-                                        <p>{{ product.description }}</p>
-                                        <p>{{ product.price }}€</p>
+                        <!-- Products Details -->
+                        <div class="col-12 products-details-container">
+                            <div class="row">
+                                <!-- Products Error Message -->
+                                <div class="col-12" v-if="restaurant.products && restaurant.products.length === 0">
+                                    <h3>Non ci sono prodotti disponibili per questo ristorante</h3>
+                                </div>
+                                <!-- Product Card -->
+                                <div class="col-12 products-card card shadow rounded-3 my-2"
+                                    v-for="product in restaurant.products" :key="product.id" @click="addToCart(product)"
+                                    v-else>
+                                    <!-- Product Card Body -->
+                                    <div class="card-body d-flex">
+                                        <!-- Product Details -->
+                                        <div class="col-12 col-lg-8">
+                                            <!-- Product Name -->
+                                            <h3>{{ product.name }}</h3>
+                                            <!-- Product Ingredients -->
+                                            <span class="d-block my-3">{{ product.ingredients }}</span>
+                                            <!-- Product Price -->
+                                            <span class="d-block fw-bold my-3">{{ product.price }}€</span>
+                                        </div>
+                                        <!-- Product Image -->
+                                        <div
+                                            class="col-12 col-lg-4 d-none d-lg-flex justify-content-center align-items-center">
+                                            <img :src="`${store.baseUrl}/storage/${product.cover_image}`"
+                                                class="img-fluid rounded-3 w-75" alt="product-image"
+                                                v-if="product.cover_image">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Carrello versione desktop -->
+                <!-- Carrello Desktop -->
                 <div class="col-4 d-none d-lg-block">
                     <div class="text-center text-white p-3 py-5">
                         <div class="card">
@@ -190,53 +207,53 @@ export default {
                 </div>
             </div>
         </div>
-        <!-- Carrello versione mobile -->
-        <div class="container sticky-bottom bg-white d-block d-lg-none p-3">
-            <div class="row">
-                <div class="col-12 card p-3">
-                    <div class="cartel-mobile mb-2">
-                        <div class="badge bg-primary rounded-pill px-2">
-                            <i class="fa-solid fa-basket-shopping px-2"></i>
-                            <!-- <span>14</span> -->
-                        </div>
-                        <span class="px-2">Hai ordinato tot prezzo</span>
+    </div>
+    <!-- Carrello Mobile -->
+    <div class="container-fluid sticky-bottom bg-white d-block d-lg-none p-3">
+        <div class="row">
+            <div class="col-12 card p-3">
+                <div class="cartel-mobile mb-2">
+                    <div class="badge bg-primary rounded-pill px-2">
+                        <i class="fa-solid fa-basket-shopping px-2"></i>
+                        <!-- <span>14</span> -->
                     </div>
-                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#offcanvasBottom" aria-controls="offcanvasBottom">Visualizza carrello</button>
+                    <span class="px-2">Hai ordinato tot prezzo</span>
                 </div>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasBottom"
+                    aria-controls="offcanvasBottom">Visualizza carrello</button>
             </div>
         </div>
-        <!-- Carrello off canvas -->
-        <div class="offcanvas offcanvas-bottom h-100 d-block d-lg-none overflow-y-auto" tabindex="-1" id="offcanvasBottom"
-            aria-labelledby="offcanvasBottomLabel">
-            <div class="offcanvas-header">
-                <h5 class="offcanvas-title" id="offcanvasBottomLabel">Il tuo carrello</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div>
-            <div class="offcanvas-body">
-                <div class="container">
-                    <div class="row justify-content-center">
-                        <div class="card-body">
-                            <div v-if="cart.length > 0">
-                                <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
-                                    <h5 class="d-inline-block">{{ item.name }} x{{ item.quantity }}</h5>
-                                    <!-- <button @click="removeFromCart(index)" class="btn">
+    </div>
+    <!-- Carrello off canvas -->
+    <div class="offcanvas offcanvas-bottom h-100 d-block d-lg-none overflow-y-auto" tabindex="-1" id="offcanvasBottom"
+        aria-labelledby="offcanvasBottomLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasBottomLabel">Il tuo carrello</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="card-body">
+                        <div v-if="cart.length > 0">
+                            <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
+                                <h5 class="d-inline-block">{{ item.name }} x{{ item.quantity }}</h5>
+                                <!-- <button @click="removeFromCart(index)" class="btn">
                                         <i class="fa-solid fa-trash" style="color: #f00a0a;"></i>
                                     </button> -->
-                                </div>
                             </div>
-                            <div class="text-center p-5" v-else>
-                                <h3>Il carrello è vuoto</h3>
-                            </div>
-                            <h4 class="text-center mt-5" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
                         </div>
+                        <div class="text-center p-5" v-else>
+                            <h3>Il carrello è vuoto</h3>
+                        </div>
+                        <h4 class="text-center mt-5" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
                     </div>
-                    <div class="row">
-                        <div class="col-12 text-center my-3">
-                            <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci il
-                                carrello</button>
-                            <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
-                        </div>
+                </div>
+                <div class="row">
+                    <div class="col-12 text-center my-3">
+                        <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci il
+                            carrello</button>
+                        <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
                     </div>
                 </div>
             </div>
@@ -247,19 +264,33 @@ export default {
 <!-- STYLE SCSS -->
 <style lang="scss">
 .image-restaurant {
-    height: 65vh;
+    height: 60vh;
     width: 100%;
-    background-color: green;
-    background-image: url(../assets/bacon.jpg);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-.logo-ristorante {
-    width: 200px;
+.products-details-container {
+    padding: 50px 0;
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+
+    .products-card {
+        cursor: pointer;
+    }
 }
 
-.menù {
-    background-color: yellow;
+/********** MEDIAQUERY **********/
+
+// TABLET
+
+// DESKTOP
+@media screen and (min-width: 992px) {
+
+    .products-details-container {
+        padding: 50px 0;
+        padding-right: 3rem !important;
+        padding-left: 3rem !important;
+    }
 }
 </style>

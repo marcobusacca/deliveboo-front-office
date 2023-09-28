@@ -173,14 +173,17 @@ export default {
                 <!-- Selected Restaurants Card -->
                 <div class="col-12 restaurants-container bg-white shadow rounded-5 my-3">
                     <div class="row">
+                        <!-- AppLoaderRestaurants -->
                         <div class="col-12 text-center py-5" v-if="store.loadingRestaurants">
                             <AppLoaderRestaurants />
                         </div>
                     </div>
                     <div class="row restaurants-row justify-content-center">
+                        <!-- Restaurants Error Message -->
                         <div class="col-12 text-center py-5" v-if="!store.loadingRestaurants && restaurants.length == 0">
                             <h2>Nessun ristorante disponibile</h2>
                         </div>
+                        <!-- Restaurants List -->
                         <router-link class="col-12 restaurants-list" v-for="( restaurant, index ) in  restaurants"
                             :key="index" :to="{ name: 'single-restaurant', params: { slug: restaurant.slug } }"
                             v-if="!store.loadingRestaurants && restaurants.length != 0"
@@ -189,20 +192,25 @@ export default {
                                 <!-- Restaurants Cover Image -->
                                 <div class="col-12 col-lg-6 restaurants-col-image">
                                     <!-- Placeholder Image -->
-                                    <div class="restaurants-image shadow rounded-3" v-if="!restaurant.cover_image"
-                                        style="background-image: url(src/assets/placeholder-image.png);">
+                                    <div class="restaurants-image shadow rounded-3"
+                                        style="background-image: url(src/assets/placeholder-image.png);"
+                                        v-if="!restaurant.cover_image">
                                     </div>
                                     <!-- Restaurants Image -->
-                                    <div class="restaurants-image shadow rounded-3" v-else
-                                        :style="`background-image: url(${store.baseUrl}/storage/${restaurant.cover_image});`">
+                                    <div class="restaurants-image shadow rounded-3"
+                                        :style="`background-image: url(${store.baseUrl}/storage/${restaurant.cover_image});`"
+                                        v-else>
                                     </div>
                                 </div>
-                                <!-- Restaurants Details -->
+                                <!-- Restaurant Details -->
                                 <div class="col-12 col-lg-6 text-black restaurants-col-details">
                                     <div class="row">
                                         <div class="col-12 col-lg-8">
+                                            <!-- Restaurant Name -->
                                             <h5>{{ restaurant.name }}</h5>
+                                            <!-- Restaurant Address -->
                                             <h6>{{ restaurant.address }}</h6>
+                                            <!-- Restaurant Types List -->
                                             <div>
                                                 <ul class="list-unstyled">
                                                     <li v-for="(type, index) in restaurant.types" :key="index"
@@ -214,6 +222,7 @@ export default {
                                                 </ul>
                                             </div>
                                         </div>
+                                        <!-- Restaurant Other Info -->
                                         <div class="col-12 col-lg-4 d-none d-lg-block">
                                             <div class="restaurants-second-details">
                                                 <p class="d-inline-block">
@@ -330,7 +339,6 @@ export default {
 /********** MEDIAQUERY **********/
 
 //TABLET
-
 @media screen and (min-width: 768px) {
     .title-image {
         width: 20vw;
@@ -338,7 +346,6 @@ export default {
 }
 
 // DESKTOP
-
 @media screen and (min-width: 992px) {
 
     // Restaurants Types Card

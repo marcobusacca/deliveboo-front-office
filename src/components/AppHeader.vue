@@ -60,6 +60,11 @@ header {
 
 }
 
+/********** MEDIAQUERY **********/
+
+// TABLET
+
+// DESKTOP
 @media screen and (min-width: 992px) {
 
     header {

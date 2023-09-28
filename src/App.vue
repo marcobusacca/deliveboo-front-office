@@ -36,6 +36,18 @@ export default {
 @use './styles/generals.scss' as *;
 
 main {
-    padding-top: 80px;
+    padding-top: 69px;
+}
+
+/********** MEDIAQUERY **********/
+
+// TABLET
+
+// DESKTOP
+@media screen and (min-width: 992px) {
+
+    main {
+        padding-top: 80px;
+    }
 }
 </style>

@@ -69,6 +69,8 @@ export default {
                     alert(`Hai raggiunto la quantità massima per ${product.name}`);
                 }
             }
+
+            localStorage.setItem('cart', JSON.stringify(this.cart));
         },
         removeFromCart(id) {
             const item = this.cart.find(item => item.id === id);
@@ -194,7 +196,8 @@ export default {
                             </div>
                             <div class="text-center">
                                 <h4>Totale: {{ totalAmount }} €</h4>
-                                <button class="btn btn-success">Vai al checkout</button>
+                                <router-link class="btn btn-success my-2" :to="{ name: 'payment' }">Vai al
+                                    checkout</router-link>
                                 <button @click="clearCart()">Pulisci il carrello</button>
                             </div>
                         </div>

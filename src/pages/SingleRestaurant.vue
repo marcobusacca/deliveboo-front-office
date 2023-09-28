@@ -278,7 +278,7 @@ export default {
         border: 2px solid transparent;
 
         &:hover {
-            border: 2px solid rgb(0, 149, 255);
+            border: 2px solid #0D6EFD;
         }
     }
 }

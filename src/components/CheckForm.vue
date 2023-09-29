@@ -85,47 +85,9 @@ export default {
                 this.store.loading = false;
             }
         },
-        addToCart(product) {
-            if (!product) {
-                console.error('Prodotto non valido');
-                return;
-            }
-
-            const existingItem = this.cart.find(item => item.id === product.id);
-
-            if (existingItem) {
-                if (existingItem.quantity < this.maxQuantity) {
-                    existingItem.quantity++;
-                } else {
-                    alert(`Hai raggiunto la quantità massima per ${product.name}`);
-                }
-            } else {
-                if (this.cart.length < this.maxQuantity) {
-                    this.cart.push({
-                        ...product,
-                        quantity: 1,
-                        id: product.id,
-                        restaurantId: this.restaurant.id,
-                    });
-                } else {
-                    alert(`Hai raggiunto la quantità massima per ${product.name}`);
-                }
-            }
-
-            localStorage.setItem(this.cart, JSON.stringify(this.cart));
-        },
-        removeFromCart(id) {
-            const item = this.cart.find(item => item.id === id);
-
-            if (item) {
-                if (item.quantity > 1) {
-                    item.quantity--;
-                } else {
-                    const index = this.cart.indexOf(item);
-                    this.cart.splice(index, 1);
-                }
-            }
-        },
+        subTotal(productPrice, productQuantity) {
+            return (parseFloat(productPrice) * productQuantity).toFixed(2);
+        }
     },
     computed: {
         totalAmount() {
@@ -157,29 +119,28 @@ export default {
         <h3>Dettagli del tuo ordine</h3>
         <div class="container">
             <div class="row">
-                <div class="col">
-                    <div v-if="cart.length > 0">
-                        <div class="card-body">
-                            <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
-                                <h5 class="d-inline-block">
-                                    {{ item.name }} x{{ item.quantity }}
-                                </h5>
-                                <button @click="removeFromCart(item.id)" class="btn" style="color: #f00a0a;">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                                <button @click="addToCart(product)" class="btn" style="color: #f00a0a;">
-                                    <i class="fa-solid fa-trash"></i>
-                                </button>
-                            </div>
+                <div class="col d-flex flex-column align-items-start justify-content-center" v-if="cart.length > 0">
+                    <div class="d-flex my-3" v-for="(item, index) in cartWithQuantity" :key="index">
+                        <div class="text-center my-5">
+                            <h5 class="d-inline-block">
+                                {{ item.name }}
+                            </h5>
+                            <h6 class="d-flex">
+                                Quantità: {{ item.quantity }}
+                            </h6>
+                            <h6 class="d-flex">
+                                Subtotale: {{ subTotal(item.price, item.quantity)}}€
+                            </h6>
                         </div>
-                        <h4>Totale: {{ totalAmount }} €</h4>
-                        <!-- <router-link class="btn btn-success my-2" :to="{ name: 'payment' }">Vai al
-                            checkout</router-link> -->
+                        <hr>
                     </div>
-                    <div class="p-5" v-else>
-                        <h3>Il carrello è vuoto</h3>
-                    </div>
+                    <h4>Totale: {{ totalAmount }} €</h4>
+                    <!-- <router-link class="btn btn-success my-2" :to="{ name: 'payment' }">Vai al
+                        checkout</router-link> -->
                 </div>
+                <div class="col p-5" v-else>
+                    <h3>Il carrello è vuoto</h3>
+                </div>  
             </div>
             <div class="row">
                  <!-- NOTE FORM GROUP -->

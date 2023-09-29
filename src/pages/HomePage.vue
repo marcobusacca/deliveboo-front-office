@@ -56,7 +56,7 @@ export default {
 
                 if (response.data.success) {
 
-                    this.restaurants = response.data.results;
+                    this.restaurants = response.data.results.data;
 
                     this.store.loadingRestaurants = false;
 
@@ -87,7 +87,7 @@ export default {
 
                     if (response.data.success) {
 
-                        this.restaurants = response.data.results;
+                        this.restaurants = response.data.results.data;
 
                         this.store.loadingRestaurants = false;
 

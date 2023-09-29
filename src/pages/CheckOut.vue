@@ -15,8 +15,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.cartKey)
-        console.log(this.cart)
         this.setLoadingFalse();
         this.getCartData()
     },

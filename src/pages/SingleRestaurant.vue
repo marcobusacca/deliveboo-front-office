@@ -18,7 +18,7 @@ export default {
             // Il carrello specifico del ristorante verrà aggiornato e salvato nel localStorage usando la "cartKey"
             cart: JSON.parse(localStorage.getItem(`cart_${this.slug}`)) || [],
 
-            maxQuantity: 9,
+            maxQuantity: 99,
         };
     },
     watch: {
@@ -231,10 +231,10 @@ export default {
                         <div class="card-body">
                             <!-- Card Body Products List -->
                             <div v-for="(product, index) in cartWithQuantity" :key="index"
-                                class="row justify-content-between border-bottom pt-5 pb-3">
+                                class="row justify-content-between border-bottom py-3">
                                 <!-- Product Name -->
                                 <div class="col-8">
-                                    <h5 class="d-inline-block">{{ product.name }}</h5>
+                                    <span class="d-inline-block">{{ product.name }}</span>
                                 </div>
                                 <!-- Product Quantity and Quantity Button -->
                                 <div class="col-4 d-flex justify-content-end align-items-center">
@@ -252,22 +252,22 @@ export default {
                                 </div>
                                 <!-- Product Sub Total Price -->
                                 <div class="col-12 text-end pt-3">
-                                    <span class="fs-5 fw-bold">{{ subTotal(product.price, product.quantity) }}€</span>
+                                    <span class="fs-6 fw-bold">{{ subTotal(product.price, product.quantity) }}€</span>
                                 </div>
                             </div>
                         </div>
                         <!-- Cart Card Footer -->
-                        <div class="card-footer bg-white border-0 text-center pt-5">
+                        <div class="card-footer bg-white border-0 text-center pt-2">
                             <!-- Card Footer Total Amount -->
-                            <div class="py-3">
+                            <div>
                                 <span class="fs-5">Totale: </span>
                                 <span class="fw-bold fs-5"> {{ totalAmount }}€</span>
                             </div>
                             <!-- Card Footer Go to CheckOut Button -->
-                            <router-link class="d-block btn btn-success py-2 my-2" :to="{ name: 'payment' }">Vai al
+                            <router-link class="d-block btn btn-success py-2 my-3" :to="{ name: 'payment' }">Vai al
                                 checkout</router-link>
                             <!-- Card Footer Clear Cart Button -->
-                            <button class="btn btn-danger mt-4" @click="clearCart()">Svuota carrello</button>
+                            <button class="btn btn-danger" @click="clearCart()">Svuota carrello</button>
                         </div>
                     </div>
                     <!-- Empty Cart Card -->
@@ -317,13 +317,13 @@ export default {
                             <div class="card-body">
                                 <!-- Card Body Products List -->
                                 <div v-for="(product, index) in cartWithQuantity" :key="index"
-                                    class="row justify-content-between border-bottom pt-5 pb-3">
+                                    class="row justify-content-between border-bottom py-3">
                                     <!-- Product Name -->
                                     <div class="col-7">
-                                        <h5 class="d-inline-block">{{ product.name }}</h5>
+                                        <span class="d-inline-block">{{ product.name }}</span>
                                     </div>
                                     <!-- Product Quantity and Quantity Button -->
-                                    <div class="col-5  d-flex justify-content-end align-items-cente">
+                                    <div class="col-5 d-flex justify-content-end align-items-center">
                                         <!-- Decrease Quantity Button -->
                                         <button class="btn btn-sm border-0 p-0 mx-1"
                                             @click="decreaseCartQuantity(product.id)">
@@ -339,25 +339,27 @@ export default {
                                     </div>
                                     <!-- Product Total Price -->
                                     <div class="col-12 text-end pt-3">
-                                        <span class="fs-5">{{ subTotal(product.price, product.quantity) }}€</span>
+                                        <span class="fs-6 fw-bold">{{ subTotal(product.price, product.quantity) }}€</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <!-- Cart Col -->
+                        <div class="col-12 text-center w-100 h-25" v-if="cart.length > 0">
+                            <!-- Total Amount -->
+                            <div class="pt-3">
+                                <span class="fs-5">Totale: </span>
+                                <span class="fw-bold fs-5"> {{ totalAmount }}€</span>
+                            </div>
+                            <!-- Check Out Button -->
+                            <router-link class="d-block btn btn-success py-2 my-2" :to="{ name: 'payment' }">Vai al
+                                checkout</router-link>
+                            <!-- Clear Cart Button -->
+                            <button class="btn btn-danger" @click="clearCart()">Svuota carrello</button>
+                        </div>
                         <!-- Empty Cart Col -->
                         <div class="col-12 my-5 py-5" v-else>
                             <h3 class="text-center">Il tuo carrello è vuoto</h3>
-                        </div>
-                        <!-- Cart Col -->
-                        <div class="col-12 text-center w-100 h-25">
-                            <!-- Cart Total Amount -->
-                            <h4 class="mt-4" v-if="cart.length > 0">Totale: {{ totalAmount }}€</h4>
-                            <!-- Cart Clear Cart Button -->
-                            <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci
-                                il
-                                carrello</button>
-                            <!-- Cart Check Out Button -->
-                            <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
                         </div>
                     </div>
                 </div>
@@ -369,6 +371,11 @@ export default {
 <!-- STYLE SCSS -->
 <style lang="scss">
 @use '../styles/generals.scss' as *;
+
+// LAYOUT MAIN
+
+// END LAYOUT MAIN
+
 
 // RESTAURANT DETAILS
 

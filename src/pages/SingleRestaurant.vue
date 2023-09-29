@@ -68,9 +68,6 @@ export default {
                 if (existingItem.quantity < this.maxQuantity) {
 
                     existingItem.quantity++;
-
-                } else {
-                    alert(`Hai raggiunto la quantità massima per ${product.name}`);
                 }
 
             } else {
@@ -120,11 +117,13 @@ export default {
     },
     computed: {
         totalAmount() {
+
             return this.cart.reduce(
                 (total, item) =>
                     total + parseFloat(item.price) * item.quantity,
                 0
             ).toFixed(2);
+
         },
         cartWithQuantity() {
 
@@ -238,17 +237,20 @@ export default {
                                     <h5 class="d-inline-block">{{ product.name }}</h5>
                                 </div>
                                 <!-- Product Quantity and Quantity Button -->
-                                <div class="col-4">
+                                <div class="col-4 d-flex justify-content-end align-items-center">
                                     <!-- Decrease Quantity Button -->
-                                    <i class="products-quantity-button fa-solid fa-circle-minus fa-lg mx-2"
-                                        @click="decreaseCartQuantity(product.id)"></i>
+                                    <button class="btn btn-sm border-0 p-0 mx-1" @click="decreaseCartQuantity(product.id)">
+                                        <i class="fa-solid fa-circle-minus fa-lg"></i>
+                                    </button>
                                     <!-- Quantity Counter -->
                                     <span class="fs-5 mx-2">{{ product.quantity }}</span>
                                     <!-- Increase Quantity Button -->
-                                    <i class="products-quantity-button fa-solid fa-circle-plus fa-lg mx-2"
-                                        @click="increaseCartQuantity(product)"></i>
+                                    <button class="btn btn-sm border-0 p-0 mx-1" @click="increaseCartQuantity(product)"
+                                        :disabled="product.quantity >= maxQuantity">
+                                        <i class="fa-solid fa-circle-plus fa-lg"></i>
+                                    </button>
                                 </div>
-                                <!-- Product Total Price -->
+                                <!-- Product Sub Total Price -->
                                 <div class="col-12 text-end pt-3">
                                     <span class="fs-5 fw-bold">{{ subTotal(product.price, product.quantity) }}€</span>
                                 </div>
@@ -321,15 +323,19 @@ export default {
                                         <h5 class="d-inline-block">{{ product.name }}</h5>
                                     </div>
                                     <!-- Product Quantity and Quantity Button -->
-                                    <div class="col-5">
+                                    <div class="col-5  d-flex justify-content-end align-items-cente">
                                         <!-- Decrease Quantity Button -->
-                                        <i class="products-quantity-button fa-solid fa-circle-minus fa-lg mx-2"
-                                            @click="decreaseCartQuantity(product.id)"></i>
+                                        <button class="btn btn-sm border-0 p-0 mx-1"
+                                            @click="decreaseCartQuantity(product.id)">
+                                            <i class="fa-solid fa-circle-minus fa-lg"></i>
+                                        </button>
                                         <!-- Quantity Counter -->
                                         <span class="fs-5 mx-2">{{ product.quantity }}</span>
                                         <!-- Increase Quantity Button -->
-                                        <i class="products-quantity-button fa-solid fa-circle-plus fa-lg mx-2"
-                                            @click="increaseCartQuantity(product)"></i>
+                                        <button class="btn btn-sm border-0 p-0 mx-1" @click="increaseCartQuantity(product)"
+                                            :disabled="product.quantity >= maxQuantity">
+                                            <i class="fa-solid fa-circle-plus fa-lg"></i>
+                                        </button>
                                     </div>
                                     <!-- Product Total Price -->
                                     <div class="col-12 text-end pt-3">
@@ -338,14 +344,19 @@ export default {
                                 </div>
                             </div>
                         </div>
+                        <!-- Empty Cart Col -->
                         <div class="col-12 my-5 py-5" v-else>
                             <h3 class="text-center">Il tuo carrello è vuoto</h3>
                         </div>
+                        <!-- Cart Col -->
                         <div class="col-12 text-center w-100 h-25">
-                            <h4 class="mt-4" v-if="cart.length > 0">Totale: {{ totalAmount }} €</h4>
+                            <!-- Cart Total Amount -->
+                            <h4 class="mt-4" v-if="cart.length > 0">Totale: {{ totalAmount }}€</h4>
+                            <!-- Cart Clear Cart Button -->
                             <button @click="clearCart()" class="btn btn-danger my-2 w-50" v-if="cart.length > 0">Pulisci
                                 il
                                 carrello</button>
+                            <!-- Cart Check Out Button -->
                             <button class="btn btn-success p-3 w-100" v-if="cart.length > 0">Effettua pagamento</button>
                         </div>
                     </div>
@@ -391,15 +402,6 @@ export default {
 // END PRODUCTS DETAILS
 
 
-// CARRELLO GENERALE
-
-.products-quantity-button {
-    cursor: pointer;
-}
-
-// CARRELLO GENERALE
-
-
 // CARRELLO MOBILE
 
 .products-cart-offcanvas-header-mobile {
@@ -419,6 +421,8 @@ export default {
 }
 
 // END CARRELLO MOBILE
+
+
 
 /********** MEDIAQUERY **********/
 

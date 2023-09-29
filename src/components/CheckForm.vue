@@ -5,13 +5,13 @@ import { store } from '../store';
 import axios from 'axios';
 
 export default {
+    props: ['cart'],
     components: {
 
     },
     data() {
         return {
             store,
-
             loading: false,
 
             name: '',
@@ -25,55 +25,129 @@ export default {
             errors: {},
         }
     },
-     methods: {
-         sendForm() {
+    mounted() {
+        this.getCart()
+    },
+    methods: {
+        sendForm() {
 
-             this.loading = true;
+            this.loading = true;
 
-              //SALVO I DATI DI INPUT DELL'UTENTE
-             const form_data = {
+            //SALVO I DATI DI INPUT DELL'UTENTE
+            const form_data = {
 
-                 name: this.name,
-                 surname: this.surname,
-                 phone: this.phone,
-                 email: this.email,
-                 address: this.address,
-                 intercom: this.intercom,
-                 note: this.note,
+                name: this.name,
+                surname: this.surname,
+                phone: this.phone,
+                email: this.email,
+                address: this.address,
+                intercom: this.intercom,
+                note: this.note,
 
-             };
+            };
 
-              //SVUOTO L'OGGETTO CONTENTE I MESSAGGI DI ERRORE
-             this.errors = {};
+            //SVUOTO L'OGGETTO CONTENTE I MESSAGGI DI ERRORE
+            this.errors = {};
 
-              //EFFETTUIAMO LA CHIAMATA AXIOS IN POST
-             axios.post(`${this.store.baseUrl}/api/`, form_data).then((response) => {
+            //EFFETTUIAMO LA CHIAMATA AXIOS IN POST
+            axios.post(`${this.store.baseUrl}/api/`, form_data).then((response) => {
 
-                 if (response.data.success) {
+                if (response.data.success) {
 
                     //RIPULISCO I DATI DI INPUT
-                     this.name = '';
-                     this.surname = '';
-                     this.phone = '';
-                     this.email = '';
-                     this.address = '';
-                     this.intercom = '';
-                     this.note = '';
+                    this.name = '';
+                    this.surname = '';
+                    this.phone = '';
+                    this.email = '';
+                    this.address = '';
+                    this.intercom = '';
+                    this.note = '';
 
-                     this.loading = false;
+                    this.loading = false;
 
-                     this.$router.push({ name: 'thank-you' });
+                    this.$router.push({ name: 'thank-you' });
 
-                 } else {
+                } else {
 
                     //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
-                     this.errors = response.data.errors;
+                    this.errors = response.data.errors;
 
-                     this.loading = false;
-                 }
-             });
-         }
-     },
+                    this.loading = false;
+                }
+            });
+        },
+        getCart() {
+            this.store.loading = true;
+            const cart = JSON.parse(localStorage.getItem(this.cart));
+
+            if (cart) {
+                this.cart = cart
+                this.store.loading = false;
+            }
+        },
+        addToCart(product) {
+            if (!product) {
+                console.error('Prodotto non valido');
+                return;
+            }
+
+            const existingItem = this.cart.find(item => item.id === product.id);
+
+            if (existingItem) {
+                if (existingItem.quantity < this.maxQuantity) {
+                    existingItem.quantity++;
+                } else {
+                    alert(`Hai raggiunto la quantità massima per ${product.name}`);
+                }
+            } else {
+                if (this.cart.length < this.maxQuantity) {
+                    this.cart.push({
+                        ...product,
+                        quantity: 1,
+                        id: product.id,
+                        restaurantId: this.restaurant.id,
+                    });
+                } else {
+                    alert(`Hai raggiunto la quantità massima per ${product.name}`);
+                }
+            }
+
+            localStorage.setItem(this.cart, JSON.stringify(this.cart));
+        },
+        removeFromCart(id) {
+            const item = this.cart.find(item => item.id === id);
+
+            if (item) {
+                if (item.quantity > 1) {
+                    item.quantity--;
+                } else {
+                    const index = this.cart.indexOf(item);
+                    this.cart.splice(index, 1);
+                }
+            }
+        },
+    },
+    computed: {
+        totalAmount() {
+            return this.cart.reduce(
+                (total, item) =>
+                    total + parseFloat(item.price) * item.quantity,
+                0
+            ).toFixed(2);
+        },
+
+        cartWithQuantity() {
+            const cartMap = new Map();
+            this.cart.forEach(item => {
+                if (cartMap.has(item.id)) {
+                    cartMap.get(item.id).quantity += item.quantity;
+                } else {
+                    cartMap.set(item.id, { ...item });
+                }
+            });
+            return Array.from(cartMap.values());
+        },
+    },
 }
 </script>
 
@@ -82,6 +156,31 @@ export default {
     <div class="col-12 col-lg-4 card shadow mx-2 p-3 mb-3">
         <h3>Dettagli del tuo ordine</h3>
         <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div v-if="cart.length > 0">
+                        <div class="card-body">
+                            <div class="text-center my-5" v-for="(item, index) in cartWithQuantity" :key="index">
+                                <h5 class="d-inline-block">
+                                    {{ item.name }} x{{ item.quantity }}
+                                </h5>
+                                <button @click="removeFromCart(item.id)" class="btn" style="color: #f00a0a;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                                <button @click="addToCart(product)" class="btn" style="color: #f00a0a;">
+                                    <i class="fa-solid fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <h4>Totale: {{ totalAmount }} €</h4>
+                        <!-- <router-link class="btn btn-success my-2" :to="{ name: 'payment' }">Vai al
+                            checkout</router-link> -->
+                    </div>
+                    <div class="p-5" v-else>
+                        <h3>Il carrello è vuoto</h3>
+                    </div>
+                </div>
+            </div>
             <div class="row">
                  <!-- NOTE FORM GROUP -->
                  <div class="col-12 my-2">

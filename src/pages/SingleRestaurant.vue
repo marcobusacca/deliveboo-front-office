@@ -264,7 +264,8 @@ export default {
                                 <span class="fw-bold fs-5"> {{ totalAmount }}€</span>
                             </div>
                             <!-- Card Footer Go to CheckOut Button -->
-                            <router-link class="d-block btn btn-success py-2 my-2" :to="{ name: 'payment' }">Vai al
+                            <router-link class="d-block btn btn-success py-2 my-2"
+                                :to="{ name: 'check-out', params: { slug: restaurant.slug } }">Vai al
                                 checkout</router-link>
                             <!-- Card Footer Clear Cart Button -->
                             <button class="btn btn-danger mt-4" @click="clearCart()">Svuota carrello</button>

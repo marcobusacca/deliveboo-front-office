@@ -50,7 +50,7 @@ export default {
             this.errors = {};
 
             //EFFETTUIAMO LA CHIAMATA AXIOS IN POST
-            axios.post(`${this.store.baseUrl}/api/`, form_data).then((response) => {
+            axios.post(`${this.store.baseUrl}/api/process-payment`, form_data).then((response) => {
 
                 if (response.data.success) {
 
@@ -135,8 +135,6 @@ export default {
                         <hr>
                     </div>
                     <h4>Totale: {{ totalAmount }} €</h4>
-                    <!-- <router-link class="btn btn-success my-2" :to="{ name: 'payment' }">Vai al
-                        checkout</router-link> -->
                 </div>
                 <div class="col p-5" v-else>
                     <h3>Il carrello è vuoto</h3>

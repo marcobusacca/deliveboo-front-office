@@ -42,7 +42,7 @@ export default {
 
 header {
     position: fixed;
-    z-index: 1;
+    z-index: 100;
     width: 100%;
     background-color: #FF8100;
 

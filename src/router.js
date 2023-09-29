@@ -34,7 +34,7 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/check-out/:slug',
+            path: '/restaurants/:slug/check-out',
             name: 'check-out',
             component: CheckOut,
             props: true

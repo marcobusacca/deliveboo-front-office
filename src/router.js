@@ -8,7 +8,6 @@ import SingleRestaurant from './pages/SingleRestaurant.vue';
 
 import CheckOut from './pages/CheckOut.vue';
 
-
 import NotFound from './pages/NotFound.vue';
 
 // CREIAMO IL ROUTER CON LE SUE ROTTE

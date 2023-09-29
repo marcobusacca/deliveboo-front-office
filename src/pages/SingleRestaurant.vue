@@ -371,7 +371,8 @@ export default {
                                 <span class="fw-bold fs-5"> {{ totalAmount }}€</span>
                             </div>
                             <!-- Check Out Button -->
-                            <router-link class="d-block btn btn-success py-2 my-2" :to="{ name: 'payment' }">Vai al
+                            <router-link class="d-block btn btn-success py-2 my-2"
+                                :to="{ name: 'check-out', params: { slug: restaurant.slug } }">Vai al
                                 checkout</router-link>
                             <!-- Clear Cart Button -->
                             <button class="btn btn-danger" @click="clearCart()">Svuota carrello</button>

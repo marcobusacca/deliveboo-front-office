@@ -11,14 +11,20 @@ export default {
     data() {
         return {
             store,
+
             types: [],
             selectedTypes: [],
+
             restaurants: [],
+
+            currentPage: 1,
+            lastPage: null,
+            pageList: [],
         }
     },
     mounted() {
         this.getRestaurantsTypes();
-        this.getRestaurants();
+        this.getRestaurants(1);
     },
     methods: {
         getRestaurantsTypes() {
@@ -48,19 +54,25 @@ export default {
                 }
             });
         },
-        getRestaurants() {
+        getRestaurants(num_page) {
 
             this.store.loadingRestaurants = true;
 
-            axios.get(`${store.baseUrl}/api/restaurants`).then((response) => {
+            axios.get(`${store.baseUrl}/api/restaurants`, { params: { page: num_page } }).then((response) => {
 
                 if (response.data.success) {
 
-                    this.restaurants = response.data.results;
+                    this.restaurants = response.data.results.data;
+
+                    this.currentPage = response.data.results.current_page;
+                    this.lastPage = response.data.results.last_page;
 
                     this.store.loadingRestaurants = false;
 
+                    this.getPageList(this.lastPage);
+
                 } else {
+
                     this.$router.push({ name: 'not-found' });
                 }
             });
@@ -73,9 +85,9 @@ export default {
 
             this.selectedTypes = this.types.filter(type => type.selected).map(type => type.data.id);
 
-            this.getFilteredRestaurants();
+            this.getFilteredRestaurants(1);
         },
-        getFilteredRestaurants() {
+        getFilteredRestaurants(num_page) {
 
             this.store.loadingRestaurants = true;
 
@@ -83,13 +95,20 @@ export default {
 
             if (typeIds.length != 0) {
 
-                axios.get(`${store.baseUrl}/api/restaurants/${typeIds}`).then((response) => {
+                axios.get(`${store.baseUrl}/api/restaurants/${typeIds}`, { params: { page: num_page } }).then((response) => {
 
                     if (response.data.success) {
 
-                        this.restaurants = response.data.results;
+                        console.log(response.data.results);
+
+                        this.restaurants = response.data.results.data;
+
+                        this.currentPage = response.data.results.current_page;
+                        this.lastPage = response.data.results.last_page;
 
                         this.store.loadingRestaurants = false;
+
+                        this.getPageList(this.lastPage);
 
                     } else {
 
@@ -99,13 +118,22 @@ export default {
 
             } else {
 
-                this.getRestaurants();
+                this.getRestaurants(num_page);
             }
         },
-        showRestaurant($id) {
-            this.store.showRestaurantId = $id;
+        getPageList(last_page) {
+
+            var currentPage = 1;
+            var lastPage = last_page;
+
+            this.pageList = [];
+
+            while (currentPage <= lastPage) {
+                this.pageList.push(currentPage);
+                currentPage++;
+            }
         }
-    }
+    },
 }
 </script>
 
@@ -236,6 +264,46 @@ export default {
                             </div>
                         </router-link>
                     </div>
+                    <!-- PULSANTI GESTIONE PAGINAZIONE -->
+                    <div class="row">
+                        <div class="col-12 text-center my-5">
+                            <div class="row">
+                                <div class="col-12 d-flex d-lg-none justify-content-center mt-3">
+                                    <ul class="pagination d-flex align-items-center">
+                                        <li class="mx-3">
+                                            <button class="btn btn-sm border-0 p-0 mx-1" :disabled="currentPage === 1">
+                                                <span @click="getFilteredRestaurants(currentPage - 1)">
+                                                    <i class="fa-solid fa-circle-arrow-left fa-2xl"></i>
+                                                </span>
+                                            </button>
+                                        </li>
+                                        <li class="mx-3">
+                                            <span class="fs-1">{{ currentPage }}</span>
+                                        </li>
+                                        <li class="mx-3">
+                                            <button class="btn btn-sm border-0 p-0 mx-1"
+                                                :disabled="currentPage === lastPage">
+                                                <span @click="getFilteredRestaurants(currentPage + 1)">
+                                                    <i class="fa-solid fa-circle-arrow-right fa-2xl"></i>
+                                                </span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-12 d-none d-lg-block mt-3">
+                                    <ul class="list-unstyled">
+                                        <li class="d-inline-block mx-2" v-for="page in pageList"
+                                            @click="getFilteredRestaurants(page)">
+                                            <span class="pagination-item"
+                                                :class="page === currentPage ? 'pagination-item-selected' : ''">
+                                                {{ page }}
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -329,6 +397,35 @@ export default {
             }
         }
     }
+}
+
+
+// PAGINATION LIST
+
+.pagination-item {
+    width: 35px;
+    height: 35px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 50%;
+    border: 1px solid black;
+    background-color: white;
+    color: black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #FF8100;
+        color: white;
+    }
+}
+
+.pagination-item-selected {
+    border: 1px solid black;
+    background-color: #FF8100;
+    color: white;
 }
 
 // End Selected Restaurants Card

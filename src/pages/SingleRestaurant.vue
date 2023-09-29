@@ -396,7 +396,7 @@ export default {
 
 .single-restaurant-products-cart {
     position: sticky !important;
-    top: 100px;
+    top: 0;
     z-index: 1;
 }
 

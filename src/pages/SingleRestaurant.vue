@@ -104,6 +104,16 @@ export default {
                 }
             }
         },
+        deleteCartProduct(id) {
+
+            const item = this.cart.find(item => item.id === id);
+
+            if (item) {
+
+                const index = this.cart.indexOf(item);
+                this.cart.splice(index, 1);
+            }
+        },
         clearCart() {
 
             // Rimuovo il carrello specifico del ristorante corrente
@@ -233,11 +243,11 @@ export default {
                             <div v-for="(product, index) in cartWithQuantity" :key="index"
                                 class="row justify-content-between border-bottom py-3">
                                 <!-- Product Name -->
-                                <div class="col-8">
+                                <div class="col-8 pe-5">
                                     <span class="d-inline-block">{{ product.name }}</span>
                                 </div>
-                                <!-- Product Quantity and Quantity Button -->
-                                <div class="col-4 d-flex justify-content-end align-items-center">
+                                <!-- Product Quantity Counter and Quantity Button -->
+                                <div class="col-4 d-flex justify-content-end align-items-center p-0">
                                     <!-- Decrease Quantity Button -->
                                     <button class="btn btn-sm border-0 p-0 mx-1" @click="decreaseCartQuantity(product.id)">
                                         <i class="fa-solid fa-circle-minus fa-lg"></i>
@@ -249,9 +259,13 @@ export default {
                                         :disabled="product.quantity >= maxQuantity">
                                         <i class="fa-solid fa-circle-plus fa-lg"></i>
                                     </button>
+                                    <!-- Delete Product Button -->
+                                    <button class="btn btn-sm btn-danger ms-3" @click="deleteCartProduct(product.id)">
+                                        <i class="fa-solid fa-trash"></i>
+                                    </button>
                                 </div>
                                 <!-- Product Sub Total Price -->
-                                <div class="col-12 text-end pt-3">
+                                <div class="col-12 text-end pt-4">
                                     <span class="fs-6 fw-bold">{{ subTotal(product.price, product.quantity) }}€</span>
                                 </div>
                             </div>
@@ -319,11 +333,11 @@ export default {
                                 <div v-for="(product, index) in cartWithQuantity" :key="index"
                                     class="row justify-content-between border-bottom py-3">
                                     <!-- Product Name -->
-                                    <div class="col-7">
+                                    <div class="col-8 pe-5">
                                         <span class="d-inline-block">{{ product.name }}</span>
                                     </div>
-                                    <!-- Product Quantity and Quantity Button -->
-                                    <div class="col-5 d-flex justify-content-end align-items-center">
+                                    <!-- Product Quantity Counter and Quantity Button -->
+                                    <div class="col-4 d-flex justify-content-end align-items-center p-0">
                                         <!-- Decrease Quantity Button -->
                                         <button class="btn btn-sm border-0 p-0 mx-1"
                                             @click="decreaseCartQuantity(product.id)">
@@ -336,9 +350,13 @@ export default {
                                             :disabled="product.quantity >= maxQuantity">
                                             <i class="fa-solid fa-circle-plus fa-lg"></i>
                                         </button>
+                                        <!-- Delete Product Button -->
+                                        <button class="btn btn-sm btn-danger ms-3" @click="deleteCartProduct(product.id)">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </button>
                                     </div>
-                                    <!-- Product Total Price -->
-                                    <div class="col-12 text-end pt-3">
+                                    <!-- Product Sub Total Price -->
+                                    <div class="col-12 text-end pt-4">
                                         <span class="fs-6 fw-bold">{{ subTotal(product.price, product.quantity) }}€</span>
                                     </div>
                                 </div>

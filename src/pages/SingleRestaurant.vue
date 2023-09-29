@@ -231,7 +231,7 @@ export default {
                 <!-- Carrello Desktop -->
                 <div class="col-12 col-lg-4 d-none d-lg-block">
                     <!-- Cart Card -->
-                    <div class="card shadow p-3" v-if="cart.length > 0">
+                    <div class="card shadow single-restaurant-products-cart p-3" v-if="cart.length > 0">
                         <!-- Cart Card Header -->
                         <div class="card-header bg-white">
                             <!-- Card Header Title -->
@@ -285,7 +285,7 @@ export default {
                         </div>
                     </div>
                     <!-- Empty Cart Card -->
-                    <div class="card shadow text-center p-5" v-else>
+                    <div class="card shadow text-center single-restaurant-products-cart p-5" v-else>
                         <h3>Il carrello è vuoto</h3>
                     </div>
                 </div>
@@ -391,6 +391,12 @@ export default {
 @use '../styles/generals.scss' as *;
 
 // LAYOUT MAIN
+
+.single-restaurant-products-cart {
+    position: sticky !important;
+    top: 100px;
+    z-index: 1;
+}
 
 // END LAYOUT MAIN
 

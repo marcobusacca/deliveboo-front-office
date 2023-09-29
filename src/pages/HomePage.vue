@@ -99,8 +99,6 @@ export default {
 
                     if (response.data.success) {
 
-                        console.log(response.data.results);
-
                         this.restaurants = response.data.results.data;
 
                         this.currentPage = response.data.results.current_page;

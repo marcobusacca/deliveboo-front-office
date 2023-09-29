@@ -6,9 +6,6 @@ import axios from 'axios';
 
 export default {
     props: ['cart'],
-    components: {
-
-    },
     data() {
         return {
             store,

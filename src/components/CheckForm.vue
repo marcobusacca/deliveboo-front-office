@@ -14,10 +14,10 @@ export default {
 
             name: '',
             surname: '',
-            phone_number: '',
+            // phone_number: '',
             email: '',
-            address: '',
-            notes: '',
+            // address: '',
+            // notes: '',
 
             errors: {},
         }
@@ -60,6 +60,8 @@ export default {
                     this.errors = response.data.errors;
 
                     this.store.loading = false;
+
+                    this.$router.push({ name: 'not-found' });
                 }
             });
         },

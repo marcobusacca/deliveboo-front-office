@@ -7,14 +7,6 @@ export default {
             store,
         }
     },
-    mounted() {
-        this.setLoadingFalse();
-    },
-    methods: {
-        setLoadingFalse() {
-            this.store.loading = false;
-        }
-    },
 }
 </script>
 

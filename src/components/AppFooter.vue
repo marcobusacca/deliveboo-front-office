@@ -6,6 +6,7 @@ import axios from 'axios';
 export default {
     data() {
         return {
+            store,
             types: [], // Inizializza un array vuoto per contenere le tipologie
         }
     },
@@ -15,11 +16,16 @@ export default {
     },
     methods: {
         getRestaurantTypes() {
+
+            this.store.loading = true;
+
             axios.get(`${store.baseUrl}/api/types`).then((response) => {
 
                 if (response.data.success) {
 
                     this.types = response.data.results;
+
+                    this.store.loading = false;
 
                 } else {
                     this.$router.push({ name: 'not-found' });
@@ -32,7 +38,7 @@ export default {
 
 <!-- TEMPLATE HTML -->
 <template>
-    <footer>
+    <footer v-if="!store.loading">
         <!-- FOOTER FIRST CONTAINER -->
         <div class="container px-3 py-5">
             <div class="row">

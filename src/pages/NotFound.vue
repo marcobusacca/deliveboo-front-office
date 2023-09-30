@@ -7,21 +7,13 @@ export default {
             store,
         }
     },
-    mounted() {
-        this.setLoadingFalse();
-    },
-    methods: {
-        setLoadingFalse() {
-            this.store.loading = false;
-        }
-    },
 }
 </script>
 
 <!-- TEMPLATE HTML -->
 <template>
-    <div class="container-fluid deliveboo-background">
-        <div class="container error-container" v-if="!store.loading">
+    <div class="container-fluid deliveboo-background" v-if="!store.loading">
+        <div class="container error-container">
             <div class="row">
                 <!-- NOT FOUND TITLE -->
                 <div class="col-12 text-center py-5">

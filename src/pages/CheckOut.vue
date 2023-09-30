@@ -203,7 +203,7 @@ export default {
                                 <!-- NAME LABEL -->
                                 <label class="control-label fw-bold py-2">Nome *</label>
                                 <!-- NAME INPUT -->
-                                <input type="text" name="name" id="name" placeholder="Inserisci nome" v-model="name" class="form-control" :class="errors.name ? 'is-invalid' : ''" maxlength="50">
+                                <input type="text" name="name" id="name" placeholder="Inserisci nome" v-model="name" class="form-control" :class="errors.name ? 'is-invalid' : ''" maxlength="50" required>
                                 <!-- NAME ERRORS -->
                                 <span v-for="(error, index) in errors.name" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -212,7 +212,7 @@ export default {
                                 <!-- SURNAME LABEL -->
                                 <label class="control-label fw-bold py-2">Cognome *</label>
                                 <!-- SURNAME INPUT -->
-                                <input type="text" name="surname" id="surname" placeholder="Inserisci cognome" v-model="surname" class="form-control" :class="errors.surname ? 'is-invalid' : ''" maxlength="50">
+                                <input type="text" name="surname" id="surname" placeholder="Inserisci cognome" v-model="surname" class="form-control" :class="errors.surname ? 'is-invalid' : ''" maxlength="50" required>
                                 <!-- SURNAME ERRORS -->
                                 <span v-for="(error, index) in errors.surname" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -221,7 +221,7 @@ export default {
                                 <!-- PHONE LABEL -->
                                 <label class="control-label fw-bold py-2">Telefono *</label>
                                 <!-- PHONE INPUT -->
-                                <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone_number ? 'is-invalid' : ''">
+                                <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone_number ? 'is-invalid' : ''" required>
                                 <!-- PHONE ERRORS -->
                                 <span v-for="(error, index) in errors.phone_number" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -230,7 +230,7 @@ export default {
                                 <!-- EMAIL LABEL -->
                                 <label class="control-label fw-bold py-2">Email *</label>
                                 <!-- EMAIL INPUT -->
-                                <input type="email" name="email" id="email" placeholder="Inserisci email" v-model="email" class="form-control" :class="errors.email ? 'is-invalid' : ''">
+                                <input type="email" name="email" id="email" placeholder="Inserisci email" v-model="email" class="form-control" :class="errors.email ? 'is-invalid' : ''" required>
                                 <!-- EMAIL ERRORS -->
                                 <span v-for="(error, index) in errors.email" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -239,7 +239,7 @@ export default {
                                 <!-- ADDRESS LABEL -->
                                 <label class="control-label fw-bold py-2">Indirizzo *</label>
                                 <!-- ADDRESS INPUT -->
-                                <input type="text" name="address" id="address" placeholder="Indirizzo" v-model="address" class="form-control" :class="errors.address ? 'is-invalid' : ''">
+                                <input type="text" name="address" id="address" placeholder="Indirizzo" v-model="address" class="form-control" :class="errors.address ? 'is-invalid' : ''" required>
                                 <!-- ADDRESS ERRORS -->
                                 <span v-for="(error, index) in errors.address" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -258,7 +258,7 @@ export default {
                                         <!-- CREDIT CARD LABEL -->
                                         <label for="ccn" class="control-label fw-bold py-2">Numero carta *</label>
                                         <!-- CREDIT CARD TEXT AREA -->
-                                        <input type="tel" name="card_number" id="card_number" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="16" placeholder="xxxx xxxx xxxx xxxx" v-model="card_number" class="form-control py-3" :class="errors.card_number ? 'is-invalid' : ''">
+                                        <input type="tel" name="card_number" id="card_number" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="16" placeholder="xxxx xxxx xxxx xxxx" v-model="card_number" class="form-control py-3" :class="errors.card_number ? 'is-invalid' : ''" required>
                                         <!-- <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.card_number ? 'is-invalid' : ''"> -->
                                         <!-- CREDIT CARD ERRORS -->
                                         <span v-for="(error, index) in errors.card_number" :key="index" class="text-danger">{{ error }}</span>
@@ -268,7 +268,7 @@ export default {
                                         <!-- EXPIRATION DATE LABEL -->
                                         <label class="control-label fw-bold py-2">Scadenza *</label>
                                         <!-- EXPIRATION DATE TEXT AREA -->
-                                        <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" maxlength="5" v-model="expiry_date" class="form-control py-3" :class="errors.expiry_date ? 'is-invalid' : ''">
+                                        <input type="text" name="expiry_date" id="expiry_date" placeholder="01/24" maxlength="5" v-model="expiry_date" class="form-control py-3" :class="errors.expiry_date ? 'is-invalid' : ''" required>
                                         <!-- EXPIRATION DATE ERRORS -->
                                         <span v-for="(error, index) in errors.expiry_date" :key="index" class="text-danger">{{ error }}</span>
                                     </div>
@@ -277,7 +277,7 @@ export default {
                                         <!-- CVV LABEL -->
                                         <label class="control-label fw-bold py-2">CVV *</label>
                                         <!-- CVV TEXT AREA -->
-                                        <input type="text" name="cvv" id="cvv" placeholder="000" maxlength="3" v-model="cvv" class="form-control py-3" :class="errors.cvv ? 'is-invalid' : ''">
+                                        <input type="text" name="cvv" id="cvv" placeholder="000" maxlength="3" v-model="cvv" class="form-control py-3" :class="errors.cvv ? 'is-invalid' : ''" required>
                                         <!-- CVV ERRORS -->
                                         <span v-for="(error, index) in errors.cvv" :key="index" class="text-danger">{{ error }}</span>
                                     </div>

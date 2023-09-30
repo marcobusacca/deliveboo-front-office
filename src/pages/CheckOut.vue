@@ -125,13 +125,6 @@ export default {
                         } else {
                             this.$router.push({ name: 'order-failed' });
                         }
-
-                    } else {
-
-                        //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
-                        this.errors = response.data.errors;
-
-                        this.loading = false;
                     }
                 }
             });

@@ -18,8 +18,9 @@ export default {
             email: '',
             // address: '',
             // notes: '',
-
+            success: false,
             errors: {},
+            result: [],
         }
     },
     mounted() {
@@ -28,7 +29,7 @@ export default {
     methods: {
         sendForm() {
 
-            this.store.loading = true;
+            store.loading = true;
 
             //SALVO I DATI DI INPUT DELL'UTENTE
             const form_data = {
@@ -41,28 +42,23 @@ export default {
             this.errors = {};
 
             //EFFETTUIAMO LA CHIAMATA AXIOS IN POST
-            axios.post(`${this.store.baseUrl}/api/contacts`, form_data).then((response) => {
-
-                if (response.data.success) {
-
-                    //RIPULISCO I DATI DI INPUT
+            axios.post(`${store.baseUrl}/api/contacts`, form_data, { headers: { 'Accept': 'application/json' } }).then((response) => {
+                this.success = response.data.success;
+                console.log(this.success)
+                if (!this.success) {
+                    this.errors = response.data.errors;
+                }
+                else {
+                    //PULISCO I DATI IN INPUT
                     this.name = '';
-                    this.surname = '';
+                    this.email = '';
                     this.email = '';
 
-                    this.store.loading = false;
-
-                    this.$router.push({ name: 'not-found' });
-
-                } else {
-
-                    //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
-                    this.errors = response.data.errors;
-
-                    this.store.loading = false;
-
-                    this.$router.push({ name: 'not-found' });
+                    this.$router.push({ name: 'order-completed' })
                 }
+                this.result = response.data.results
+                console.log(this.result)
+                store.loading = false
             });
         },
         getCart() {
@@ -156,14 +152,14 @@ export default {
                         <span v-for="(error, index) in errors.surname" :key="index" class="text-danger">{{ error }}</span>
                     </div>
                     <!-- PHONE FORM GROUP -->
-                    <div class="col-12 col-lg-6 my-2">
+                    <!-- <div class="col-12 col-lg-6 my-2"> -->
                         <!-- PHONE LABEL -->
-                        <label class="control-label fw-bold py-2">Telefono *</label>
+                        <!-- <label class="control-label fw-bold py-2">Telefono *</label> -->
                         <!-- PHONE INPUT -->
-                        <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone ? 'is-invalid' : ''">
+                        <!-- <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone ? 'is-invalid' : ''"> -->
                         <!-- PHONE ERRORS -->
-                        <span v-for="(error, index) in errors.phone" :key="index" class="text-danger">{{ error }}</span>
-                    </div>
+                        <!-- <span v-for="(error, index) in errors.phone" :key="index" class="text-danger">{{ error }}</span>
+                    </div> -->
                     <!-- EMAIL FORM GROUP -->
                     <div class="col-12 col-lg-6 my-2">
                         <!-- EMAIL LABEL -->
@@ -174,55 +170,55 @@ export default {
                         <span v-for="(error, index) in errors.email" :key="index" class="text-danger">{{ error }}</span>
                     </div>
                     <!-- ADDRESS FORM GROUP -->
-                    <div class="col-12 my-2">
+                    <!-- <div class="col-12 my-2"> -->
                         <!-- ADDRESS LABEL -->
-                        <label class="control-label fw-bold py-2">Indirizzo *</label>
+                        <!-- <label class="control-label fw-bold py-2">Indirizzo *</label> -->
                         <!-- ADDRESS INPUT -->
-                        <input type="text" name="address" id="address" placeholder="Indirizzo" v-model="address" class="form-control" :class="errors.address ? 'is-invalid' : ''">
+                        <!-- <input type="text" name="address" id="address" placeholder="Indirizzo" v-model="address" class="form-control" :class="errors.address ? 'is-invalid' : ''"> -->
                         <!-- ADDRESS ERRORS -->
-                        <span v-for="(error, index) in errors.address" :key="index" class="text-danger">{{ error }}</span>
-                    </div>
+                        <!-- <span v-for="(error, index) in errors.address" :key="index" class="text-danger">{{ error }}</span> -->
+                    <!-- </div> -->
                     <!-- NOTE FORM GROUP -->
-                    <div class="col-12 my-2">
+                    <!-- <div class="col-12 my-2"> -->
                         <!-- NOTE LABEL -->
-                        <label class="control-label fw-bold py-2">Note</label>
+                        <!-- <label class="control-label fw-bold py-2">Note</label> -->
                         <!-- NOTE TEXT AREA -->
-                        <textarea name="notes" id="notes" placeholder="Note per il ristorante e/o per il rider" v-model="notes" class="form-control" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10"></textarea>
+                        <!-- <textarea name="notes" id="notes" placeholder="Note per il ristorante e/o per il rider" v-model="notes" class="form-control" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10"></textarea> -->
                         <!-- NOTE ERRORS -->
-                        <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
-                    </div>
+                        <!-- <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span> -->
+                    <!-- </div> -->
                     <!-- PAYMENTS DATA FORM GROUP -->
-                    <div class="col-12 py-4">
-                        <div class="row justify-content-center">
+                    <!-- <div class="col-12 py-4"> -->
+                        <!-- <div class="row justify-content-center"> -->
                             <!-- CREDIT CARD FORM GROUP -->
-                            <div class="col-12 my-2">
+                            <!-- <div class="col-12 my-2"> -->
                                 <!-- CREDIT CARD LABEL -->
-                                <label class="control-label fw-bold py-2">Numero carta *</label>
+                                <!-- <label class="control-label fw-bold py-2">Numero carta *</label> -->
                                 <!-- CREDIT CARD TEXT AREA -->
-                                <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
+                                <!-- <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10"> -->
                                 <!-- CREDIT CARD ERRORS -->
-                                <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
-                            </div>
+                                <!-- <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span> -->
+                            <!-- </div> -->
                             <!-- EXPIRATION DATE FORM GROUP -->
-                            <div class="col-4 my-2">
+                            <!-- <div class="col-4 my-2"> -->
                                 <!-- EXPIRATION DATE LABEL -->
-                                <label class="control-label fw-bold py-2">Scadenza *</label>
+                                <!-- <label class="control-label fw-bold py-2">Scadenza *</label> -->
                                 <!-- EXPIRATION DATE TEXT AREA -->
-                                <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" v-model="expiry_date" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
+                                <!-- <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" v-model="expiry_date" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10"> -->
                                 <!-- EXPIRATION DATE ERRORS -->
-                                <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
-                            </div>
+                                <!-- <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
+                            </div> -->
                             <!-- CVV FORM GROUP -->
-                            <div class="col-4 my-2">
+                            <!-- <div class="col-4 my-2"> -->
                                 <!-- CVV LABEL -->
-                                <label class="control-label fw-bold py-2">CVV *</label>
+                                <!-- <label class="control-label fw-bold py-2">CVV *</label> -->
                                 <!-- CVV TEXT AREA -->
-                                <input type="text" name="cvv" id="cvv" placeholder="000" v-model="cvv" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
+                                <!-- <input type="text" name="cvv" id="cvv" placeholder="000" v-model="cvv" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10"> -->
                                 <!-- CVV ERRORS -->
-                                <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
-                            </div>
-                        </div>
-                    </div>
+                                <!-- <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
+                            </div> -->
+                        <!-- </div> -->
+                    <!-- </div> -->
                     <!-- FORM SUBMIT -->
                     <div class="col-12 text-center mt-3">
                         <!-- SUBMIT BUTTON -->

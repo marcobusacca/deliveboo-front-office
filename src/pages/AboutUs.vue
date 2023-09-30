@@ -154,18 +154,4 @@ export default {
     }
 
 }
-
-.about-item:hover {
-    background-color: rgb(9, 100, 13);
-}
-
-.about-item:hover i,
-.about-item:hover h3,
-.about-item:hover p {
-    color: #fff;
-}
-
-.about-item:hover hr {
-    background-color: white;
-}
 </style>

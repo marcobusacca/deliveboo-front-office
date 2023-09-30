@@ -64,8 +64,6 @@ export default {
                     this.errors = response.data.errors;
 
                     this.loading = false;
-
-                    this.$router.push({ name: 'not-found' });
                 }
             });
         },

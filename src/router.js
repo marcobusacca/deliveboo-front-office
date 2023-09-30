@@ -38,6 +38,7 @@ const router = createRouter({
             component: CheckOut,
             props: true
         },
+        // FARE PAGINA ORDER COMPLETED AND ORDER FAILED
         {
             path: '/:catchAll(.*)',
             redirect: '/pagina-non-trovata',

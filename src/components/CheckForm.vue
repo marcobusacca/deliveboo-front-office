@@ -19,10 +19,6 @@ export default {
             address: '',
             notes: '',
 
-            card_number: '',
-            expiry_date: '',
-            cvv: '',
-
             errors: {},
         }
     },
@@ -36,46 +32,27 @@ export default {
 
             //SALVO I DATI DI INPUT DELL'UTENTE
             const form_data = {
-
-                amount: this.amount,
                 name: this.name,
                 surname: this.surname,
-                phone_number: this.phone_number,
                 email: this.email,
-                address: this.address,
-                notes: this.notes,
-
-                card_number: this.card_number,
-                expiry_date: this.expiry_date,
-                cvv: this.cvv,
-
             };
 
             //SVUOTO L'OGGETTO CONTENTE I MESSAGGI DI ERRORE
             this.errors = {};
 
             //EFFETTUIAMO LA CHIAMATA AXIOS IN POST
-            axios.post(`${this.store.baseUrl}/api/process-payment`, form_data).then((response) => {
+            axios.post(`${this.store.baseUrl}/api/contacts`, form_data).then((response) => {
 
                 if (response.data.success) {
 
                     //RIPULISCO I DATI DI INPUT
-                    this.amount = null,
-                        this.name = '';
+                    this.name = '';
                     this.surname = '';
-                    this.phone_number = '';
                     this.email = '';
-                    this.address = '';
-                    this.notes = '';
 
-                    this.card_number = '',
-                        this.expiry_date = '',
-                        this.cvv = '',
+                    this.store.loading = false;
 
-
-                        this.store.loading = false;
-
-                    this.$router.push({ name: 'thank-you' });
+                    this.$router.push({ name: 'not-found' });
 
                 } else {
 
@@ -181,7 +158,7 @@ export default {
                         <!-- PHONE LABEL -->
                         <label class="control-label fw-bold py-2">Telefono *</label>
                         <!-- PHONE INPUT -->
-                        <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone ? 'is-invalid' : ''" required>
+                        <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone ? 'is-invalid' : ''">
                         <!-- PHONE ERRORS -->
                         <span v-for="(error, index) in errors.phone" :key="index" class="text-danger">{{ error }}</span>
                     </div>
@@ -199,7 +176,7 @@ export default {
                         <!-- ADDRESS LABEL -->
                         <label class="control-label fw-bold py-2">Indirizzo *</label>
                         <!-- ADDRESS INPUT -->
-                        <input type="text" name="address" id="address" placeholder="Indirizzo" v-model="address" class="form-control" :class="errors.address ? 'is-invalid' : ''" required>
+                        <input type="text" name="address" id="address" placeholder="Indirizzo" v-model="address" class="form-control" :class="errors.address ? 'is-invalid' : ''">
                         <!-- ADDRESS ERRORS -->
                         <span v-for="(error, index) in errors.address" :key="index" class="text-danger">{{ error }}</span>
                     </div>
@@ -220,7 +197,7 @@ export default {
                                 <!-- CREDIT CARD LABEL -->
                                 <label class="control-label fw-bold py-2">Numero carta *</label>
                                 <!-- CREDIT CARD TEXT AREA -->
-                                <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10" required>
+                                <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
                                 <!-- CREDIT CARD ERRORS -->
                                 <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -229,7 +206,7 @@ export default {
                                 <!-- EXPIRATION DATE LABEL -->
                                 <label class="control-label fw-bold py-2">Scadenza *</label>
                                 <!-- EXPIRATION DATE TEXT AREA -->
-                                <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" v-model="expiry_date" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10" required>
+                                <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" v-model="expiry_date" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
                                 <!-- EXPIRATION DATE ERRORS -->
                                 <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -238,7 +215,7 @@ export default {
                                 <!-- CVV LABEL -->
                                 <label class="control-label fw-bold py-2">CVV *</label>
                                 <!-- CVV TEXT AREA -->
-                                <input type="text" name="cvv" id="cvv" placeholder="000" v-model="cvv" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10" required>
+                                <input type="text" name="cvv" id="cvv" placeholder="000" v-model="cvv" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
                                 <!-- CVV ERRORS -->
                                 <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
                             </div>

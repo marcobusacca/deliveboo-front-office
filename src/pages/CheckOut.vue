@@ -45,7 +45,7 @@ export default {
             this.errors = {};
 
             //EFFETTUIAMO LA CHIAMATA AXIOS IN POST
-            axios.post(`${this.store.baseUrl}/api/contacts`, form_data).then((response) => {
+            axios.post(`${this.store.baseUrl}/process-payment`, form_data).then((response) => {
 
                 if (response.data.success) {
 
@@ -199,9 +199,10 @@ export default {
                                     <!-- CREDIT CARD FORM GROUP -->
                                     <div class="col-12 my-2">
                                         <!-- CREDIT CARD LABEL -->
-                                        <label class="control-label fw-bold py-2">Numero carta *</label>
+                                        <label for="ccn" class="control-label fw-bold py-2">Numero carta *</label>
                                         <!-- CREDIT CARD TEXT AREA -->
-                                        <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
+                                        <input type="tel" name="card_number" id="card_number" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="16" placeholder="xxxx xxxx xxxx xxxx" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''">
+                                        <!-- <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''"> -->
                                         <!-- CREDIT CARD ERRORS -->
                                         <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
                                     </div>
@@ -210,16 +211,16 @@ export default {
                                         <!-- EXPIRATION DATE LABEL -->
                                         <label class="control-label fw-bold py-2">Scadenza *</label>
                                         <!-- EXPIRATION DATE TEXT AREA -->
-                                        <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" v-model="expiry_date" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
+                                        <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" maxlength="5" v-model="expiry_date" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''">
                                         <!-- EXPIRATION DATE ERRORS -->
-                                        <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
+                                        <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>as
                                     </div>
                                     <!-- CVV FORM GROUP -->
                                     <div class="col-4 my-2">
                                         <!-- CVV LABEL -->
                                         <label class="control-label fw-bold py-2">CVV *</label>
                                         <!-- CVV TEXT AREA -->
-                                        <input type="text" name="cvv" id="cvv" placeholder="000" v-model="cvv" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10">
+                                        <input type="text" name="cvv" id="cvv" placeholder="000" maxlength="3" v-model="cvv" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''">
                                         <!-- CVV ERRORS -->
                                         <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
                                     </div>

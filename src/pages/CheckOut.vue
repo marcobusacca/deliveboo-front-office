@@ -1,6 +1,7 @@
 <!-- JAVASCRIPT & VUE.JS -->
 <script>
 import { store } from '../store';
+import axios from 'axios';
 
 export default {
     props: ['slug'],
@@ -14,21 +15,53 @@ export default {
 
             loading: false,
 
-            amount: null,
-
+            restaurant_id: '',
             name: '',
             surname: '',
-            // phone_number: '',
+            phone_number: '',
             email: '',
-            // address: '',
-            // notes: '',
+            address: '',
+            notes: '',
+
+            card_number: '',
+            expiry_date: '',
+            cvv: '',
+
+            total: null,
 
             errors: {},
         }
     },
+    mounted() {
+        this.getRestaurant(this.slug);
+    },
     methods: {
+        getRestaurant(restaurant_slug) {
+
+            this.store.loading = true;
+
+            axios.get(`${store.baseUrl}/api/restaurants/${restaurant_slug}/products`).then(response => {
+
+                if (response.data.success) {
+
+                    this.restaurant_id = response.data.results.id;
+
+                    this.store.loading = false;
+
+                } else {
+                    this.$router.push({ name: 'not-found' });
+                }
+            });
+        },
         subTotal(productPrice, productQuantity) {
             return (parseFloat(productPrice) * productQuantity).toFixed(2);
+        },
+        clearCart() {
+
+            // Rimuovo il carrello specifico del ristorante corrente
+            localStorage.removeItem(this.cartKey);
+
+            this.cart = []; // Svuota il carrello nella componente
         },
         sendForm() {
 
@@ -36,34 +69,70 @@ export default {
 
             //SALVO I DATI DI INPUT DELL'UTENTE
             const form_data = {
+                restaurant_id: this.restaurant_id,
                 name: this.name,
                 surname: this.surname,
+                phone_number: this.phone_number,
                 email: this.email,
+                address: this.address,
+                notes: this.notes,
+                total: this.total,
+
+                card_number: this.card_number,
+                expiry_date: this.expiry_date,
+                cvv: this.cvv,
             };
 
             //SVUOTO L'OGGETTO CONTENTE I MESSAGGI DI ERRORE
             this.errors = {};
 
             //EFFETTUIAMO LA CHIAMATA AXIOS IN POST
-            axios.post(`${this.store.baseUrl}/process-payment`, form_data).then((response) => {
+            axios.post(`${this.store.baseUrl}/api/order/payment`, form_data).then((response) => {
 
                 if (response.data.success) {
 
                     //RIPULISCO I DATI DI INPUT
+                    this.restaurant_id = '';
                     this.name = '';
                     this.surname = '';
+                    this.phone_number = '';
                     this.email = '';
+                    this.address = '';
+                    this.notes = '';
+                    this.total = null;
+
+                    this.card_number = '';
+                    this.expiry_date = '';
+                    this.cvv = '';
+
+                    this.clearCart();
 
                     this.loading = false;
 
-                    this.$router.push({ name: 'not-found' });
+                    this.$router.push({ name: 'about-us' });
 
                 } else {
 
-                    //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
-                    this.errors = response.data.errors;
+                    if (response.data.payment_errors) {
 
-                    this.loading = false;
+                        if (response.data.errors) {
+
+                            //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
+                            this.errors = response.data.errors;
+
+                            this.loading = false;
+
+                        } else {
+                            this.$router.push({ name: 'not-found' });
+                        }
+
+                    } else {
+
+                        //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
+                        this.errors = response.data.errors;
+
+                        this.loading = false;
+                    }
                 }
             });
         },
@@ -71,7 +140,7 @@ export default {
     computed: {
         totalAmount() {
 
-            this.amount = this.cart.reduce(
+            this.total = this.cart.reduce(
 
                 (total, item) =>
                     total + parseFloat(item.price) * item.quantity,
@@ -79,7 +148,7 @@ export default {
 
             ).toFixed(2);
 
-            return this.amount
+            return this.total;
         },
         cartWithQuantity() {
 
@@ -144,7 +213,7 @@ export default {
                                 <!-- NAME LABEL -->
                                 <label class="control-label fw-bold py-2">Nome *</label>
                                 <!-- NAME INPUT -->
-                                <input type="text" name="name" id="name" placeholder="Inserisci nome" v-model="name" class="form-control" :class="errors.name ? 'is-invalid' : ''" required>
+                                <input type="text" name="name" id="name" placeholder="Inserisci nome" v-model="name" class="form-control" :class="errors.name ? 'is-invalid' : ''" maxlength="50">
                                 <!-- NAME ERRORS -->
                                 <span v-for="(error, index) in errors.name" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -153,7 +222,7 @@ export default {
                                 <!-- SURNAME LABEL -->
                                 <label class="control-label fw-bold py-2">Cognome *</label>
                                 <!-- SURNAME INPUT -->
-                                <input type="text" name="surname" id="surname" placeholder="Inserisci cognome" v-model="surname" class="form-control" :class="errors.surname ? 'is-invalid' : ''" required>
+                                <input type="text" name="surname" id="surname" placeholder="Inserisci cognome" v-model="surname" class="form-control" :class="errors.surname ? 'is-invalid' : ''" maxlength="50">
                                 <!-- SURNAME ERRORS -->
                                 <span v-for="(error, index) in errors.surname" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -162,16 +231,16 @@ export default {
                                 <!-- PHONE LABEL -->
                                 <label class="control-label fw-bold py-2">Telefono *</label>
                                 <!-- PHONE INPUT -->
-                                <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone ? 'is-invalid' : ''">
+                                <input type="tel" name="phone_number" id="phone_number" placeholder="Inserisci numero di telefono" v-model="phone_number" class="form-control" :class="errors.phone_number ? 'is-invalid' : ''">
                                 <!-- PHONE ERRORS -->
-                                <span v-for="(error, index) in errors.phone" :key="index" class="text-danger">{{ error }}</span>
+                                <span v-for="(error, index) in errors.phone_number" :key="index" class="text-danger">{{ error }}</span>
                             </div>
                             <!-- EMAIL FORM GROUP -->
                             <div class="col-12 col-lg-6 my-2">
                                 <!-- EMAIL LABEL -->
                                 <label class="control-label fw-bold py-2">Email *</label>
                                 <!-- EMAIL INPUT -->
-                                <input type="email" name="email" id="email" placeholder="Inserisci email" v-model="email" class="form-control" :class="errors.email ? 'is-invalid' : ''" required>
+                                <input type="email" name="email" id="email" placeholder="Inserisci email" v-model="email" class="form-control" :class="errors.email ? 'is-invalid' : ''">
                                 <!-- EMAIL ERRORS -->
                                 <span v-for="(error, index) in errors.email" :key="index" class="text-danger">{{ error }}</span>
                             </div>
@@ -189,9 +258,7 @@ export default {
                                 <!-- NOTE LABEL -->
                                 <label class="control-label fw-bold py-2">Note</label>
                                 <!-- NOTE TEXT AREA -->
-                                <textarea name="notes" id="notes" placeholder="Note per il ristorante e/o per il rider" v-model="notes" class="form-control" :class="errors.note ? 'is-invalid' : ''" cols="30" rows="10"></textarea>
-                                <!-- NOTE ERRORS -->
-                                <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
+                                <textarea name="notes" id="notes" placeholder="Note per il ristorante e/o per il rider" v-model="notes" class="form-control" cols="30" rows="10"></textarea>
                             </div>
                             <!-- PAYMENTS DATA FORM GROUP -->
                             <div class="col-12 py-4">
@@ -201,28 +268,28 @@ export default {
                                         <!-- CREDIT CARD LABEL -->
                                         <label for="ccn" class="control-label fw-bold py-2">Numero carta *</label>
                                         <!-- CREDIT CARD TEXT AREA -->
-                                        <input type="tel" name="card_number" id="card_number" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="16" placeholder="xxxx xxxx xxxx xxxx" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''">
-                                        <!-- <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''"> -->
+                                        <input type="tel" name="card_number" id="card_number" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="16" placeholder="xxxx xxxx xxxx xxxx" v-model="card_number" class="form-control py-3" :class="errors.card_number ? 'is-invalid' : ''">
+                                        <!-- <input type="text" name="card_number" id="card_number" placeholder="Inserisci il numero della carta" v-model="card_number" class="form-control py-3" :class="errors.card_number ? 'is-invalid' : ''"> -->
                                         <!-- CREDIT CARD ERRORS -->
-                                        <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
+                                        <span v-for="(error, index) in errors.card_number" :key="index" class="text-danger">{{ error }}</span>
                                     </div>
                                     <!-- EXPIRATION DATE FORM GROUP -->
                                     <div class="col-4 my-2">
                                         <!-- EXPIRATION DATE LABEL -->
                                         <label class="control-label fw-bold py-2">Scadenza *</label>
                                         <!-- EXPIRATION DATE TEXT AREA -->
-                                        <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" maxlength="5" v-model="expiry_date" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''">
+                                        <input type="text" name="expiry_date" id="expiry_date" placeholder="01/23" maxlength="5" v-model="expiry_date" class="form-control py-3" :class="errors.expiry_date ? 'is-invalid' : ''">
                                         <!-- EXPIRATION DATE ERRORS -->
-                                        <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>as
+                                        <span v-for="(error, index) in errors.expiry_date" :key="index" class="text-danger">{{ error }}</span>
                                     </div>
                                     <!-- CVV FORM GROUP -->
                                     <div class="col-4 my-2">
                                         <!-- CVV LABEL -->
                                         <label class="control-label fw-bold py-2">CVV *</label>
                                         <!-- CVV TEXT AREA -->
-                                        <input type="text" name="cvv" id="cvv" placeholder="000" maxlength="3" v-model="cvv" class="form-control py-3" :class="errors.note ? 'is-invalid' : ''">
+                                        <input type="text" name="cvv" id="cvv" placeholder="000" maxlength="3" v-model="cvv" class="form-control py-3" :class="errors.cvv ? 'is-invalid' : ''">
                                         <!-- CVV ERRORS -->
-                                        <span v-for="(error, index) in errors.note" :key="index" class="text-danger">{{ error }}</span>
+                                        <span v-for="(error, index) in errors.cvv" :key="index" class="text-danger">{{ error }}</span>
                                     </div>
                                 </div>
                             </div>

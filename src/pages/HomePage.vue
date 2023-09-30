@@ -263,7 +263,7 @@ export default {
                         </router-link>
                     </div>
                     <!-- PULSANTI GESTIONE PAGINAZIONE -->
-                    <div class="row" v-if="restaurants.length != 0">
+                    <div class="row" v-if="restaurants.length != 0 && lastPage != 1">
                         <div class="col-12 text-center my-5">
                             <div class="row">
                                 <div class="col-12 d-flex d-lg-none justify-content-center mt-3">

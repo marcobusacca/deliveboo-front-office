@@ -16,7 +16,7 @@ export default {
     },
     mounted() {
         this.setLoadingFalse();
-        this.getCartData()
+        this.getCartData();
     },
     methods: {
         setLoadingFalse() {

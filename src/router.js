@@ -2,11 +2,16 @@ import { createRouter, createWebHistory } from 'vue-router';
 
 // IMPORTARE TUTTE LE PAGINE DALLA CARTELLA "PAGES"
 import HomePage from './pages/HomePage.vue';
+
 import AboutUs from './pages/AboutUs.vue';
 
 import SingleRestaurant from './pages/SingleRestaurant.vue';
 
 import CheckOut from './pages/CheckOut.vue';
+
+import OrderCompleted from './pages/OrderCompleted.vue';
+
+import OrderFailed from './pages/OrderFailed.vue';
 
 import NotFound from './pages/NotFound.vue';
 
@@ -40,14 +45,14 @@ const router = createRouter({
             props: true
         },
         {
-            path: '/restaurants/:slug/order-completed',
+            path: '/order-completed',
             name: 'order-completed',
-            // component: OrderCompleted,
+            component: OrderCompleted,
         },
         {
-            path: '/restaurants/:slug/order-failed',
+            path: '/order-failed',
             name: 'order-failed',
-            // component: OrderFailed,
+            component: OrderFailed,
         },
         {
             path: '/:catchAll(.*)',

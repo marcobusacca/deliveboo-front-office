@@ -113,18 +113,15 @@ export default {
 
                 } else {
 
-                    if (response.data.payment_errors) {
+                    if (response.data.errors) {
 
-                        if (response.data.errors) {
+                        //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
+                        this.errors = response.data.errors;
 
-                            //SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
-                            this.errors = response.data.errors;
+                        this.loading = false;
 
-                            this.loading = false;
-
-                        } else {
-                            this.$router.push({ name: 'order-failed' });
-                        }
+                    } else {
+                        this.$router.push({ name: 'order-failed' });
                     }
                 }
             });

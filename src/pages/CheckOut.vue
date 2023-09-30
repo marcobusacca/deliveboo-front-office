@@ -109,7 +109,7 @@ export default {
 
                     this.loading = false;
 
-                    this.$router.push({ name: 'about-us' });
+                    this.$router.push({ name: 'order-completed' });
 
                 } else {
 
@@ -123,7 +123,7 @@ export default {
                             this.loading = false;
 
                         } else {
-                            this.$router.push({ name: 'not-found' });
+                            this.$router.push({ name: 'order-failed' });
                         }
 
                     } else {

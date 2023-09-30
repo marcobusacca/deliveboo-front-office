@@ -10,6 +10,8 @@ import CheckOut from './pages/CheckOut.vue';
 
 import NotFound from './pages/NotFound.vue';
 
+import OrderCompleted from './pages/OrderCompleted.vue';
+
 // CREIAMO IL ROUTER CON LE SUE ROTTE
 const router = createRouter({
 
@@ -47,6 +49,11 @@ const router = createRouter({
             path: '/pagina-non-trovata',
             name: 'not-found',
             component: NotFound,
+        },
+        {
+            path: '/order-completed',
+            name: 'order-completed',
+            component: OrderCompleted,
         },
     ]
 

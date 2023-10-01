@@ -134,15 +134,28 @@ export default {
 
             };
 
+            // SVUOTO L'OGGETTO CONTENTE I MESSAGGI DI ERRORE
+            this.errors = {};
+
             // EFFETTUIAMO LA CHIAMATA AXIOS IN POST
             axios.post(`${this.store.baseUrl}/api/contacts`, form_data).then((response) => {
 
-                // RIPULISCO I DATI DI INPUT
-                this.name = '';
-                this.surname = '';
-                this.email = '';
+                if (response.data.success) {
 
-                this.loading = false;
+                    // RIPULISCO I DATI DI INPUT
+                    this.name = '';
+                    this.surname = '';
+                    this.email = '';
+
+                    this.loading = false;
+
+                } else {
+
+                    // SALVO I MESSAGGI DI ERRORE NELL'OGGETTO ERRORS
+                    this.errors = response.data.errors;
+
+                    this.loading = false;
+                }
             });
         },
         subTotal(productPrice, productQuantity) {

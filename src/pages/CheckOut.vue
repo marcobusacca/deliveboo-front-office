@@ -69,7 +69,9 @@ export default {
 
             //SALVO I DATI DI INPUT DELL'UTENTE
             const form_data = {
+
                 restaurant_id: this.restaurant_id,
+
                 name: this.name,
                 surname: this.surname,
                 phone_number: this.phone_number,
@@ -81,6 +83,8 @@ export default {
                 card_number: this.card_number,
                 expiry_date: this.expiry_date,
                 cvv: this.cvv,
+
+                cart: this.cart,
             };
 
             //SVUOTO L'OGGETTO CONTENTE I MESSAGGI DI ERRORE
@@ -92,7 +96,9 @@ export default {
                 if (response.data.success) {
 
                     //RIPULISCO I DATI DI INPUT
+
                     this.restaurant_id = '';
+
                     this.name = '';
                     this.surname = '';
                     this.phone_number = '';
@@ -106,6 +112,7 @@ export default {
                     this.cvv = '';
 
                     this.clearCart();
+
 
                     this.loading = false;
 

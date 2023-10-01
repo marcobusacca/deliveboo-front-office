@@ -53,16 +53,6 @@ export default {
                 }
             });
         },
-        subTotal(productPrice, productQuantity) {
-            return (parseFloat(productPrice) * productQuantity).toFixed(2);
-        },
-        clearCart() {
-
-            // Rimuovo il carrello specifico del ristorante corrente
-            localStorage.removeItem(this.cartKey);
-
-            this.cart = []; // Svuota il carrello nella componente
-        },
         sendForm() {
 
             this.loading = true;
@@ -99,10 +89,7 @@ export default {
 
                     this.restaurant_id = '';
 
-                    this.name = '';
-                    this.surname = '';
                     this.phone_number = '';
-                    this.email = '';
                     this.address = '';
                     this.notes = '';
                     this.total = null;
@@ -113,6 +100,7 @@ export default {
 
                     this.clearCart();
 
+                    this.sendMail();
 
                     this.loading = false;
 
@@ -132,6 +120,40 @@ export default {
                     }
                 }
             });
+        },
+        sendMail() {
+
+            this.loading = true;
+
+            // SALVO I DATI DI INPUT DELL'UTENTE
+            const form_data = {
+
+                name: this.name,
+                surname: this.surname,
+                email: this.email,
+
+            };
+
+            // EFFETTUIAMO LA CHIAMATA AXIOS IN POST
+            axios.post(`${this.store.baseUrl}/api/contacts`, form_data).then((response) => {
+
+                // RIPULISCO I DATI DI INPUT
+                this.name = '';
+                this.surname = '';
+                this.email = '';
+
+                this.loading = false;
+            });
+        },
+        subTotal(productPrice, productQuantity) {
+            return (parseFloat(productPrice) * productQuantity).toFixed(2);
+        },
+        clearCart() {
+
+            // Rimuovo il carrello specifico del ristorante corrente
+            localStorage.removeItem(this.cartKey);
+
+            this.cart = []; // Svuota il carrello nella componente
         },
     },
     computed: {

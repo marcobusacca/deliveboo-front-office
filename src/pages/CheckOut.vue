@@ -182,7 +182,7 @@ export default {
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 d-flex justify-content-between align-items-center py-3" v-for="(item, index) in cartWithQuantity" :key="index">
-                                <span class="mx-2">{{ item.name }} x{{ item.quantity }}</span>
+                                <span class="mx-2">{{ item.quantity }} x {{ item.name }}</span>
                                 <span class="fw-bold mx-2">{{ subTotal(item.price, item.quantity)}}€</span>
                             </div>
                         </div>

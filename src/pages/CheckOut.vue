@@ -87,8 +87,6 @@ export default {
 
                     //RIPULISCO I DATI DI INPUT
 
-                    this.restaurant_id = '';
-
                     this.phone_number = '';
                     this.address = '';
                     this.notes = '';
@@ -128,6 +126,8 @@ export default {
             // SALVO I DATI DI INPUT DELL'UTENTE
             const form_data = {
 
+                restaurant_id: this.restaurant_id,
+
                 name: this.name,
                 surname: this.surname,
                 email: this.email,
@@ -143,6 +143,9 @@ export default {
                 if (response.data.success) {
 
                     // RIPULISCO I DATI DI INPUT
+
+                    this.restaurant_id = '';
+
                     this.name = '';
                     this.surname = '';
                     this.email = '';

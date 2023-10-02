@@ -406,9 +406,10 @@ export default {
 // RESTAURANT DETAILS
 
 .image-restaurant {
-    height: 60vh;
+    height: 30vh;
     width: 100%;
-    background-size: cover;
+    background-size: contain;
+    background-position: center;
     background-repeat: no-repeat;
 }
 
@@ -472,6 +473,18 @@ export default {
 
 // DESKTOP
 @media screen and (min-width: 992px) {
+
+    // RESTAURANT DETAILS
+
+    .image-restaurant {
+        height: 60vh;
+        width: 100%;
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+    }
+
+    // END RESTAURANT DETAILS
 
     .products-details-container {
         padding: 50px 0;
